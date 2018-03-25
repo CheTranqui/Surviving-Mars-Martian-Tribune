@@ -1,3 +1,5 @@
+-- new line from David
+
 -- function OnMsg.NewDay()
 function OnMsg.RocketLanded(rocket)
 	AddCustomOnScreenNotification(MartianTribune,
