@@ -14,6 +14,7 @@ end
 function GetMTLeaderStoryTitle()
 	local MTLeaderStoryTitle = "Supreme Leader Bad."
 	return MTLeaderStoryTitle
+	
 end
 
 function GetMTLeaderStoryText()
