@@ -13,7 +13,8 @@ function OnMsg.RocketLanded(rocket)
 end
 
 function GetMTLeaderTitle()
-	sponsorDoubleCheck = GetMissionSponsor().name
+	if sponsorDoubleCheck == nil then
+		sponsorDoubleCheck = GetMissionSponsor().name
 --  In game Sponsor.name possibilities:
 --		International Mars Mission = "IMM"
 --		USA = "NASA"
@@ -27,21 +28,29 @@ function GetMTLeaderTitle()
 --		Paradox Interactive = "paradox"
 --		Stargate Command = "stargatecommand"
 --		
-	if sponsorDoubleCheck == "IMM" then
-		MTLdrTtl = "Chairman"
-	elseif sponsorDoubleCheck == "BlueSun" then
-		MTLdrTtl = "CFO"
-	elseif sponsorDoubleCheck == "SpaceY" then
-		MTLdrTtl = "CEO"
-	elseif sponsorDoubleCheck == "paradox" then
-			MTLdrTtl = "CFO"
-	elseif sponsorDoubleCheck == "ISRO" then
-		MTLdrTtl = "Prime Minister"
-	elseif sponsorDoubleCheck == "NewArk" then
-		MTLdrTtl = "Oracle"
-	elseif sponsorDoubleCheck == "stargatecommand" then
-		MTLdrTtl = "Major General"
-	else MTLdrTtl = "President"
+		if sponsorDoubleCheck == "IMM" or sponsorDoubleCheck == "BlueSun" or sponsorDoubleCheck == "SpaceY" or sponsorDoubleCheck == "paradox" then
+			MTBusinessTitleRandom = Random(1,3)
+				if MTBusinessTitleRandom == 1 then
+					MTLdrTtl = "Chairman"
+				elseif MTBusinessTitleRandom == 2 then
+					MTLdrTtl = "CFO"
+				elseif MTBusinessTitleRandom == 3 then
+					MTLdrTtl = "CEO"
+				end
+			-- elseif sponsorDoubleCheck == "BlueSun" then
+			--	MTLdrTtl = "CFO"
+			-- elseif sponsorDoubleCheck == "SpaceY" then
+			--	MTLdrTtl = "CEO"
+			-- elseif sponsorDoubleCheck == "paradox" then
+			--	MTLdrTtl = "CFO"
+		elseif sponsorDoubleCheck == "ISRO" then
+			MTLdrTtl = "Prime Minister"
+		elseif sponsorDoubleCheck == "NewArk" then
+			MTLdrTtl = "Oracle"
+		elseif sponsorDoubleCheck == "stargatecommand" then
+			MTLdrTtl = "Major General"
+		else MTLdrTtl = "President"
+		end
 	end
 	return MTLdrTtl
 end
