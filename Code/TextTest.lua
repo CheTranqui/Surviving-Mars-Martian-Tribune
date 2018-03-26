@@ -1,3 +1,17 @@
+-- function OnMsg.NewDay()
+function OnMsg.RocketLanded(rocket)
+	local this_mod_dir = debug.getinfo(1, "S").source:sub(2, -18)
+	AddCustomOnScreenNotification(MartianTribune,
+		T{"The Martian Tribune"},
+		T{"Sol <MTSol> AMC"},
+		this_mod_dir.."UI/MT_Notification_Icon.tga",
+		MTPopup,
+		{MTSol = UICity.day,
+		expiration = 150000,
+		priority = "Normal",}
+	)
+end
+
 function GetMTLeaderTitle()
 	sponsorDoubleCheck = GetMissionSponsor().name
 --  In game Sponsor.name possibilities:
@@ -30,20 +44,6 @@ function GetMTLeaderTitle()
 	else MTLdrTtl = "President"
 	end
 	return MTLdrTtl
-end
-
--- function OnMsg.NewDay()
-function OnMsg.RocketLanded(rocket)
-	local this_mod_dir = debug.getinfo(1, "S").source:sub(2, -18)
-	AddCustomOnScreenNotification(MartianTribune,
-		T{"The Martian Tribune"},
-		T{"Sol <MTSol> AMC"},
-		this_mod_dir.."UI/MT_Notification_Icon.tga",
-		MTPopup,
-		{MTSol = UICity.day,
-		expiration = 150000,
-		priority = "Normal",}
-	)
 end
 
 function GetMTLeaderStoryTitle()
