@@ -1,6 +1,6 @@
 return {
 PlaceObj('ModItemCode', {
-	'name', "TextTest",
-	'FileName', "Code/TextTest.lua",
+	'name', "MartianTribune",
+	'FileName', "Code/MartianTribune.lua",
 }),
 }

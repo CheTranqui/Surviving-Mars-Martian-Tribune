@@ -1,6 +1,6 @@
 -- function OnMsg.NewDay()
 function OnMsg.RocketLanded(rocket)
-	local this_mod_dir = debug.getinfo(1, "S").source:sub(2, -18)
+	local this_mod_dir = debug.getinfo(1, "S").source:sub(2, -24)
 	AddCustomOnScreenNotification(MartianTribune,
 		T{"The Martian Tribune"},
 		T{"Sol <MTSol> AMC"},
@@ -54,6 +54,8 @@ function GetMTLeaderTitle()
 	end
 	return MTLdrTtl
 end
+
+
 
 function GetMTLeaderStoryTitle()
 	local MTLdrStryTtl = "Supreme Leader Bad."

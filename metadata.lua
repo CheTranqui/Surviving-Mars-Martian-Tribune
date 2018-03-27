@@ -3,10 +3,10 @@ return PlaceObj('ModDef', {
 	'tags', "",
 	'id', "mSvATTV",
 	'author', "CheTranqui",
-	'version', 374,
+	'version', 375,
 	'lua_revision', 228184,
 	'code', {
-		"Code/TextTest.lua",
+		"Code/MartianTribune.lua",
 	},
-	'saved', 1522100310,
+	'saved', 1522128290,
 })
