@@ -1,5 +1,18 @@
 ---- function OnMsg.NewDay()
 ----	if (City.day % 3 == 0) then
+function OnMsg.ModsLoaded()
+	MTInitializeStoryTables()
+	if MTLeaderTitle == nil then
+		MTDefineLeader()
+	end
+end
+
+function MTDefineLeader()
+	MTLeaderTitle = MTGetLeaderTitle()  -- retrieves leader title and determines sponsor
+	MTLeader = "Random Person"
+end
+
+
 function OnMsg.NewHour()
 --	MTMainCheckRocketCount()  -- these are all checking contingencies and adding potential stories to their relative Potential lists
 --	MTMainCheckHackThePlanet()
@@ -8,15 +21,11 @@ function OnMsg.NewHour()
 --	MTMainCheckAdultFilm()
 --	MTMainCheckNoHumans()
 
-	MTInitializeStoryTables()
 	MTCheckForNewEdition() -- triggers the check into the specific sections' Potential lists for viable stories for the current edition
+	MTLoadStoriesIntoTables()
 end
---
---
+
 function MTCheckForNewEdition()
-	if MTLeaderTitle == nil then
-		MTLeaderTitle = MTGetLeaderTitle()  -- retrieves leader title
-	end
 	MTDetermineStories()
 	MTShowNotification()  -- loads main notification
 end
@@ -25,7 +34,7 @@ function MTShowNotification()
 --  this_mod_dir stores the number of characters to walk back in order to get into the main mod directory
 --  with the debug.getinfo(1, "S"), it's said that sometimes a 2 works, if the 1 does not
 	MT_mod_dir = Mods["lf1iELO"]:GetModRootPath()
-	AddCustomOnScreenNotification(MartianTribune,
+	AddCustomOnScreenNotification("MartianTribune",
 		T{"The Martian Tribune"},
 		T{"Sol <MTSol> AMC"},
 		MT_mod_dir.."UI/MT_Notification_Icon.tga",  --  Here, we concatenate to import the custom notification icon
@@ -384,13 +393,9 @@ function MTInitializeStoryTables() -- loading all the story titles and stories w
 		MTOnThisDayin1997 = {}
 		MTOnThisDayin2015 = {}
 		MTDroneRights = {}
-		MTLoadStoriesIntoTables()
 end
 
 function MTLoadStoriesIntoTables()
-	MTLeader = "Random Person"
-	MTLeaderTitle = MTLdrTtl
-	MTSponsor = MTSpnsr
 
 	MTNoHumans["title"] = T{"01101101 01100101 00100000 01110011 01100001 01100100"}
 	MTNoHumans["story"] = T{"    01000100 01110010 01101111 01101110 01100101 01110011 00100000 01101100 01101111 01101110 01100101 01101100 01111001 00101100 00100000 01100010 01110010 01101001 01101110 01100111 00100000 01101000 01110101 01101101 01100001 01101110 01110011 00100000 01110000 01101100 01100101 01100001 01110011 01100101 00101110"}
@@ -418,7 +423,7 @@ function MTLoadStoriesIntoTables()
 --		
 --	table.insert(MTAdultFilm["title"] = T{"SpaceXXX"})
 --	table.insert(MTAdultFilm["story"] = T{"In an unexpected turn of events, <MTSexyColonist> has taken it upon themselves to produce the first ever Martian adult film.  Starring 11 different colonists with <MTSexyColonist> as the lead, it has become quite a hit on earth.  The film also provides a sneak peek into Martian pipe work and stockpiles of electronics and machine parts in the background.  <MTSponsor> has declared themselves not responsible for the social decisions of colonists and praised the artistic vision of the Director.", MTSexyColonist = MTAdultFilmSexyColonist, MTSponsor = MTSpnsr})
----- These stories are all preset and without conditions.  They are automatically a part of MTMainFreeStories{} from the very start
+-- These stories are all preset and without conditions.  They are automatically a part of MTMainFreeStories{} from the very start
 		
 	MTWeAreMartian["title"] = T{"We Are Martian"}
 	MTWeAreMartian["story"] = T{"     This is our world now.  The world of rare metals, electronics and universal depots.  On Earth war is waged over economics, religion, and borders.  Here we fight for survival on a primal level.  We are the Martian people.  We will not give up.  We will not give in.  We will continue to build, continue to expand and populate this planet.  No meteor storm will stop us.  We are Martian."}
@@ -466,4 +471,5 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTMainFrontPageRandom = nil
 	MTMainFrontPageRandomTotal = nil
 	MTMainCurrentStory = nil
+	sponsorDoubleCheck = nil
 end
