@@ -2,16 +2,7 @@
 ----	if (City.day % 3 == 0) then
 function OnMsg.ModsLoaded()
 	MTInitializeStoryTables()
-	if MTLeaderTitle == nil then
-		MTDefineLeader()
-	end
 end
-
-function MTDefineLeader()
-	MTLeaderTitle = MTGetLeaderTitle()  -- retrieves leader title and determines sponsor
-	MTLeader = "Random Person"
-end
-
 
 function OnMsg.NewHour()
 --	MTMainCheckRocketCount()  -- these are all checking contingencies and adding potential stories to their relative Potential lists
@@ -21,14 +12,9 @@ function OnMsg.NewHour()
 --	MTMainCheckAdultFilm()
 --	MTMainCheckNoHumans()
 
-	MTCheckForNewEdition() -- triggers the check into the specific sections' Potential lists for viable stories for the current edition
-	MTLoadStoriesIntoTables()
+	MTShowNotification() -- triggers the check into the specific sections' Potential lists for viable stories for the current edition
 end
 
-function MTCheckForNewEdition()
-	MTDetermineStories()
-	MTShowNotification()  -- loads main notification
-end
 
 function MTShowNotification()
 --  this_mod_dir stores the number of characters to walk back in order to get into the main mod directory
@@ -45,9 +31,6 @@ function MTShowNotification()
 	)
 end
 
-function MTGetLeaderTitle()
-	if sponsorDoubleCheck == nil then  -- if we've already done this, just go to the "return"
-		sponsorDoubleCheck = GetMissionSponsor().name --otherwise, get the name
 --  In game Sponsor.name possibilities:
 --		International Mars Mission = "IMM"
 --		USA = "NASA"
@@ -60,81 +43,81 @@ function MTGetLeaderTitle()
 --		Russia = "Roscosmos"
 --		Paradox Interactive = "paradox"
 --		Stargate Command = "stargatecommand"
+--		Trinova = "Trinova"
+
+function MTGetSponsor(name)
+	MTSponsors = {}
+	MTSponsors["IMM"] = "International Mars Mission"
+	MTSponsors["BlueSun"] = "Blue Sun Corporation"
+	MTSponsors["CSNA"] = "China"
+	MTSponsors["ISRO"] = "India"
+	MTSponsors["ESA"] = "Europe"
+	MTSponsors["SpaceY"] = "SpaceY"
+	MTSponsors["NewArk"] = "Church of the New Ark"
+	MTSponsors["Roscosmos"] = "Russia"
+	MTSponsors["paradox"] = "Paradox"
+	MTSponsors["stargatecommand"] = "Stargate Command"
+	MTSponsors["Trinova"] = "Trinova"
+	if MTSponsors[name] == nil then
+		return "Mission Sponsor"
+	else
+		return MTSponsors[name]
 	end
-	if MTLdrTtl == nil then
-		if sponsorDoubleCheck == "IMM" then
-			MTSpnsr = "International Mars Mission"
-		elseif sponsorDoubleCheck == "BlueSun" then
-			MTSpnsr = "Blue Sun Corporation"
-		elseif sponsorDoubleCheck == "SpaceY" then
-			MTSpnsr = "SpaceY"
-		elseif sponsorDoubleCheck == "paradox" then
-			MTSpnsr = "Paradox"
-		end
-		if sponsorDoubleCheck == "IMM" or sponsorDoubleCheck == "BlueSun" or sponsorDoubleCheck == "SpaceY" or sponsorDoubleCheck == "paradox" then
+end
+		
+function MTGetLeaderTitle(name)
+	if MTLeaderTitle == nil then
+		MTtitles = {}
+		MTtitles["IMM"] = "CEO"
+		MTtitles["BlueSun"] = "CFO"
+		MTtitles["CSNA"] = "President"
+		MTtitles["ISRO"] = "Prime Minister"
+		MTtitles["ESA"] = "President"
+		MTtitles["SpaceY"] = "Chairman"
+		MTtitles["NewArk"] = "Oracle"
+		MTtitles["Roscosmos"] = "President"
+		MTtitles["paradox"] = "CFO"
+		MTtitles["stargatecommand"] = "Major General"
+		MTtitles["Trinova"] = "COO"
+		if name == "IMM" or name == "BlueSun" or name == "SpaceY" or name == "paradox" then
 			MTBusinessTitleRandom = Random(1,3)  -- randomize these corps to get one of the 3 following leader types
-				if MTBusinessTitleRandom == 1 then
-					MTLdrTtl = "Chairman"
-					MTChairman = true
-					MTCFO = false
-					MTCEO = false
-				elseif MTBusinessTitleRandom == 2 then
-					MTLdrTtl = "CFO"
-					MTChairman = false
-					MTCFO = true
-					MTCEO = false
-				elseif MTBusinessTitleRandom == 3 then
-					MTLdrTtl = "CEO"
-					MTChairman = false
-					MTCFO = false
-					MTCEO = true
-				end
-		elseif sponsorDoubleCheck == "ISRO" then  -- each of these get a fixed leader type
-			MTLdrTtl = "Prime Minister"
-			MTSpnsr = India
-		elseif sponsorDoubleCheck == "NewArk" then
-			MTLdrTtl = "Oracle"
-			MTSpnsr = "Church of the New Ark"
-		elseif sponsorDoubleCheck == "stargatecommand" then
-			MTLdrTtl = "Major General"
-			MTSpnsr = "Stargate Command"
-		elseif sponsorDoubleCheck == "Trinova" then
-			MTLdrTtl = "COO" -- manager trait
-			MTSpnsr = "Trinova"
-		elseif sponsorDoubleCheck == "NASA" then
-			MTLdrTtl = "President"
-			MTSpnsr = "USA"
-		elseif sponsorDoubleCheck == "CSNA" then
-			MTLdrTtl = "President"
-			MTSpnsr = "China"
-		elseif sponsorDoubleCheck == "Roscosmos" then
-			MTLdrTtl = "President"
-			MTSpnsr = "Russia"
+			if MTBusinessTitleRandom == 1 then
+				MTLeaderTitle = "Chairman"
+			elseif MTBusinessTitleRandom == 2 then
+				MTLeaderTitle = "CFO"
+			elseif MTBusinessTitleRandom == 3 then
+				MTLeaderTitle = "CEO"
+			end
 		else
-			MTLdrTtl = "President"  -- if unaccounted for, they get a "President"
-			MTSpnsr = "Mission Sponsor"
+			MTLeaderTitle = "President"  -- if unaccounted for, they get a "President"
 		end
+	return MTLeaderTitle
+	else
+	return MTtitles[name]
 	end
-	return MTLdrTtl  -- Leader Title, based upon sponsor
 end
 
-function MTDetermineStories()  -- calls for each individual section to probe for its own set of stories
-	MTGetFrontPageTopStory()
+function MTGetLeader()
+	MTCurrentLeader = "Random Person"
+	return MTCurrentLeader
+end
+
+--function MTDetermineStories()  -- calls for each individual section to probe for its own set of stories
+--	MTGetFrontPageTopStory()
 --	MTGetFrontPageEngStory()
 --	MTGetFrontPageSocialStory()
-end
+--end
 
 function MTFrontPagePopup()
 	MT_mod_dir = Mods["lf1iELO"]:GetModRootPath()
-	MTfpstryttl = MTMainCurrentStory.title
-	MTfpstrystry = MTMainCurrentStory.story
-	MTMainLdrTtl = MTLdrTtl
-	MTMainLdr = "Random Person"
-	MTMainsponsor = MTSpnsr
+	MTMainCurrentStory = MTGetFrontPageTopStory()
+	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
+	MTLeader = MTGetLeader()
+	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune"},
-            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Eng:  <MTEngHeadline><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTfpstryttl, MTFrontPageStory = MTfpstrystry, MTEngHeadline = "", MTSocialHeadline = "", MTLeaderTitle = MTMainLdrTtl, MTLeader = MTMainLdr, MTSponsor = MTMainsponsor}, -- Front Page text
+            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Eng:  <MTEngHeadline><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTMainCurrentStory.title, MTFrontPageStory = MTMainCurrentStory.story, MTEngHeadline = "", MTSocialHeadline = "", MTLeaderTitle, MTLeader, MTSponsor}, -- Front Page text
             choice1 = T{"View Top Story Archives"},
             choice2 = T{"View Engineering Story"},
 			choice3 = T{"View Social Story"},
@@ -181,6 +164,7 @@ function MTGetFrontPageTopStory()
 			end
 		end
 	end
+	return MTMainCurrentStory
 end
 
 --function MTGetFrontPageEngStory()
@@ -279,6 +263,8 @@ end
 --		if MTSensorTowerCount < 2 then
 --			table.insert(g_MTPotentialMainStories, MTHackThePlanet)
 --		end
+--	else
+--		table.remove(g_MTPotentialMainStories, MTHackThePlanet)
 --	end
 --end
 --
@@ -393,9 +379,13 @@ function MTInitializeStoryTables() -- loading all the story titles and stories w
 		MTOnThisDayin1997 = {}
 		MTOnThisDayin2015 = {}
 		MTDroneRights = {}
+		MTLoadStoriesIntoTables()
 end
 
 function MTLoadStoriesIntoTables()
+	MTLeader = MTGetLeader()
+	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
+	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
 
 	MTNoHumans["title"] = T{"01101101 01100101 00100000 01110011 01100001 01100100"}
 	MTNoHumans["story"] = T{"    01000100 01110010 01101111 01101110 01100101 01110011 00100000 01101100 01101111 01101110 01100101 01101100 01111001 00101100 00100000 01100010 01110010 01101001 01101110 01100111 00100000 01101000 01110101 01101101 01100001 01101110 01110011 00100000 01110000 01101100 01100101 01100001 01110011 01100101 00101110"}
