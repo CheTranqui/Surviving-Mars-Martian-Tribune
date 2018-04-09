@@ -1,8 +1,5 @@
 ---- function OnMsg.NewDay()
 ----	if (City.day % 3 == 0) then
-function OnMsg.ModsLoaded()
-	MTInitializeStoryTables()
-end
 
 function OnMsg.NewHour()
 --	MTMainCheckRocketCount()  -- these are all checking contingencies and adding potential stories to their relative Potential lists
@@ -11,7 +8,8 @@ function OnMsg.NewHour()
 --	MTMainCheckFounders()
 --	MTMainCheckAdultFilm()
 --	MTMainCheckNoHumans()
-
+	MTInitializeStoryTables()
+	MTLoadStoriesIntoTables()
 	MTShowNotification() -- triggers the check into the specific sections' Potential lists for viable stories for the current edition
 end
 
@@ -389,24 +387,26 @@ function MTLoadStoriesIntoTables()
 
 	MTNoHumans["title"] = T{"01101101 01100101 00100000 01110011 01100001 01100100"}
 	MTNoHumans["story"] = T{"    01000100 01110010 01101111 01101110 01100101 01110011 00100000 01101100 01101111 01101110 01100101 01101100 01111001 00101100 00100000 01100010 01110010 01101001 01101110 01100111 00100000 01101000 01110101 01101101 01100001 01101110 01110011 00100000 01110000 01101100 01100101 01100001 01110011 01100101 00101110"}
+	table.insert(g_MTPotentialMainStories, MTNoHumans)
 
 	MTrockets3["title"] = T{"Rocket Silhouettes Mar Martian Landscape"}
 	MTrockets3["story"] = T{"    With so many rockets planetside, one would think that we have more than enough to succeed and flourish, but all those resources are languishing in the hands of "..MTLeaderTitle.." "..MTLeader..".  Perhaps it's time to fire up that Drone Assembler, a few more Fuel Refineries, and redistribute the workload.  If things remain as they are, who knows how much longer "..MTLeaderTitle.." "..MTLeader.." will remain in office…"}
+	table.insert(g_MTPotentialMainStories, MTrockets3)
 
 	MTrockets0["title"] = T{" "..MTLeaderTitle.." Sets High Standard"}
 	MTrockets0["story"] = T{"    With the "..MTLeaderTitle.."'s efficient and effective use of Earth's resupply we are well on our way to gaining a strong foothold on the Red Planet.  This begs the question: are you doing your part? As we continue to develop our resources, and our culture, on this planet each one of us plays an integral role in leading us closer and closer to the safety and security that we need.  Follow "..MTLeaderTitle.." "..MTLeader.."'s example!  How can you become more efficient and effective today?  Let us know in your letter to the editor!  Select letters will be published in Saturday's edition."}
-
-	MTHackThePlanet["title"] = T{"Hack the planet!"}
-	MTHackThePlanet["story"] = T{"    Our primary manifesto as a society is to populate the Red Planet.  Someone should remind "..MTLeaderTitle.." "..MTLeader.." about that.  They seem to think that scanning the surface and finding suitable resources and dome locations serves no particular purpose.  Have you seen our metals supply lately?  This water isn't going to last forever, you know.  We need more Sensor Towers.  When will we learn from the past?  The time is now!  This planet is ours for the taking, but only if we know what's out there!"}
-	
-	MTFinances1["title"] = T{"Financial Collapse Imminent"}
-	MTFinances1["story"] = T{"    When we came to this planet we thought that we were leaving modern financial woes behind us, but as it turns out poor colony management has led to an unforeseen long-term dependence upon our sponsor, "..MTSponsor..", and may very well lead to our collapse.  No supplies are incoming from Earth any time soon.  Just one unfortunate meteor storm and our domes could become oversized oxygen geysers.  Let’s hope that "..MTLeaderTitle.." "..MTLeader.." has a plan, but who am I kidding but myself if I think that..."}
-
-	MTFinances2["title"] = T{"Sponsor Funds Depleted"}
-	MTFinances2["story"] = T{"     "..MTSponsor.." has confirmed for the Martian Tribune that the rapidly spreading rumor that they are now broke with no money left to spare in support of the Martian endeavor is, in fact, true.  Its up to us, the people of mars to support ourselves.  Hopefully our local administrators will work to remedy the situation and prove our worth to our sponsor once more."}
-		
-	MTFinances3["title"] = T{"Sponsor Cites Insider Trading Woes"}
-	MTFinances3["story"] = T{"     "..MTSponsor.." has gone belly-up in the face of a massive insider trading scheme that has taken down over half of their senior management.  Who knew that colonizing Mars could be such a politically, financially and socially fraught endeavor?  We did, "..MTSponsor..".  We all did.  Shame on you."}
+--
+--	MTHackThePlanet["title"] = T{"Hack the planet!"}
+--	MTHackThePlanet["story"] = T{"    Our primary manifesto as a society is to populate the Red Planet.  Someone should remind "..MTLeaderTitle.." "..MTLeader.." about that.  They seem to think that scanning the surface and finding suitable resources and dome locations serves no particular purpose.  Have you seen our metals supply lately?  This water isn't going to last forever, you know.  We need more Sensor Towers.  When will we learn from the past?  The time is now!  This planet is ours for the taking, but only if we know what's out there!"}
+--	
+--	MTFinances1["title"] = T{"Financial Collapse Imminent"}
+--	MTFinances1["story"] = T{"    When we came to this planet we thought that we were leaving modern financial woes behind us, but as it turns out poor colony management has led to an unforeseen long-term dependence upon our sponsor, "..MTSponsor..", and may very well lead to our collapse.  No supplies are incoming from Earth any time soon.  Just one unfortunate meteor storm and our domes could become oversized oxygen geysers.  Let’s hope that "..MTLeaderTitle.." "..MTLeader.." has a plan, but who am I kidding but myself if I think that..."}
+--
+--	MTFinances2["title"] = T{"Sponsor Funds Depleted"}
+--	MTFinances2["story"] = T{"     "..MTSponsor.." has confirmed for the Martian Tribune that the rapidly spreading rumor that they are now broke with no money left to spare in support of the Martian endeavor is, in fact, true.  Its up to us, the people of mars to support ourselves.  Hopefully our local administrators will work to remedy the situation and prove our worth to our sponsor once more."}
+--		
+--	MTFinances3["title"] = T{"Sponsor Cites Insider Trading Woes"}
+--	MTFinances3["story"] = T{"     "..MTSponsor.." has gone belly-up in the face of a massive insider trading scheme that has taken down over half of their senior management.  Who knew that colonizing Mars could be such a politically, financially and socially fraught endeavor?  We did, "..MTSponsor..".  We all did.  Shame on you."}
 		
 --	table.insert(MTFounders["title"] = T{"The Founder's Legacy"})
 --	table.insert(MTFounders["story"] = T{"There are only 12 people who will ever be known as Founders.  These extraordinary men and women risked their lives to venture into the Final Frontier and gain a foothold on the Red Planet.  They toiled day and night, working non-stop to ensure constant and consistent air flow, water pressure, power generation, and more.  While we go about our sol today we must remember to take a moment and honor those who came before us, those who made all that we see around us today possible.  Founder’s Day will be celebrated in the <MTFoundersRelaxationBuilding> in <MTFoundersLargestDome> later this afternoon where we will be taking 12 minutes of silence in memory of these most excellent of individuals.", MTFoundersRelaxationBuilding = MTBiggestDomeRelaxation, MTFoundersLargestDome = MTBiggestDome})
@@ -426,15 +426,15 @@ function MTLoadStoriesIntoTables()
 	MTOnThisDayin1976["title"] = T{"On This Day in 1976"}
 	MTOnThisDayin1976["story"] = T{"     On July 20th in 1976 Viking 1 pulled out the landing gear and set down on Martian soil for the first time in human history.  What we have come to accomplish in such few years since then is nothing less than incredible.  What an experience it is to actually set foot on Mars and to literally, walk among the stars!"}
 	g_MTMainFreeStories[3] = MTOnThisDayin1976
-		
-	MTOnThisDayin1997["title"] = T{"On This Day in 1997"}
-	MTOnThisDayin1997["story"] = T{"     On July 4th in 1997 NASA set down the very first actual rover on the Red Planet.  Shortly after the Mars Pathfinder landed, Sojourner, a solar-powered rover, rolled out and began to scan the surface.  Expected to last just 7 sol, it was finally called to a stop after 91 sol having traveled a total of just over 100 meters and sent a myriad of photos back to Earth for study."}
-	g_MTMainFreeStories[4] = MTOnThisDayin1997
-		
-	MTOnThisDayin2015["title"] = T{"On This Day in 2015"}
-	MTOnThisDayin2015["story"] = T{"     On September 28th in 2015 NASA announced that the Mars Reconnaissance Orbiter had officially encountered water flowing along the Martian surface.  While it might seem like a foregone conclusion to us today, such news at the time proved quite the breakthrough, leading NASA Administrator Bolden to declare that NASA 'is firmly on a journey to Mars.'"}
-	g_MTMainFreeStories[5] = MTOnThisDayin2015
-		
+--		
+--	MTOnThisDayin1997["title"] = T{"On This Day in 1997"}
+--	MTOnThisDayin1997["story"] = T{"     On July 4th in 1997 NASA set down the very first actual rover on the Red Planet.  Shortly after the Mars Pathfinder landed, Sojourner, a solar-powered rover, rolled out and began to scan the surface.  Expected to last just 7 sol, it was finally called to a stop after 91 sol having traveled a total of just over 100 meters and sent a myriad of photos back to Earth for study."}
+--	g_MTMainFreeStories[4] = MTOnThisDayin1997
+--		
+--	MTOnThisDayin2015["title"] = T{"On This Day in 2015"}
+--	MTOnThisDayin2015["story"] = T{"     On September 28th in 2015 NASA announced that the Mars Reconnaissance Orbiter had officially encountered water flowing along the Martian surface.  While it might seem like a foregone conclusion to us today, such news at the time proved quite the breakthrough, leading NASA Administrator Bolden to declare that NASA 'is firmly on a journey to Mars.'"}
+--	g_MTMainFreeStories[5] = MTOnThisDayin2015
+--
 --	MTDroneRights["title"] = T{"Push For Drone Rights"}
 --	MTDroneRights["story"] = T{"It has been reported that a local alliance of Martians believe that because so many drones are now integral to our daily lives they now deserve the same rights as colonists. "..MTDroneColonist..",  the leader of the self-dubbed Drone Alliance for Freedom and Transparency (DAFT) has stated that -these drones do more work then all of the humans on mars combined- when asked if this meant drones should be able to vote as well "..MTDroneColonist.." responded, 'what? no. That's ridiculous. They are machines...'"}
 --	g_MTMainFreeStories[6] = MTDroneRights
@@ -461,5 +461,6 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTMainFrontPageRandom = nil
 	MTMainFrontPageRandomTotal = nil
 	MTMainCurrentStory = nil
+	MTAdultFilm = nil
 	sponsorDoubleCheck = nil
 end
