@@ -20,6 +20,7 @@ function OnMsg.NewDay()
 end
 -- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
 function OnMsg.NewHour()
+	lcPrint("newhour")
 	if (UICity.hour % 2 == 0) == true then
 		if MTNewStoryPushed ~= true then
 			MTGetNewStories()  -- pushes new stories into the queue
@@ -29,6 +30,7 @@ function OnMsg.NewHour()
 	else
 		MTNewStoryPushed = nil  -- keeps stories/notification from being sent out after the 1st has gone
 	end
+	MTNewLeaderChosenStory("add")
 end
 
 function OnMsg.ColonistArrived()
@@ -37,7 +39,14 @@ end
 
 function OnMsg.ColonistDied(colonist, reason)
 	MTDeadColonist = colonist
-	MTCheckFoundersLegacy(MTDeadColonist)
+	if MTDeadColonist ~= nil then
+		if MTDeadColonist == MTLeaderColonist then
+			MTLeaderDiedStory(MTDeadColonist)
+			MTLeader = nil
+			MTLeaderColonist = nil
+			MTGetLeader()
+		end
+	end
 end
 
 -- Section 2:  Core popup logic, story selection and core variable definitions (sponsors/leaders)
@@ -70,7 +79,7 @@ end
 --		Stargate Command = "stargatecommand"
 --		Trinova = "Trinova"
 
-function MTGetSponsor(name)
+function MTGetSponsor(getsponsorname)
 	MTSponsors = {}
 	MTSponsors["IMM"] = "International Mars Mission"
 	MTSponsors["BlueSun"] = "Blue Sun Corporation"
@@ -83,14 +92,14 @@ function MTGetSponsor(name)
 	MTSponsors["paradox"] = "Paradox"
 	MTSponsors["stargatecommand"] = "Stargate Command"
 	MTSponsors["Trinova"] = "Trinova"
-	if MTSponsors[name] == nil then
+	if MTSponsors[getsponsorname] == nil then
 		return "Mission Sponsor"
 	else
-		return MTSponsors[name]
+		return MTSponsors[getsponsorname]
 	end
 end
 		
-function MTGetLeaderTitle(name)
+function MTGetLeaderTitle(sponsorname)
 	if MTLeaderTitle == nil then
 		MTtitles = {}
 		MTtitles["IMM"] = "CEO"
@@ -125,12 +134,75 @@ function MTGetLeaderTitle(name)
 	end
 end
 
+
+------------------------------------------------------------------------
+--
+--for some reason
+--it's failing here.
+--
+--I have no clue why.
+--
+--It has something to do with UICity.labels.Colonist
+--
+--Look into how they do their nil checks before engaging in these label FOR loops
+--
+--
+-----------------------------------------------------------------------
+--
+--
+
 function MTGetLeader()
-	MTCurrentLeader = "Random Person"
-	return MTCurrentLeader
+	if MTLeader == nil or MTLeader == "Silent Leader" then  -- this only happens on New Game or when current leader dies
+		MTGetLeaderTable = MTLeaderSetTraitSearch()  -- which rare traits are in the colony?
+		MTLeaderColonist = {}
+		MTGetLeaderTableRandom = 0
+		if (#MTGetLeaderTable > 0) then  -- pick a trait to single out
+			MTGetLeaderTableRandom = Random(1, #MTGetLeaderTable)
+			MTGetLeaderTrait = MTGetLeaderTable[MTGetLeaderTableRandom]
+			for k, colonist in ipairs (UICity.labels.Colonist) do
+				if colonist.traits[MTGetLeaderTrait] then
+					MTLeaderColonist = colonist  -- colonist with said trait is chosen
+					MTLeader = MTLeaderColonist.name
+					break
+				end
+			end
+		else
+			if UICity.labels.Colonist ~= nil then
+				MTGetLeaderTableRandom = Random(1,#UICity.labels.Colonist)  -- if none with rare traits,
+				MTLeaderColonist = UICity.labels.Colonist[MTGetLeaderTableRandom] -- random colonist is chosen
+				MTLeader = MTLeaderColonist.name
+			else
+				MTLeader = "Silent Leader"
+			end
+		end
+	end  -- if we have a leader already chosen and alive, then they stay leader
+	return MTLeader
+end
+
+function MTLeaderSetTraitSearch()  -- populates table with rare traits that are present
+	if MTGetLeaderTable == nil then
+		MTGetLeaderTable = {}
+	end
+	if (CountColonistsWithTrait("Genius") > 0) then  
+		table.insert(MTGetLeaderTable, "Genius")
+	end
+	if (CountColonistsWithTrait("Celebrity") > 0) then
+		table.insert(MTGetLeaderTable, "Celebrity")
+	end
+	if (CountColonistsWithTrait("Empath") > 0) then
+		table.insert(MTGetLeaderTable, "Empath")
+	end
+	if (CountColonistsWithTrait("Guru") > 0) then
+		table.insert(MTGetLeaderTable, "Guru")
+	end
+	if (CountColonistsWithTrait("Saint") > 0) then
+		table.insert(MTGetLeaderTable, "Saint")
+	end
+	return MTGetLeaderTable
 end
 
 function MTGetNewStories()  -- on "push", these functions pull a new story from the 3 main story tables (g_MTTopPotentialStories, etc).  The "pull" is done in the popups.
+	lcPrint("MTGetNewStories")
 	MTSetTopStory("push")
 	MTSetEngStory("push")
 	MTSetSocialStory("push")
@@ -150,11 +222,12 @@ function MTFrontPagePopup()
 	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
+	MTDeadLeader = MTLeaderDiedNameCheck()
 
 	CreateRealTimeThread(function()
         params = {  --MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title
 			title = T{"The Martian Tribune:  Today's Headlines"},
-            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering:  <MTEngHeadline><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName}, -- Front Page text
+            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering:  <MTEngHeadline><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Front Page text
             choice1 = T{"View Top Story Archives"},
             choice2 = T{"View Engineering Story"},
 			choice3 = T{"View Social Story"},
@@ -188,11 +261,12 @@ function MTTopArchivePopup()
 	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
+	MTDeadLeader = MTLeaderDiedNameCheck()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Top Story Archives"},
-            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName}, -- Top Story Archives Text
+            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Top Story Archives Text
             choice1 = T{"Flip to Next Page of Archived Top Stories"}, -- sends to MTTopArchivePopup2 which is identical
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -223,11 +297,12 @@ function MTTopArchivePopup2()
 	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
+	MTDeadLeader = MTLeaderDiedNameCheck()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Top Story Archives"},
-            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName}, -- Top Story Archives Text
+            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Top Story Archives Text
             choice1 = T{"Flip to Next Page of Archived Top Stories"}, -- sends to MTTopArchivePopup which is identical
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -255,11 +330,12 @@ function MTEngPopup()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
+	MTDeadLeader = MTLeaderDiedNameCheck()
 
 	CreateRealTimeThread(function()
         params = {  --MTSocialHeadline = MTSocialStory.title
 			title = T{"The Martian Tribune:  Interstellar Engineering"},
-            text = T{"Top Engineering Story:  <MTEngHeadlineTitle> <newline><newline> <MTEngHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadlineTitle = MTEngStory.title, MTEngHeadlineStory = MTEngStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName}, -- Front Page text
+            text = T{"Top Engineering Story:  <MTEngHeadlineTitle> <newline><newline> <MTEngHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadlineTitle = MTEngStory.title, MTEngHeadlineStory = MTEngStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Eng popup text
             choice1 = T{"View Interstellar Engineering Archives"},
             choice2 = T{"View Current Social Story"},
 			choice3 = T{"Return to Front Page"},
@@ -355,11 +431,12 @@ function MTSocialPopup()
 	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
+	MTDeadLeader = MTLeaderDiedNameCheck()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Headlines"},
-            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName}, -- Front Page text
+            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Front Page text
             choice1 = T{"View Red Planet Socialite Archives"},
             choice2 = T{"View Current Engineering Story"},
 			choice3 = T{"Return to Front Page"},
@@ -595,6 +672,71 @@ end
 ------------- starting with story release functions.  ---- variables start at MTInitializeStoryTables()
 
 --- if this story remains in the table after humans have arrived, remove it
+function MTLeaderDiedStory(MTDeadColonist)
+	MTDeadLeader = MTDeadColonist.name
+	MTDeadLeaderRandom = Random(1,2)
+	if MTLeaderDied1 == nil then
+		MTLeaderDied1 = {}
+	end
+	if MTLeaderDied2 == nil then
+		MTLeaderDied2 = {}
+	end
+	if MTDeadLeaderRandom == 1 then
+		MTLeaderDied1["title"] = T{"Mars is in Mourning"}
+		MTLeaderDied1["story"] = T{"     Today is a solemn day.  "..MTLeaderTitle.." "..MTDeadLeader.." no longer walks the world of the living.  Martian society would not be what it is today without the indelible touch of "..MTLeaderTitle.." "..MTDeadLeader.." in so many places.  Please take a moment today to stop by your local spacebar and lift one up in honor of the late, great "..MTLeaderTitle..".  What are your best memories of the now former "..MTLeaderTitle.."?  Send in your letters to the editor.  Select entries will be printed in Thursday's edition.  Thank you for your service, "..MTLeaderTitle..".  You will be missed."}
+		table.insert(g_MTTopPotentialStories, MTLeaderDied1)
+	elseif MTDeadLeaderRandom == 2 then
+		MTLeaderDied2["title"] = T{"Mars Mourns "..MTLeaderTitle.."'s Passing"}
+		MTLeaderDied2["story"] = T{"     "..MTLeaderTitle.." "..MTDeadLeader.." served us honorably for many a sol and their passing has not gone unnoticed.  Despite serving Mars well during their tenure, it is suspected that they never quite fully adapted to the realities of life on Mars and between the stresses of daily Martian life, serving as our "..MTLeaderTitle..", and many a sleepless night, a heart attack finally took them from us.  May your slumber, "..MTLeaderTitle.." "..MTDeadLeader..", be deep and pleasant.  You will be missed."}
+		table.insert(g_MTTopPotentialStories, MTLeaderDied2)
+	end
+	MTNewLeaderChosenStory("start")
+end
+
+function MTLeaderDiedNameCheck()
+	if MTDeadLeader == nil then
+		MTDeadLeader = "dead leader"
+	end
+	return MTDeadLeader
+end
+
+function MTNewLeaderChosenStory(startadd)
+	if startadd == "start" then   -- only comes from the death notice of an old leader
+		MTNewLeaderChosenIndex = 0
+		MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
+	elseif startadd == "add" then  -- comes from New Day, only if MTNewLeaderChosenIndex isn't nil
+		if MTNewLeaderChosenIndex ~= nil then  -- index resets when new leader story is inserted
+			MTNewLeaderChosenNewIndex = MTNewLeaderChosenIndex + 1
+			MTNewLeaderChosenIndex = MTNewLeaderChosenNewIndex  
+			MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
+		end
+	end
+end
+
+-- 3 days after old leader dies, new leader gets a news story
+function MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
+	if MTNewLeaderChosenIndex == 3 then
+		MTNewLeaderStoryRandom = Random(1,3)
+		if MTNewLeaderStoryRandom == 1 then
+			MTNewLeaderStory1 = {}
+			MTNewLeaderStory1["title"] = T{"A New "..MTLeaderTitle.." Takes the Helm"}
+			MTNewLeaderStory1["story"] = T{"As "..MTLeader.." steps in to assume the recently vacated role of "..MTLeaderTitle..", we can hope that they get their bearings in short order.  We here at the Martian Tribune will keep you apprised of any decrees and movements of the "..MTLeaderTitle..".  A new day is dawning here on Mars.  The question remains, however: is that a day of dawning, or a day of darkness.  Our fate is in your hands, "..MTLeaderTitle..".  Don't let us down."}
+			table.insert(g_MTTopPotentialStories, MTNewLeaderStory1)
+		elseif MTNewLeaderStoryRandom == 2 then
+			MTNewLeaderStory2 = {}
+			MTNewLeaderStory2["title"] = T{" "..MTLeader.." Breathes New Life Into Colony"}
+			MTNewLeaderStory2["story"] = T{"A new "..MTLeaderTitle.." has been chosen!  It is time to rejoice, for my fellow Martians, the future is bright!  "..MTLeader.." steps in as our new "..MTLeaderTitle.." today and we could not be in better hands.  With "..MTLeader.."'s past work here on Mars, we can expect big plans to continue to balance out the workload and supply chain even further, as well as to care for the aging and nurture the young.  Today, the Martian Tribune declares: the future is bright.  It is time to celebrate!"}
+			table.insert(g_MTTopPotentialStories, MTNewLeaderStory2)
+		elseif MTNewLeaderStoryRandom == 3 then
+			MTNewLeaderStory3 = {}
+			MTNewLeaderStory3["title"] = T{"Wrong Sibling Elevated?"}
+			MTNewLeaderStory3["story"] = T{"As we move into a new era of Martian development, we here at the Martian Tribune can’t help but wonder at the agenda of our sponsor, "..MTSponsor..".  Perhaps someone mixed up their paperwork, but somehow they saw fit to raise "..MTLeader.." to the role of "..MTLeaderTitle.." without recognizing that more than one person shares that last name.  The responsibilities are vast in leading such an intrepid endeavor as ours here on Mars.  Let's hope and pray (hard) that "..MTLeader.." is up to the challenge."}
+			table.insert(g_MTTopPotentialStories, MTNewLeaderStory3)
+		end
+		MTNewLeaderChosenIndex = nil
+		MTNewLeaderChosenNewIndex = nil
+	end
+end
 function MTNoHumansStory()
 	if MTNoHumansStoryRemoved ~= "true" then
 		if MTColonistsArrivedCheck("check") ~= nil then
@@ -640,7 +782,7 @@ end
 --  checks for current on-planet rocket count.  Determines release of MTrockets0 and MTRockets3
 --  will check each day after Sol 10
 function MTRocketCount()
-	if UIcity.day > 10 then
+	if UICity.day > 10 then
 		MTcurrentSupplyRocketCount = #GetObjects{class = "SupplyRocket"}
 		if MTrockets3StorySent ~= "true" then
 			if MTcurrentSupplyRocketCount > 2 then
@@ -944,8 +1086,6 @@ function MTLoadStoriesIntoTables()
 	MTOnThisDayin2015["title"] = T{"On This Day in 2015"}
 	MTOnThisDayin2015["story"] = T{"     On September 28th in 2015 NASA announced that the Mars Reconnaissance Orbiter had officially encountered water flowing along the Martian surface.  While it might seem like a foregone conclusion to us today, such news at the time proved quite the breakthrough, leading NASA Administrator Bolden to declare that NASA 'is firmly on a journey to Mars.'"}
 	table.insert(g_MTTopFreeStories, MTOnThisDayin2015)
-
-
 end
 
 function MTDelVar()  -- clears out all variables for testing purposes
@@ -1013,5 +1153,19 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTIdiotColonistName = nil
 	MTDroneColonistName = nil
 	MTDroneRightsStorySent = nil
-
+	MTLeaderColonist = nil
+	MTGetLeaderTrait = nil
+	MTGetLeaderTableRandom = nil
+	MTGetLeaderTable = nil
+	MTDeadLeader = nil
+	MTDeadLeaderRandom = nil
+	MTDeadColonist = nil
+	MTNewLeaderStory1 = nil
+	MTNewLeaderStory2 = nil
+	MTNewLeaderStory3 = nil
+	MTNewLeaderStoryRandom = nil
+	MTNewLeaderChosenIndex = nil
+	MTNewLeaderChosenNewIndex = nil
+	MTLeaderDied1 = nil
+	MTLeaderDied2 = nil
 end
