@@ -17,6 +17,9 @@ function OnMsg.NewDay()
 	MTCheckFoundersLegacy()
 	MTCheckAdultFilm()
 	MTCheckDroneRights()
+	MTNewLeaderChosenStory("add")
+	MTPetRockStory()
+	MTOlympicBidStory()
 end
 -- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
 function OnMsg.NewHour()
@@ -30,7 +33,8 @@ function OnMsg.NewHour()
 	else
 		MTNewStoryPushed = nil  -- keeps stories/notification from being sent out after the 1st has gone
 	end
-	MTNewLeaderChosenStory("add")
+	
+	MTRefuseHitsTheFanStory()
 end
 
 function OnMsg.ColonistArrived()
@@ -134,23 +138,6 @@ function MTGetLeaderTitle(sponsorname)
 	end
 end
 
-
-------------------------------------------------------------------------
---
---for some reason
---it's failing here.
---
---I have no clue why.
---
---It has something to do with UICity.labels.Colonist
---
---Look into how they do their nil checks before engaging in these label FOR loops
---
---
------------------------------------------------------------------------
---
---
-
 function MTGetLeader()
 	if MTLeader == nil or MTLeader == "Silent Leader" then  -- this only happens on New Game or when current leader dies
 		MTGetLeaderTable = MTLeaderSetTraitSearch()  -- which rare traits are in the colony?
@@ -223,11 +210,12 @@ function MTFrontPagePopup()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
 	MTDeadLeader = MTLeaderDiedNameCheck()
+	MTPetRockColonistName = MTGetPetRockColonist("check")
 
 	CreateRealTimeThread(function()
         params = {  --MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title
 			title = T{"The Martian Tribune:  Today's Headlines"},
-            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering:  <MTEngHeadline><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Front Page text
+            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering:  <MTEngHeadline><newline>     Social:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName}, -- Front Page text
             choice1 = T{"View Top Story Archives"},
             choice2 = T{"View Engineering Story"},
 			choice3 = T{"View Social Story"},
@@ -432,11 +420,14 @@ function MTSocialPopup()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
 	MTDeadLeader = MTLeaderDiedNameCheck()
+	MTPetRockColonistName = MTGetPetRockColonist("check")
+	MTOlympicBidGymDome = MTGetOlympicBidGymDome()
+	MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Headlines"},
-            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader}, -- Front Page text
+            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome}, -- Front Page text
             choice1 = T{"View Red Planet Socialite Archives"},
             choice2 = T{"View Current Engineering Story"},
 			choice3 = T{"Return to Front Page"},
@@ -467,11 +458,14 @@ function MTSocialArchivePopup()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
 	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
 	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
+	MTPetRockColonistName = MTGetPetRockColonist("check")
+	MTOlympicBidGymDome = MTGetOlympicBidGymDome()
+	MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome}, -- social Story Archives Text
             choice1 = T{"View Next Page of Red Planet Socialite Archives"}, -- sends to MTSocialArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -500,11 +494,14 @@ function MTSocialArchivePopup2()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
 	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
 	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
+	MTPetRockColonistName = MTGetPetRockColonist("check")
+	MTOlympicBidGymDome = MTGetOlympicBidGymDome()
+	MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome}, -- social Story Archives Text
             choice1 = T{"View Next Page of Red Planet Socialite Archives"}, -- sends to MTSocialArchivePopup which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -569,7 +566,7 @@ function MTGetSocialArchives(MTArchiveIndexNum)
 		if g_MTSocialArchive[MTArchiveIndexNum] == nil then
 			MTTempSocialArchive = MTSocialArchiveDepleted
 		else
-			MTTempSocialArchive = g_MTSocialArchive[MTArchiveIndexNum]  -- else send EngArchive's old story
+			MTTempSocialArchive = g_MTSocialArchive[MTArchiveIndexNum]  -- else send SocArchive's old story
 		end
 	end
 	return MTTempSocialArchive
@@ -651,6 +648,9 @@ function MTGetNewEngStory()
 end
 
 function MTGetNewSocialStory()
+	if MTSocialCurrentStory == nil then
+		MTSocialCurrentStory = {}
+	end
 	-- Assume there will be no news.
 	MTSocialCurrentStory = MTNoNews
 	MTSocialStoryRandom = nil		
@@ -671,7 +671,87 @@ end
 -- Section 3:  functions governing insert/remove of stories into their respective tables
 ------------- starting with story release functions.  ---- variables start at MTInitializeStoryTables()
 
---- if this story remains in the table after humans have arrived, remove it
+-- triggered by OnMsg.NewDay()
+function MTRefuseHitsTheFanStory()
+	if MTRefuseHitsFanStorySent ~= true then
+		if UICity.labels.Diner ~= nil then
+			MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
+			MTRefuseHitsTheFan = {}
+			MTRefuseHitsTheFan["title"] = T{"The Refuse Hits The Fan"}
+			MTRefuseHitsTheFan["story"] = T{"     Last night a sewage pump overflowed in "..MTRefuseHitsFanDinerDome.." when one of the pump's propellers broke under the pressure.  After what can only be described as a dining fiasco, last night's meal of extruded bean substitute seems to have played a critical role in overloading the sewage systems. There have been dozens of reports of a foul oder filling the dome even now.  Match usage is strictly prohibited until the blockage can be cleared. It will be a rough few days for everyone but there should be no lasting impact once the odor gets washed out of everyone's clothing once and for all."}
+			table.insert(g_MTSocialPotentialStories, MTRefuseHitsTheFan)
+			MTRefuseHitsFanStorySent = true
+		end
+	end
+end
+
+function MTGetRefuseHitsTheFanDinerDome()
+	if UICity.labels.Diner ~= nil then
+		MTTempDinerDome = UICity.labels.Diner[1].parent_dome.name
+	else
+		MTTempDinerDome = "dome with diner"
+	end
+	return MTTempDinerDome
+end
+
+
+-- if a dome has an OpenAirGym...
+function MTOlympicBidStory()
+	if MTOlympicBidStorySent ~= true then
+		if UICity.labels.OpenAirGym ~= nil then
+			MTOlympicBidGymDome = MTGetOlympicBidGymDome()
+			MTOlympicBid = {}
+			MTOlympicBid["title"] = T{"Olympic Bid Rejected"}
+			MTOlympicBid["story"] = T{"     After the opening of our new open-air gym in "..MTOlympicBidGymDome..", "..MTSponsor.." applied to host the Olympics on Mars, saying, 'We have the best view of Mount Olympus and a Gym, what more could one ask for?' The International Olympics Committee on Earth rejected the proposal, saying 'Wait, that was an actual bid? You don't even have a pool.' "..MTSponsor.." responded by saying they will start their own Interstellar Olympics.  Expect track, blackjack, marbles, and Drone Jumping to headline the experience."}
+			table.insert(g_MTSocialPotentialStories, MTOlympicBid)
+			MTOlympicBidStorySent = true
+		end
+	end
+end
+
+-- first dome that has an open air gym
+function MTGetOlympicBidGymDome()
+	if UICity.labels.OpenAirGym ~= nil then
+		MTTempGymDome = UICity.labels.OpenAirGym[1].parent_dome.name
+	else
+		MTTempGymDome = "dome with open air gym"
+	end
+	return MTTempGymDome
+end
+
+-- picks random colonist to target for Pet Rock story
+-- triggered OnMsg.NewDay()
+function MTPetRockStory()
+	if MTPetRockStorySent ~= "true" then
+		if UICity.labels.Colonist ~= nil then  -- if we have colonists
+			MTPetRockColonistName = MTGetPetRockColonist("set")
+			MTPetRock = {}
+			MTPetRock["title"] = T{"Struggling Colonist Adopts Pet"}
+			MTPetRock["story"] = T{"     "..MTPetRockColonistName..", like most of us, has been struggling to cope with the harsh Martian environment.  On Earth, many of us had pets to help us through the difficult days, but there are no dogs on Mars, so "..MTPetRockColonistName.." decided to adopt a pet rock instead.  What did they name this newfound source of comfort and snuggles?  Why, Olympus Mons, of course!  Hopefully little Oly can help them through these tough times."}
+			table.insert(g_MTSocialPotentialStories, MTPetRock)
+			MTPetRockStorySent = "true"
+		end
+	end
+end
+
+function MTGetPetRockColonist(setorcheck)
+	if MTPetRockColonist == nil then
+		MTPetRockColonist = {}
+		MTPetRockColonistInterimName = "Pet Rock Owner"
+	end
+	if setorcheck == "set" then
+		MTPetRockColonistRandom = Random(1,#UICity.labels.Colonist)  -- randomize
+		MTPetRockColonist = UICity.labels.Colonist[MTPetRockColonistRandom]
+		MTPetRockColonistInterimName = MTPetRockColonist.name
+	else
+		if MTPetRockColonistInterimName == nil then
+			MTPetRockColonistInterimName = "Pet Rock Owner"
+		end
+	end
+	return MTPetRockColonistInterimName
+end
+
+
 function MTLeaderDiedStory(MTDeadColonist)
 	MTDeadLeader = MTDeadColonist.name
 	MTDeadLeaderRandom = Random(1,2)
@@ -737,6 +817,8 @@ function MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
 		MTNewLeaderChosenNewIndex = nil
 	end
 end
+
+--- if this story remains in the table after humans have arrived, remove it
 function MTNoHumansStory()
 	if MTNoHumansStoryRemoved ~= "true" then
 		if MTColonistsArrivedCheck("check") ~= nil then
@@ -1009,6 +1091,8 @@ function MTInitializeStoryTables() -- loading all the story titles and stories w
 	MTFinances2 = {}
 	MTFinances3 = {}
 
+	MTPoliticalAmbitions = {}
+
 	MTWeAreMartian = {}
 	MTOnThisDayin1965 = {}
 	MTOnThisDayin1976 = {}
@@ -1086,6 +1170,11 @@ function MTLoadStoriesIntoTables()
 	MTOnThisDayin2015["title"] = T{"On This Day in 2015"}
 	MTOnThisDayin2015["story"] = T{"     On September 28th in 2015 NASA announced that the Mars Reconnaissance Orbiter had officially encountered water flowing along the Martian surface.  While it might seem like a foregone conclusion to us today, such news at the time proved quite the breakthrough, leading NASA Administrator Bolden to declare that NASA 'is firmly on a journey to Mars.'"}
 	table.insert(g_MTTopFreeStories, MTOnThisDayin2015)
+
+	MTPoliticalAmbitions["title"] = T{"Political Ambitions Set Too High?"}
+	MTPoliticalAmbitions["story"] = T{"A politician on Earth has stated the obvious this week by claiming that Mars is red.  The hopeful senator took it a step further by declaring that Mars is a communist planet, with 'nothing but red, red, red'.  After performing some reconnissance here at the Martian Tribune Headquarters, we would like to confirm that Mars is indeed red.  The claims of communism getting a foothold, however, will have to be fielded by the "..MTLeaderTitle.."."}
+	table.insert(g_MTSocialFreeStories, MTPoliticalAmbitions)
+
 end
 
 function MTDelVar()  -- clears out all variables for testing purposes
@@ -1168,4 +1257,9 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTNewLeaderChosenNewIndex = nil
 	MTLeaderDied1 = nil
 	MTLeaderDied2 = nil
+	MTPetRockStorySent = nil
+	MTPetRockColonistName = nil
+	MTPetRockColonistInterimName = nil
+	MTPetRock = nil
+	MTPoliticalAmbitions = nil
 end
