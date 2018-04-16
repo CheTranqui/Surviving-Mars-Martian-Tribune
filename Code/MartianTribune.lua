@@ -30,6 +30,11 @@ function OnMsg.NewDay()
 	MTVegan2Story()
 	MTVegan3Story()
 	MTVegan4Story()
+	MTVeganDinerStory()
+	MTRareMetalsComplaintStory()
+	MTConcretePavingStory()
+	MTHippieStory()
+
 end
 -- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
 function OnMsg.NewHour()
@@ -44,7 +49,8 @@ function OnMsg.NewHour()
 		MTNewStoryPushed = nil  -- keeps stories/notification from being sent out after the 1st has gone
 	end
 
-	MTVeganDinerStory()
+
+	MTMovingDomesStory()
 
 end
 
@@ -441,11 +447,17 @@ function MTSocialPopup()
 	MTEarthlingDelayName = MTGetEarthlingDelayName("set")
 	MTVeganDinerName = MTGetVeganDinerName("check")
 	MTVeganDinerDome = MTGetVeganDinerDome()
+	MTConcreteName = MTGetConcreteColonist("check")
+	MTRareMetalsColonist = MTGetRareMetalsColonist("check")
+	MTRareMetalsDome = MTGetRareMetalsDome("check")
+	MTMovingDome1 = MTGetMovingDomes("1")
+	MTMovingDome2 = MTGetMovingDomes("2")
+	MTHippieName = MTGetHippie("check")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Headlines"},
-            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome}, -- Front Page text
+            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- Front Page text
             choice1 = T{"View Red Planet Socialite Archives"},
             choice2 = T{"View Current Engineering Story"},
 			choice3 = T{"Return to Front Page"},
@@ -486,12 +498,17 @@ function MTSocialArchivePopup()
 	MTEarthlingDelayName = MTGetEarthlingDelayName("set")
 	MTVeganDinerName = MTGetVeganDinerName("check")
 	MTVeganDinerDome = MTGetVeganDinerDome()
-
+	MTConcreteName = MTGetConcreteColonist("check")
+	MTRareMetalsColonist = MTGetRareMetalsColonist("check")
+	MTRareMetalsDome = MTGetRareMetalsDome("check")
+	MTMovingDome1 = MTGetMovingDomes("1")
+	MTMovingDome2 = MTGetMovingDomes("2")
+	MTHippieName = MTGetHippie("check")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- social Story Archives Text
             choice1 = T{"View Next Page of Red Planet Socialite Archives"}, -- sends to MTSocialArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -530,12 +547,17 @@ function MTSocialArchivePopup2()
 	MTEarthlingDelayName = MTGetEarthlingDelayName("set")
 	MTVeganDinerName = MTGetVeganDinerName("check")
 	MTVeganDinerDome = MTGetVeganDinerDome()
-
+	MTConcreteName = MTGetConcreteColonist("check")
+	MTRareMetalsColonist = MTGetRareMetalsColonist("check")
+	MTRareMetalsDome = MTGetRareMetalsDome("check")
+	MTMovingDome1 = MTGetMovingDomes("1")
+	MTMovingDome2 = MTGetMovingDomes("2")
+	MTHippieName = MTGetHippie("check")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- social Story Archives Text
             choice1 = T{"View Next Page of Red Planet Socialite Archives"}, -- sends to MTSocialArchivePopup which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -704,6 +726,176 @@ end
 
 -- Section 3:  functions governing insert/remove of stories into their respective tables
 ------------- starting with story release functions.  ---- variables start at MTInitializeStoryTables()
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+--------------
+
+function MTHippieStory()
+	if MTHippieStorySent ~= "true" then
+		if MTGetHippie("set") ~= "no botanist" then
+			MTHippieName = MTGetHippie("check")
+			MTHippie = {}
+			MTHippie["title"] = T{"The Grass Couldn't Be Greener"}
+			MTHippie["story"] = T{"Local botanist "..MTHippieName.." has been caught smoking what officers referred to as 'the greatest stuff on the planet,' which was found to be grown in their very own closet. Though technically not illegal on Mars, questions have been raised as to how the botanist got the plant here in the first place. Dome security declared to us that 'it's definitely home-grown, it really is pretty high quality,' unfortunately this was all the information we could gather as the officers were all quite insistent on returning to their spudtato snacks.  We will keep you updated as more news unfolds."}
+			table.insert(g_MTSocialPotentialStories, MTHippie)
+			MTHippieStorySent = "true"
+		end
+	end
+end
+
+function MTGetHippie(setorcheck)
+	if setorcheck == "set" then
+		for k, colonist in ipairs (UICity.labels.Colonist) do
+			if colonist.specialist == "botanist" then
+				if MTBotanistColonist == nil then
+					MTBotanistColonist = {}
+				end
+				MTBotanistColonist = colonist
+				MTBotanistColonistName = MTBotanistColonist.name
+				break
+			end
+		end
+		if MTBotanistColonist == nil then
+			MTBotanistColonistName = "no botanist"
+		end
+	else
+		if MTBotanistColonistName == nil then
+			MTBotanistColonistName = "random botanist"
+		end
+	end
+	return MTBotanistColonistName
+end
+
+
+
+function MTMovingDomesStory()
+	if MTMovingDomesStorySent ~= "true" then
+		if #GetObjects{class = "Dome"} > 2 then
+			MTGetMovingDomes("set")
+			MTMovingDome1 = MTGetMovingDomes("1")
+			MTMovingDome2 = MTGetMovingDomes("2")
+			MTMovingDomes = {}
+			MTMovingDomes["title"] = T{"The Rock Is Always Redder"}
+			MTMovingDomes["story"] = T{"     In a recent survey performed by the Martian Tribune a number of citizens have expressed disappointment after moving to a new dome.  One citizen in particular hit the nail on the head saying, 'I always thought that moving from "..MTMovingDome1.." to "..MTMovingDome2.." would be a huge upgrade in lifestyle, but I've have found it to be basically the same as before. I guess it's true what they say: The rock is redder on the other side.'"}
+			table.insert(g_MTSocialPotentialStories, MTMovingDomes)
+			MTMovingDomesStorySent = "true"
+		end
+	end
+end
+
+function MTGetMovingDomes(dome)
+	if dome == "set" then
+		MTTempMovingDome1 = UICity.labels.Domes[1].name
+		MTTempMovingDome2 = UICity.labels.Domes[2].name
+	elseif dome == "1" then
+		if MTTempMovingDome1 == nil then
+			MTTempMovingDome1 = "random dome 1"
+		end
+		return MTTempMovingDome1
+	elseif dome == "2" then
+		if MTTempMovingDome2 == nil then
+			MTTempMovingDome2 = "random dome 2"
+		end
+		return MTTempMovingDome2
+	end
+end
+
+function MTRareMetalsComplaintStory()
+	if MTRareMetalsComplaintStorySent ~= "true" then
+		if #GetObjects{class = "PreciousMetalsExtractor"} > 0 then
+			MTRareMetalsDome = MTGetRareMetalsDome("set")
+			if MTRareMetalsDome ~= "random rare metals dome" then
+				MTRareMetalsColonist = MTGetRareMetalsColonist("set")
+				if MTRareMetalsColonist ~= "random rare metals colonist" then
+					MTRareMetals = {}
+					MTRareMetals["title"] = T{"Sound Complaint Filed"}
+					MTRareMetals["story"] = T{"     "..MTRareMetalsColonist.." has lodged a formal complaint against "..MTLeader.."'s natural resource exploitation.  In the complaint they declared the primary contributor to be the new Rare Metals Extractor near "..MTRareMetalsDome..".  There was also mention of sleep being precious and the constant pounding leaving not a moment of reprieve.  "..MTLeader.." declared themselves unmoved by the complaint."}
+					table.insert(g_MTSocialPotentialStories, MTRareMetals)
+					MTRareMetalsComplaintStorySent = "true"
+				end
+			end
+		end
+	end
+end
+
+function MTGetRareMetalsColonist(setorcheck)
+	if setorcheck == "set" then
+		MTRMWDome = MTGetRareMetalsDome("getdome")
+		if MTRMColonist == nil then
+			MTRMColonist = {}
+		end
+		MTGetRandomRMColonist = Random(1,#MTRMWDome.labels.Colonist)
+		MTRMColonist = MTRMWDome.labels.Colonist[MTGetRandomRMColonist]
+		MTRMColonistName = MTRMColonist.name
+	else
+		if MTRMColonistName == nil then
+			MTRMColonistName = "random rare metals colonist"
+		end
+	end
+	return MTRMColonistName
+end
+
+function MTGetRareMetalsDome(setorcheck)
+	if setorcheck == "set" then
+		if UICity.labels.PreciousMetalsExtractor ~= nil then
+			if MTRMWorkerDome == nil then
+				MTRMWorkerDome = {}
+			end
+			MTRMWorkerDome = UICity.labels.PreciousMetalsExtractor[1].workers[1][1].dome
+			MTRMWorkerDomeName = MTRMWorkerDome.name
+			return MTRMWorkerDomeName
+		end
+	elseif setorcheck == "check" then
+		if MTRMWorkerDomeName == nil then
+			MTRMWorkerDomeName = "random rare metals dome"
+		end
+		return MTRMWorkerDomeName
+	elseif setorcheck == "getdome" then
+		if MTRMWorkerDome == nil then
+			MTRMWorkerDome = {}
+		end
+		return MTRMWorkerDome
+	end
+end
+
+function MTConcretePavingStory()
+	if MTConcretePavingStorySent ~= "true" then
+		if #GetObjects{class = "RegolithExtractor"} > 0 then
+			if UICity.labels.Colonist ~= nil then
+				MTConcreteName = MTGetConcreteColonist("set")
+				MTConcrete = {}
+				MTConcrete["title"] = T{"Paving Over The Problem"}
+				MTConcrete["story"] = T{"     "..MTConcreteName.." has lodged a formal complaint with authorities today after the plans to construct yet another Concrete Extractor was announced. "..MTConcreteName.." declared within that they 'did not come to another planet to pave it over.'"}
+				MTConcretePavingStorySent = "true"
+			end
+		end
+	end
+end
+
+function MTGetConcreteColonist(setorcheck)
+	if setorcheck == "set" then
+		if UICity.labels.Colonist ~= nil then
+			MTGetColonistRandom = Random(1,#UICity.labels.Colonist)  -- if none with rare traits,
+			MTConcretePavingColonist = UICity.labels.Colonist[MTGetColonistRandom] -- random colonist is chosen
+			MTConcretePavingName = MTConcretePavingColonist.name
+		end
+	else
+		if MTConcretePavingName == nil then
+			MTConcretePavingName = "random person"
+		end
+	end
+	return MTConcretePavingName
+end
 
 function MTVeganDinerStory()
 	if MTVeganDinerStorySent ~= "true" then
@@ -767,9 +959,6 @@ function MTVegan1Story()
 		end
 	end
 end
-
-MTVegan1Name = MTGetVegan("set")
-MTVegan1MedicName = MTGetVegan1MedicName()
 
 function MTVegan1StorySent(setorcheck)
 	if setorcheck == "set" then
@@ -889,15 +1078,16 @@ end
 
 function MTDomeDelay1Story()
 	if MTDomeDelay1StorySent ~= "true" then
---		if UICity.day > 40 then
-		if MTDomeDelayCheck() == 10 then
-			MTEarthlingDelayName = MTGetEarthlingDelayName("set")
-			MTEarthlingDelay1 = {}
-			MTEarthlingDelay1["title"] = T{"Earthling Causes Delay"}
-			MTEarthlingDelay1["story"] = T{"     If you've been wondering why no new domes have been built of late, look no further than "..MTEarthlingDelayName..".  Apparently they're now taking signatures for a petition to halt all mining operations, claiming them to be 'raping and pillaging Mars of its natural resources.'  The "..MTLeaderTitle.." has taken note of "..MTEarthlingDelayName.." and should be releasing a statement later this very sol."}
-			table.insert(g_MTSocialPotentialStories, MTEarthlingDelay1)
-			MTDomeDelay1StorySent = "true"
-			MTDomeDelay2StoryWait("set")
+		if UICity.day > 40 then
+			if MTDomeDelayCheck() == 10 then
+				MTEarthlingDelayName = MTGetEarthlingDelayName("set")
+				MTEarthlingDelay1 = {}
+				MTEarthlingDelay1["title"] = T{"Earthling Causes Delay"}
+				MTEarthlingDelay1["story"] = T{"     If you've been wondering why no new domes have been built of late, look no further than "..MTEarthlingDelayName..".  Apparently they're now taking signatures for a petition to halt all mining operations, claiming them to be 'raping and pillaging Mars of its natural resources.'  The "..MTLeaderTitle.." has taken note of "..MTEarthlingDelayName.." and should be releasing a statement later this very sol."}
+				table.insert(g_MTSocialPotentialStories, MTEarthlingDelay1)
+				MTDomeDelay1StorySent = "true"
+				MTDomeDelay2StoryWait("set")
+			end
 		end
 	end
 end
@@ -1703,8 +1893,19 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTVeganPurgatoryDays = nil
 	MTNewVeganPurgatoryDays = nil
 	MTVeganStory2HasBeenSent = nil
+	MTVeganColonist = nil
+	MTVDDome = nil
+	MTVeganDinerColonist = nil
+	MTVeganColonistName = nil
+	MTRMWorkerDome = nil
+	MTRMWorkerDomeName = nil
+	MTRMColonist = nil
+	MTRMColonistName = nil
+	MTGetColonistRandom = nil
+	MTBotanistColonist = nil
+	MTBotanistColonistName = nil
+	MTHippieStorySent = nil
 
-
-
+	
 
 end
