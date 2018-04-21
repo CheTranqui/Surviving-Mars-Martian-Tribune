@@ -6,11 +6,21 @@
 
 --  Section 1:  OnMsg functions
 function OnMsg.NewMapLoaded()
-	MTInitializeStoryTables()
-	MTLoadStoriesIntoTables()
+	if g_MTTopPotentialStories == nil then
+		MTInitializeStoryTables()
+		MTLoadStoriesIntoTables()
+	end
 end
 
 function OnMsg.NewDay()
+	MTCheckStories()
+end
+
+function MTCheckStories()
+	if g_MTTopPotentialStories == nil then
+		MTInitializeStoryTables()
+		MTLoadStoriesIntoTables()
+	end
 	MTRocketCount()
 	MTTopCheckFinances()
 	MTCheckHackThePlanet()
@@ -36,9 +46,10 @@ function OnMsg.NewDay()
 	MTHippieStory()
 
 end
+
 -- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
 function OnMsg.NewHour()
-	lcPrint("newhour")
+--	lcPrint("newhour")
 	if (UICity.hour % 2 == 0) == true then
 		if MTNewStoryPushed ~= true then
 			MTGetNewStories()  -- pushes new stories into the queue
@@ -206,7 +217,7 @@ function MTLeaderSetTraitSearch()  -- populates table with rare traits that are 
 end
 
 function MTGetNewStories()  -- on "push", these functions pull a new story from the 3 main story tables (g_MTTopPotentialStories, etc).  The "pull" is done in the popups.
-	lcPrint("MTGetNewStories")
+--	lcPrint("MTGetNewStories")
 	MTSetTopStory("push")
 	MTSetEngStory("push")
 	MTSetSocialStory("push")
@@ -222,8 +233,8 @@ function MTFrontPagePopup()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)  -- redefining all text variables to insure proper insertion
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
+	MTFoundersLegacyDome = MTGetFoundersLegacyDome("check")
+	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding("check")
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
 	MTDeadLeader = MTLeaderDiedNameCheck()
@@ -262,8 +273,8 @@ function MTTopArchivePopup()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
+	MTFoundersLegacyDome = MTGetFoundersLegacyDome("check")
+	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding("check")
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
 	MTDeadLeader = MTLeaderDiedNameCheck()
@@ -298,8 +309,8 @@ function MTTopArchivePopup2()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
+	MTFoundersLegacyDome = MTGetFoundersLegacyDome("check")
+	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding("check")
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
 	MTDeadLeader = MTLeaderDiedNameCheck()
@@ -369,12 +380,10 @@ function MTEngArchivePopup()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Interstellar Engineering Archives"},
-            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding}, -- eng Story Archives Text
+            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor}, -- eng Story Archives Text
             choice1 = T{"View Next Page of Interstellar Engineering Archives"}, -- sends to MTEngArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -401,13 +410,11 @@ function MTEngArchivePopup2()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Interstellar Engineering Archives"},
-            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding}, -- eng Story Archives Text
+            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor}, -- eng Story Archives Text
             choice1 = T{"View Next Page of Interstellar Engineering Archives"}, -- sends to MTEngArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -432,8 +439,6 @@ function MTSocialPopup()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)  -- redefining all text variables to insure proper insertion
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTSexyColonistName = MTGetSexyColonist("check")
 	MTDroneColonistName = MTGetIdiotColonist("check")
 	MTDeadLeader = MTLeaderDiedNameCheck()
@@ -457,7 +462,7 @@ function MTSocialPopup()
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Headlines"},
-            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- Front Page text
+            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- Front Page text
             choice1 = T{"View Red Planet Socialite Archives"},
             choice2 = T{"View Current Engineering Story"},
 			choice3 = T{"Return to Front Page"},
@@ -486,8 +491,6 @@ function MTSocialArchivePopup()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTPetRockColonistName = MTGetPetRockColonist("check")
 	MTOlympicBidGymDome = MTGetOlympicBidGymDome()
 	MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
@@ -508,7 +511,7 @@ function MTSocialArchivePopup()
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- social Story Archives Text
             choice1 = T{"View Next Page of Red Planet Socialite Archives"}, -- sends to MTSocialArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -535,8 +538,6 @@ function MTSocialArchivePopup2()
 	MTLeaderTitle = MTGetLeaderTitle(GetMissionSponsor().name)
 	MTLeader = MTGetLeader()
 	MTSponsor = MTGetSponsor(GetMissionSponsor().name)
-	MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-	MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
 	MTPetRockColonistName = MTGetPetRockColonist("check")
 	MTOlympicBidGymDome = MTGetOlympicBidGymDome()
 	MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
@@ -557,7 +558,7 @@ function MTSocialArchivePopup2()
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialite Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName}, -- social Story Archives Text
             choice1 = T{"View Next Page of Red Planet Socialite Archives"}, -- sends to MTSocialArchivePopup which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -920,6 +921,8 @@ function MTGetVeganDinerDome()
 		else
 			MTVDDome = "dome with vegan and diner"
 		end
+	else
+		MTVDDome = "dome with vegan and diner"
 	end
 	return MTVDDome
 end
@@ -1070,7 +1073,7 @@ function MTVegan4Story()
 			MTVegan4["title"] = T{"Vegan Martian Coalition Talks Stalled"}
 			MTVegan4["story"] = T{"     Though the VMC has managed to garner the favor of our "..MTLeaderTitle.." "..MTLeader..", "..MTSponsor.." has claimed to receive millions of complaints from Earthlings who once desired to travel to Mars.  Applicants have begun to withdraw their applications by the thousands citing only one word on the cancellation form: 'bacon'.  While the backlash might dampen "..MTSponsor.."'s support, this reporter for one is pleased with the health benefits.  We'll keep you updated as the situation continues to progress."}
 			table.insert(g_MTSocialPotentialStories, MTVegan4)
-			MTVegan2StorySent = "true"
+			MTVegan4StorySent = "true"
 		end
 	end
 end
@@ -1094,16 +1097,18 @@ end
 
 function MTDomeDelay2StoryWait(setoradd)
 	if MTDomeDelay2StoryInitiated ~= "true" then
-		if MTDomeDelay2DaysWaiting ~= 3 then
-			if setoradd == "set" then
-				MTDomeDelay2DaysWaiting = 0
-			else
-				MTNewDomeDelay2DaysWaiting = MTDomeDelay2DaysWaiting + 1
-				MTDomeDelay2DaysWaiting = MTNewDomeDelay2DaysWaiting
-			end
+		if setoradd == "set" then
+			MTDomeDelay2DaysWaiting = 0
 		else
-		MTDomeDelay2Story()
-		MTDomeDelay2StoryInitiated = "true"
+			if MTDomeDelay2DaysWaiting ~= nil then
+				if MTDomeDelay2DaysWaiting == 3 then
+					MTDomeDelay2Story()
+					MTDomeDelay2StoryInitiated = "true"
+				else
+					MTNewDomeDelay2DaysWaiting = MTDomeDelay2DaysWaiting + 1
+					MTDomeDelay2DaysWaiting = MTNewDomeDelay2DaysWaiting
+				end
+			end
 		end
 	end
 end
@@ -1285,7 +1290,7 @@ end
 -- triggered by OnMsg.NewDay()
 function MTRefuseHitsTheFanStory()
 	if MTRefuseHitsFanStorySent ~= "true" then
-		if UICity.labels.Diner ~= nil then
+		if UICity.labels.Diner[1] ~= nil then
 			MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
 			MTRefuseHitsTheFan = {}
 			MTRefuseHitsTheFan["title"] = T{"The Refuse Hits The Fan"}
@@ -1297,7 +1302,7 @@ function MTRefuseHitsTheFanStory()
 end
 
 function MTGetRefuseHitsTheFanDinerDome()
-	if UICity.labels.Diner ~= nil then
+	if #GetObjects{class = "Diner"} > 0 then
 		MTTempDinerDome = UICity.labels.Diner[1].parent_dome.name
 	else
 		MTTempDinerDome = "dome with diner"
@@ -1309,7 +1314,7 @@ end
 -- if a dome has an OpenAirGym...
 function MTOlympicBidStory()
 	if MTOlympicBidStorySent ~= "true" then
-		if UICity.labels.OpenAirGym ~= nil then
+		if #GetObjects{class = "OpenAirGym"} > 0 then
 			MTOlympicBidGymDome = MTGetOlympicBidGymDome()
 			MTOlympicBid = {}
 			MTOlympicBid["title"] = T{"Olympic Bid Rejected"}
@@ -1322,7 +1327,7 @@ end
 
 -- first dome that has an open air gym
 function MTGetOlympicBidGymDome()
-	if UICity.labels.OpenAirGym ~= nil then
+	if #GetObjects{class = "OpenAirGym"} > 0 then
 		MTTempGymDome = UICity.labels.OpenAirGym[1].parent_dome.name
 	else
 		MTTempGymDome = "dome with open air gym"
@@ -1529,8 +1534,8 @@ end
  function MTFoundersLegacyRelease(MTFoundersMourningPeriod)
 	if MTFoundersLegacyStorySent ~= "true" then
 		if MTFoundersMourningPeriod == 10 then
-			MTFoundersLegacyDome = MTGetFoundersLegacyDome()
-			MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding()
+			MTFoundersLegacyDome = MTGetFoundersLegacyDome("set")
+			MTFoundersLegacyBuilding = MTGetFoundersLegacyBuilding("set")
 			MTFounders = {}
 			MTFounders["title"] = T{"The Founder's Legacy"}
 			MTFounders["story"] = T{"     There are only 12 people who will ever be known as Founders.  These extraordinary men and women risked their lives to venture into the Final Frontier and gain a foothold on the Red Planet.  They toiled day and night, working non-stop to ensure constant and consistent air flow, water pressure, power generation, and more.  As we go about our sol we must remember to take a moment and honor those who came before us, those who made all that we see around us possible.  We will be celebrating Founder's Sol at noon tomorrow at the "..MTFoundersLegacyBuilding.." in "..MTFoundersLegacyDome.." where we will be taking 12 minutes of silence in memory of these most excellent of individuals."}
@@ -1540,47 +1545,55 @@ end
 	end
 end
 
-function MTGetFoundersLegacyDome()
-	if UICity.labels.Domes[1] ~= nil then
-		MTFoundersDomeName = UICity.labels.Domes[1].name
+function MTGetFoundersLegacyDome(setorcheck)
+	if setorcheck == "set" then
+		if UICity.labels.Domes[1] ~= nil then
+			MTFoundersDomeName = UICity.labels.Domes[1].name
+		else
+			MTFoundersDomeName = "every dome"
+		end
 	else
 		MTFoundersDomeName = "every dome"
 	end
 	return MTFoundersDomeName
 end
 
-function MTGetFoundersLegacyBuilding()
-	if UICity.labels.Domes[1] ~= nil then
-		MTFoundersDome = UICity.labels.Domes[1]
-		if MTFoundersDome.labels.Spacebar ~= nil then
-			MTFoundersDomeRelaxation = "Spacebar"
-		else
-			if MTFoundersDome.labels.OpenAirGym ~= nil then
-				MTFoundersDomeRelaxation = "Open Air Gym"
+function MTGetFoundersLegacyBuilding(setorcheck)
+	if setorcheck == "set" then
+		if UICity.labels.Domes[1] ~= nil then
+			MTFoundersDome = UICity.labels.Domes[1]
+			if MTFoundersDome.labels.Spacebar ~= nil then
+				MTFoundersDomeRelaxation = "Spacebar"
 			else
-				if MTFoundersDome.labels.GardenStone ~= nil then
-					MTFoundersDomeRelaxation = "Stone Garden"
+				if MTFoundersDome.labels.OpenAirGym ~= nil then
+					MTFoundersDomeRelaxation = "Open Air Gym"
 				else
-					if MTFoundersDome.labels.FountainLarge ~= nil then
-						MTFoundersDomeRelaxation = "Fountain"
+					if MTFoundersDome.labels.GardenStone ~= nil then
+						MTFoundersDomeRelaxation = "Stone Garden"
 					else
-						if MTFoundersDome.labels.GardenNatural_Medium ~= nil then
-							MTFoundersDomeRelaxation = "Natural Garden"
+						if MTFoundersDome.labels.FountainLarge ~= nil then
+							MTFoundersDomeRelaxation = "Fountain"
 						else
-							if MTFoundersDome.labels.Apartments ~= nil then
-								MTFoundersDomeRelaxation = "Apartments"
+							if MTFoundersDome.labels.GardenNatural_Medium ~= nil then
+								MTFoundersDomeRelaxation = "Natural Garden"
 							else
-								if MTFoundersDome.labels.LivingQuarters ~= nil then
-									MTFoundersDomeRelaxation = "Living Quarters"
+								if MTFoundersDome.labels.Apartments ~= nil then
+									MTFoundersDomeRelaxation = "Apartments"
+								else
+									if MTFoundersDome.labels.LivingQuarters ~= nil then
+										MTFoundersDomeRelaxation = "Living Quarters"
+									end
 								end
 							end
 						end
 					end
 				end
 			end
+		else
+			MTFoundersDomeRelaxation = "your local park"
 		end
 	else
-		MTFoundersDomeRelaxation = " "
+		MTFoundersDomeRelaxation = "your local park"
 	end
 	return MTFoundersDomeRelaxation
 end
@@ -1905,7 +1918,20 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTBotanistColonist = nil
 	MTBotanistColonistName = nil
 	MTHippieStorySent = nil
+	MTDomeDelay2StoryInitiated = nil
+	MTMovingDomesStorySent = nil
+	MTRareMetalsComplaintStorySent = nil
+	MTConcretePavingStorySent = nil
+	MTVeganDinerStorySent = nil
+	MTVegan3StorySent = nil
+	MTVegan4StorySent = nil
+	MTDomeDelay1StorySent = nil
+	MTDomeDelay2StorySent = nil
+	MTNoNews = nil
+	MTTopArchiveDepleted = nil
+	MTSocialArchiveDepleted = nil
+	MTEngArchiveDepleted = nil
+	MTArchiveDepleted2 = nil
 
-	
 
 end
