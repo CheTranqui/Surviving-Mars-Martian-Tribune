@@ -16,6 +16,10 @@ end
 -- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
 -- function OnMsg.NewHour()
 function OnMsg.NewDay()
+	if g_MTTopPotentialStories == nil then
+		MTInitializeStoryTables()
+		MTLoadStoriesIntoTables()
+	end
 	MTCheckStories()
 	MTReleaseNewEdition()
 end
@@ -37,6 +41,7 @@ function MTCheckStories()
 		MTInitializeStoryTables()
 		MTLoadStoriesIntoTables()
 	end
+	MTFoundersFirstWordsStory()
 	MTRocketCount()
 	MTTopCheckFinances()
 	MTCheckHackThePlanet()
@@ -123,11 +128,6 @@ end
 function OnMsg.ColonistArrived(colonist)
 	MTColonistsArrivedCheck("true")
 	MTDroneBreakdownStory("remove")
-	if colonist.traits.Founder then
-		MTFoundersFirstWordsStory()
-		MTFounder = colonist
-		MTGetFounder(MTFounder)
-	end
 	MTElonMuskStory()
 end
 
@@ -340,11 +340,12 @@ function MTFrontPagePopup()
 	MTDrone1 = MTGetRandomDrone()
 	MTDrone2 = MTGetRandomDrone()
 	MTGuru = MTGetGuru("check")
+	MTFounderName = MTGetFounder("name")
 
 	CreateRealTimeThread(function()
         params = {  --MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title
 			title = T{"The Martian Tribune:  Today's Headlines"},
-            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadline><newline>     Social Story:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTRandomColonistName, MTDeadMartianName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTGuru}, -- Front Page text
+            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadline><newline>     Social Story:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTRandomColonistName, MTDeadMartianName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTGuru, MTFounderName}, -- Front Page text
             choice1 = T{"View Top Story Archives"},
             choice2 = T{"View Engineering Story"},
 			choice3 = T{"View Social Story"},
@@ -384,11 +385,12 @@ function MTTopArchivePopup()
 	MTDrone1 = MTGetRandomDrone()
 	MTDrone2 = MTGetRandomDrone()
 	MTGuru = MTGetGuru("check")
+	MTFounderName = MTGetFounder("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Top Story Archives"},
-            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName, MTDrone1, MTDrone2, MTGuru}, -- Top Story Archives Text
+            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName, MTDrone1, MTDrone2, MTGuru, MTFounderName}, -- Top Story Archives Text
             choice1 = T{"Flip to Next Page of Archived Top Stories"}, -- sends to MTTopArchivePopup2 which is identical
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -425,11 +427,12 @@ function MTTopArchivePopup2()
 	MTDrone1 = MTGetRandomDrone()
 	MTDrone2 = MTGetRandomDrone()
 	MTGuru = MTGetGuru("check")
+	MTFounderName = MTGetFounder("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Top Story Archives"},
-            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName, MTDrone1, MTDrone2, MTGuru}, -- Top Story Archives Text
+            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName, MTDrone1, MTDrone2, MTGuru, MTFounderName}, -- Top Story Archives Text
             choice1 = T{"Flip to Next Page of Archived Top Stories"}, -- sends to MTTopArchivePopup which is identical
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -1083,7 +1086,7 @@ function MTSoilAdaptationStory()
 	if MTSoilRandom == 1 then
 		MTSoil1 = {}
 		MTSoil1["title"] = T{"Adding Waste To The Dust Makes Soil"}
-		MTSoil1["story"] = T{"     Scientists have discovered that adding human waste to a water and dust mixture can create a viable soil for arable farming.  Botonists have immedietly begun working with dome architects to create designs for the first Martian Farms that do not require electricity and might reduce our reliance on hydroponics."}
+		MTSoil1["story"] = T{"     Scientists have discovered that adding human waste to a water and dust mixture can create a viable soil for arable farming.  Botanists have immediately begun working with dome architects to create designs for the first Martian Farms that do not require electricity and might reduce our reliance on hydroponics."}
 		table.insert(g_MTEngPotentialStories, MTSoil1)
 	else
 		MTSoil2 = {}
@@ -1128,15 +1131,17 @@ end
 
 function MTFoundersFirstWordsStory()
 	if MTFoundersFirstWordsStorySent ~= "true" then
-		MTGetFounder("set")
-		MTFounder = MTGetFounder("colonist")
-		MTFounderName = MTGetFounder("name")
-		MTFounder:TogglePin()
-		MTFoundersFirstWords = {}
-		MTFoundersFirstWords["title"] = T{"First Words Spoken On Mars"}
-		MTFoundersFirstWords["story"] = T{"     'Our journey began with one small step and one giant leap. Today, we take another of each, and begin to find our stride'. Powerful words from "..MTFounder.." as Humanity expands for the first time to another planet."}
-		table.insert(g_MTTopPotentialStories, MTFoundersFirstWords)
-		MTFoundersFirstWordsStorySent = "true"
+		MTFounderCheck = MTGetFounder("set")
+		if MTFounderCheck ~= "none" then
+			MTFounder = MTGetFounder("colonist")
+			MTFounderName = MTGetFounder("name")
+			MTFounder:TogglePin()
+			MTFoundersFirstWords = {}
+			MTFoundersFirstWords["title"] = T{"First Words Spoken On Mars"}
+			MTFoundersFirstWords["story"] = T{"     'Our journey began with one small step and one giant leap. Today, we take another of each, and begin to find our stride'. Powerful words from "..MTFounderName.." as Humanity expands for the first time to another planet."}
+			table.insert(g_MTTopPotentialStories, MTFoundersFirstWords)
+			MTFoundersFirstWordsStorySent = "true"
+		end
 	end
 end
 
@@ -1149,6 +1154,11 @@ function MTGetFounder(setnameorcolonist)
 				MTFounderColonistName = MTFounderColonist.name
 				break
 			end
+		end
+		if MTFounderColonist.name ~= nil then
+			return MTFounderColonist.name
+		else
+			return "none"
 		end
 	elseif setnameorcolonist == "colonist" then
 		if MTFounderColonist ~= nil then
@@ -1868,7 +1878,7 @@ function MTPassportStory()
 		if MTColonistsArrivedCheck("check") then
 			MTPassport = {}
 			MTPassport["title"] = T{"New Martian Passport Revealed"}
-			MTPassport["story"] = T{"     The Martian Tribune has received an advanced copy of the new martian passport, designed behind closed doors in Armstrong City on Luna, the passport is red, the front has a hologram of Mars with Phobos and Deimos behind it. Designers have stated the passport is 'completely uncopyable.' If you have yet to see the design, plenty of copies a rumored to be available from various undisclosed sources both here on Mars as well as on the Moon."}
+			MTPassport["story"] = T{"     The Martian Tribune has received an advanced copy of the new martian passport, designed behind closed doors in Armstrong City on Luna, the passport is red, the front has a hologram of Mars with Phobos and Deimos behind it. Designers have stated the passport is 'completely uncopyable.' If you have yet to see the design, plenty of copies are rumored to be available from various undisclosed sources both here on Mars as well as on the Moon."}
 			table.insert(g_MTSocialPotentialStories, MTPassport)
 			MTPassportStorySent = "true"
 		end
@@ -3303,7 +3313,7 @@ function MTLoadStoriesIntoTables()
 	table.insert(g_MTEngFreeStories, MTISSSovereignty)
 
 	MTMarsCheese["title"] = T{"US President Confirms: Not A Scientist"}
-	MTMarsCheese["story"] = T{"     The current president of the United States, after staring intently at several photos of the Red Planet, prceeded to ask his scientific advisors if Mars is actually made of cheese. The researchers reminded the president that Mars is mostly made of rock, and that it is, in fact, the Moon that is made of cheese."}
+	MTMarsCheese["story"] = T{"     The current President of the United States, after staring intently at several photos of the Red Planet, proceeded to ask his scientific advisors if Mars is actually made of cheese. The researchers reminded the president that Mars is mostly made of rock, and that it is, in fact, the Moon that is made of cheese."}
 	table.insert(g_MTSocialFreeStories, MTMarsCheese)
 
 	MTDroneToys["title"] = T{"Drone Toy Sales Through The Roof"}
