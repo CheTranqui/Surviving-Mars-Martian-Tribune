@@ -2,12 +2,12 @@ return PlaceObj('ModDef', {
 	'title', "The Martian Tribune",
 	'id', "lf1iELO",
 	'author', "CheTranqui",
-	'version', 668,
-	'lua_revision', 228722,
+	'version', 706,
+	'lua_revision', 229422,
 	'code', {
 		"Code/MartianTribune.lua",
 	},
-	'saved', 1524448347,
+	'saved', 1525361749,
 	'TagCosmetics', true,
 	'TagOther', true,
 })

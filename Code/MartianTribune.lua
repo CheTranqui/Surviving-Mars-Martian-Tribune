@@ -6,14 +6,30 @@
 
 --  Section 1:  OnMsg functions
 function OnMsg.NewMapLoaded()
+	MTDelVar()
 	if g_MTTopPotentialStories == nil then
 		MTInitializeStoryTables()
 		MTLoadStoriesIntoTables()
 	end
 end
 
+-- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
+-- function OnMsg.NewHour()
 function OnMsg.NewDay()
 	MTCheckStories()
+	MTReleaseNewEdition()
+end
+
+function MTReleaseNewEdition()
+	if (UICity.day % 3 == 0) == true then
+		if MTNewStoryPushed ~= true then
+			MTGetNewStories()  -- pushes new stories into the queue
+			MTNotification()  -- loads primary mod notification
+			MTNewStoryPushed = true  -- keeps this from triggering a 2nd time on the same day
+		end
+	else
+		MTNewStoryPushed = nil  -- keeps stories/notification from being sent out after the 1st has gone
+	end
 end
 
 function MTCheckStories()
@@ -65,23 +81,20 @@ function MTCheckStories()
 	MTOvalDomeUnnaturalStory()
 	MTConcreteLoveStory()
 	MTDroneGoesViralStory()
+	MTAirSupplyStory()
+	MTWaterSupplyStory()
+	MTPowerSupplyStory()
+	MTDroneShortageStory()
+	MTCompactPassengerStory()
+	MTDroneBreakdownStory("send")
+	MTMarathonExplorerStory()
+	MTElPresidenteStory()
+	MTGuruGardenStory()
+	MTMartianFaithStory()
+	MTFightClub2("add")
+	MTFightClubStory()
+	MTMartianOlympicsStory("add")
 end
-
--- every 2 hours a new edition gets pushed    Should be NewDay() on release, with editions every 3 days
-function OnMsg.NewHour()
---	lcPrint("newhour")
-	if (UICity.hour % 2 == 0) == true then
-		if MTNewStoryPushed ~= true then
-			MTGetNewStories()  -- pushes new stories into the queue
-			MTNotification()  -- loads primary mod notification
-			MTNewStoryPushed = true  -- keeps this from triggering a 2nd time on the same day
-		end
-	else
-		MTNewStoryPushed = nil  -- keeps stories/notification from being sent out after the 1st has gone
-	end
-
-end
-
 
 function OnMsg.ConstructionComplete(building)
 	if building.encyclopedia_id == "MartianUniversity" then
@@ -104,10 +117,18 @@ function OnMsg.ColonistBorn(colonist, event)
 		MTMartianCelebrityStory(MTColonistBorn)
 		MTGetMartianCelebrityName(MTColonistBorn)
 	end
+	MTFutureExpansionStory()
 end
 
-function OnMsg.ColonistArrived()
+function OnMsg.ColonistArrived(colonist)
 	MTColonistsArrivedCheck("true")
+	MTDroneBreakdownStory("remove")
+	if colonist.traits.Founder then
+		MTFoundersFirstWordsStory()
+		MTFounder = colonist
+		MTGetFounder(MTFounder)
+	end
+	MTElonMuskStory()
 end
 
 function OnMsg.ColonistDied(colonist, reason)
@@ -135,7 +156,24 @@ end
 function OnMsg.TechResearched(tech_id, city, first_time)
 	if tech_id == "DeepScanning" then
 		MTScratchingTheSurfaceStory("remove")
-	end
+	elseif tech_id == "SoilAdaptation" then
+		MTSoilAdaptationStory()
+	elseif tech_id == "LowGFungi" then
+		MTLowGFungiStory()
+	elseif tech_id == "MagneticFiltering" then
+		MTMagneticStory()
+	elseif tech_id == "HygroscopicVaporators" then
+		MTHygroscopicVaporatorsStory()
+	elseif tech_id == "WaterReclamation" then
+		MTWaterReclamationStory()
+	elseif tech_id == "FuelCompression" then
+		MTFuelCompressionStory()
+	elseif tech_id == "DecommissionProtocol" then
+		MTDecomissionStory()
+	elseif tech_id == "LowGHydrosynthsis" then
+		MTLowGHydroStory()
+
+	end	
 end
 
 -- Section 2:  Core popup logic, story selection and core variable definitions (sponsors/leaders)
@@ -202,7 +240,7 @@ function MTGetLeaderTitle(sponsorname)
 		MTtitles["paradox"] = "CFO"
 		MTtitles["stargatecommand"] = "Major General"
 		MTtitles["Trinova"] = "COO"
-		if name == "IMM" or name == "BlueSun" or name == "SpaceY" or name == "paradox" then
+		if sponsorname == "IMM" or sponsorname == "BlueSun" or sponsorname == "SpaceY" or sponsorname == "paradox" then
 			MTBusinessTitleRandom = Random(1,3)  -- randomize these corps to get one of the 3 following leader types
 			if MTBusinessTitleRandom == 1 then
 				MTNewLeaderTitle = "Chairman"
@@ -212,11 +250,11 @@ function MTGetLeaderTitle(sponsorname)
 				MTNewLeaderTitle = "CEO"
 			end
 		return MTNewLeaderTitle  -- if one of the above 4, randomly pick one of the 3 and return that
-		elseif MTtitles[name] == nil then
+		elseif MTtitles[sponsorname] == nil then
 			MTNewLeaderTitle = "President"  -- if unaccounted for, they get a "President"
 		return MTNewLeaderTitle
 		else
-		return MTtitles[name] -- if it wasn't those 4, and wasn't unaccounted for, then return the name provided
+		return MTtitles[sponsorname] -- if it wasn't those 4, and wasn't unaccounted for, then return the name provided
 		end
 	else
 		return MTLeaderTitle
@@ -299,11 +337,14 @@ function MTFrontPagePopup()
 	MTRandomColonistName = MTGetRandomColonist("name")
 	MTDeadMartianName = MTGetDeadMartian("check")
 	MTDomeWithoutO2 = MTGetDomeWithoutO2("check")
+	MTDrone1 = MTGetRandomDrone()
+	MTDrone2 = MTGetRandomDrone()
+	MTGuru = MTGetGuru("check")
 
 	CreateRealTimeThread(function()
         params = {  --MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title
 			title = T{"The Martian Tribune:  Today's Headlines"},
-            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadline><newline>     Social Story:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTRandomColonistName, MTDeadMartianName, MTDomeWithoutO2}, -- Front Page text
+            text = T{"Top Story:  <MTFrontPageStoryTitle> <newline><newline> <MTFrontPageStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadline><newline>     Social Story:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadline = MTEngStory.title, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyBuilding, MTFoundersLegacyDome, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTRandomColonistName, MTDeadMartianName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTGuru}, -- Front Page text
             choice1 = T{"View Top Story Archives"},
             choice2 = T{"View Engineering Story"},
 			choice3 = T{"View Social Story"},
@@ -340,11 +381,14 @@ function MTTopArchivePopup()
 	MTDeadLeader = MTLeaderDiedNameCheck()
 	MTRandomColonistName = MTGetRandomColonist("name")
 	MTDeadMartianName = MTGetDeadMartian("check")
+	MTDrone1 = MTGetRandomDrone()
+	MTDrone2 = MTGetRandomDrone()
+	MTGuru = MTGetGuru("check")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Top Story Archives"},
-            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName}, -- Top Story Archives Text
+            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName, MTDrone1, MTDrone2, MTGuru}, -- Top Story Archives Text
             choice1 = T{"Flip to Next Page of Archived Top Stories"}, -- sends to MTTopArchivePopup2 which is identical
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -378,11 +422,14 @@ function MTTopArchivePopup2()
 	MTDeadLeader = MTLeaderDiedNameCheck()
 	MTRandomColonistName = MTGetRandomColonist("name")
 	MTDeadMartianName = MTGetDeadMartian("check")
+	MTDrone1 = MTGetRandomDrone()
+	MTDrone2 = MTGetRandomDrone()
+	MTGuru = MTGetGuru("check")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Top Story Archives"},
-            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName}, -- Top Story Archives Text
+            text = T{"Recent Top Stories:  <newline><newline><MTTopArchive1Title> <newline><newline>     <MTTopArchive1Story><newline><newline><newline> <MTTopArchive2Title><newline><newline>     <MTTopArchive2Story><newline>", MTTopArchive1Title = MTTopArchive1.title, MTTopArchive1Story = MTTopArchive1.story, MTTopArchive2Title = MTTopArchive2.title, MTTopArchive2Story = MTTopArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTFoundersLegacyDome, MTFoundersLegacyBuilding, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTRandomColonistName, MTDeadMartianName, MTDrone1, MTDrone2, MTGuru}, -- Top Story Archives Text
             choice1 = T{"Flip to Next Page of Archived Top Stories"}, -- sends to MTTopArchivePopup which is identical
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -419,11 +466,12 @@ function MTEngPopup()
 	MTDrone2 = MTGetRandomDrone()
 	MTArcologyDomeName = MTGetArcologyDome("check")
 	MTMostRecentRocket = MTGetMostRecentRocket()
+	MTScientist = MTGetScientist("name")
 
 	CreateRealTimeThread(function()
         params = {  --MTSocialHeadline = MTSocialStory.title
 			title = T{"The Martian Tribune:  Interstellar Engineering"},
-            text = T{"Top Engineering Story:  <MTEngHeadlineTitle> <newline><newline> <MTEngHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>     Social Story:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadlineTitle = MTEngStory.title, MTEngHeadlineStory = MTEngStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTIdiotWorkplace, MTIdiotName, MTRandomColonistName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTArcologyDomeName, MTMostRecentRocket}, -- Eng popup text
+            text = T{"Top Engineering Story:  <MTEngHeadlineTitle> <newline><newline> <MTEngHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>     Social Story:  <MTSocialHeadline><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTFrontPageStory = MTTopFPStory.story, MTEngHeadlineTitle = MTEngStory.title, MTEngHeadlineStory = MTEngStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTIdiotWorkplace, MTIdiotName, MTRandomColonistName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTArcologyDomeName, MTMostRecentRocket, MTScientist}, -- Eng popup text
             choice1 = T{"View Engineering Archives"},
             choice2 = T{"View Current Social Story"},
 			choice3 = T{"Return to Front Page"},
@@ -460,11 +508,12 @@ function MTEngArchivePopup()
 	MTDrone2 = MTGetRandomDrone()
 	MTArcologyDomeName = MTGetArcologyDome("check")
 	MTMostRecentRocket = MTGetMostRecentRocket()
+	MTScientist = MTGetScientist("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Interstellar Engineering Archives"},
-            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTIdiotWorkplace, MTIdiotName, MTRandomColonistName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTArcologyDomeName, MTMostRecentRocket}, -- eng Story Archives Text
+            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTIdiotWorkplace, MTIdiotName, MTRandomColonistName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTArcologyDomeName, MTMostRecentRocket, MTScientist}, -- eng Story Archives Text
             choice1 = T{"View Next Page of Engineering Archives"}, -- sends to MTEngArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -499,11 +548,12 @@ function MTEngArchivePopup2()
 	MTDrone2 = MTGetRandomDrone()
 	MTArcologyDomeName = MTGetArcologyDome("check")
 	MTMostRecentRocket = MTGetMostRecentRocket()
+	MTScientist = MTGetScientist("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Interstellar Engineering Archives"},
-            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTIdiotWorkplace, MTIdiotName, MTRandomColonistName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTArcologyDomeName, MTMostRecentRocket}, -- eng Story Archives Text
+            text = T{"Recent Engineering Stories:   <newline><newline><MTEngArchive1Title> <newline><newline>     <MTEngArchive1Story><newline><newline><newline> <MTEngArchive2Title><newline><newline>     <MTEngArchive2Story><newline>", MTEngArchive1Title = MTEngArchive1.title, MTEngArchive1Story = MTEngArchive1.story, MTEngArchive2Title = MTEngArchive2.title, MTEngArchive2Story = MTEngArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTIdiotWorkplace, MTIdiotName, MTRandomColonistName, MTDomeWithoutO2, MTDrone1, MTDrone2, MTArcologyDomeName, MTMostRecentRocket, MTScientist}, -- eng Story Archives Text
             choice1 = T{"View Next Page of Engineering Archives"}, -- sends to MTEngArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -538,7 +588,7 @@ function MTSocialPopup()
 	MTTeenagerJoyrideDome = MTGetTeenagerJoyrideDome("check")
 	MTDroneHack2Name = MTGetTeenagerJoyrideName("check")
 	MTDroneHack3Name = MTGetDroneHack3Name("check")
-	MTEarthlingDelayName = MTGetEarthlingDelayName("set")
+	MTEarthlingDelayName = MTGetEarthlingDelayName("check")
 	MTVeganDinerName = MTGetVeganDinerName("check")
 	MTVeganDinerDome = MTGetVeganDinerDome()
 	MTConcreteName = MTGetConcreteColonist("check")
@@ -554,11 +604,12 @@ function MTSocialPopup()
 	MTSaint = MTReligiousSaint("check")
 	MTCelebrity = MTGetCelebrity("check")
 	MTDomeWithoutO2 = MTGetDomeWithoutO2("check")
+	MTRenegade = MTGetRenegade("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialites Headlines"},
-            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName, MTDeadFounder, MTMartianCelebrityName, MTRandomColonistName, MTBirthdayName, MTSaint, MTCelebrity, MTDomeWithoutO2}, -- Front Page text
+            text = T{"Top Social Story:  <MTSocialHeadline> <newline><newline> <MTSocialHeadlineStory><newline><newline><newline> Other Headlines:<newline>     Engineering Story:  <MTEngHeadlineTitle><newline>     Front Page Story:  <MTFrontPageStoryTitle><newline>", MTFrontPageStoryTitle = MTTopFPStory.title, MTEngHeadlineTitle = MTEngStory.title, MTSocialHeadlineStory = MTSocialStory.story, MTSocialHeadline = MTSocialStory.title, MTLeaderTitle, MTLeader, MTSponsor, MTSexyColonistName, MTDroneColonistName, MTDeadLeader, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName, MTDeadFounder, MTMartianCelebrityName, MTRandomColonistName, MTBirthdayName, MTSaint, MTCelebrity, MTDomeWithoutO2, MTRenegade}, -- Front Page text
             choice1 = T{"View Social Archives"},
             choice2 = T{"View Current Engineering Story"},
 			choice3 = T{"Return to Front Page"},
@@ -594,7 +645,7 @@ function MTSocialArchivePopup()
 	MTTeenagerJoyrideDome = MTGetTeenagerJoyrideDome("check")
 	MTDroneHack2Name = MTGetTeenagerJoyrideName("check")
 	MTDroneHack3Name = MTGetDroneHack3Name("check")
-	MTEarthlingDelayName = MTGetEarthlingDelayName("set")
+	MTEarthlingDelayName = MTGetEarthlingDelayName("check")
 	MTVeganDinerName = MTGetVeganDinerName("check")
 	MTVeganDinerDome = MTGetVeganDinerDome()
 	MTConcreteName = MTGetConcreteColonist("check")
@@ -609,11 +660,12 @@ function MTSocialArchivePopup()
 	MTBirthdayName = MTGetBirthdayName("check")
 	MTSaint = MTReligiousSaint("check")
 	MTCelebrity = MTGetCelebrity("check")
+	MTRenegade = MTGetRenegade("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialites Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName, MTDeadFounder, MTMartianCelebrityName, MTRandomColonistName, MTBirthdayName, MTSaint, MTCelebrity}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName, MTDeadFounder, MTMartianCelebrityName, MTRandomColonistName, MTBirthdayName, MTSaint, MTCelebrity, MTRenegade}, -- social Story Archives Text
             choice1 = T{"View Next Page of Social Archives"}, -- sends to MTSocialArchivePopup2 which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -647,7 +699,7 @@ function MTSocialArchivePopup2()
 	MTTeenagerJoyrideDome = MTGetTeenagerJoyrideDome("check")
 	MTDroneHack2Name = MTGetTeenagerJoyrideName("check")
 	MTDroneHack3Name = MTGetDroneHack3Name("check")
-	MTEarthlingDelayName = MTGetEarthlingDelayName("set")
+	MTEarthlingDelayName = MTGetEarthlingDelayName("check")
 	MTVeganDinerName = MTGetVeganDinerName("check")
 	MTVeganDinerDome = MTGetVeganDinerDome()
 	MTConcreteName = MTGetConcreteColonist("check")
@@ -662,11 +714,12 @@ function MTSocialArchivePopup2()
 	MTBirthdayName = MTGetBirthdayName("check")
 	MTSaint = MTReligiousSaint("check")
 	MTCelebrity = MTGetCelebrity("check")
+	MTRenegade = MTGetRenegade("name")
 
 	CreateRealTimeThread(function()
         params = {
 			title = T{"The Martian Tribune:  Red Planet Socialites Archives"},
-            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName, MTDeadFounder, MTMartianCelebrityName, MTRandomColonistName, MTBirthdayName, MTSaint, MTCelebrity}, -- social Story Archives Text
+            text = T{"Recent Social Stories:  <newline><newline><MTSocialArchive1Title> <newline><newline>     <MTSocialArchive1Story><newline><newline><newline> <MTSocialArchive2Title><newline><newline>     <MTSocialArchive2Story><newline>", MTSocialArchive1Title = MTSocialArchive1.title, MTSocialArchive1Story = MTSocialArchive1.story, MTSocialArchive2Title = MTSocialArchive2.title, MTSocialArchive2Story = MTSocialArchive2.story, MTLeaderTitle, MTLeader, MTSponsor, MTPetRockColonistName, MTOlympicBidGymDome, MTRefuseHitsFanDinerDome, MTTeenagerJoyrideName, MTTeenagerJoyrideDome, MTDroneHack2Name, MTDroneHack3Name, MTEarthlingDelayName, MTVeganDinerName, MTVeganDinerDome, MTConcreteName, MTRareMetalsColonist, MTRareMetalsDome, MTMovingDome1, MTMovingDome2, MTHippieName, MTDeadFounder, MTMartianCelebrityName, MTRandomColonistName, MTBirthdayName, MTSaint, MTCelebrity, MTRenegade}, -- social Story Archives Text
             choice1 = T{"View Next Page of Social Archives"}, -- sends to MTSocialArchivePopup which is identical, allowing for a continuous flip between popups
             choice2 = T{"Return to Front Page"},
 			choice3 = T{"Close"},
@@ -692,11 +745,14 @@ function MTGetTopArchives(MTArchiveIndexNum)
 		g_MTTopArchive = {}
 		MTTempTopArchive = MTTopArchiveDepleted  -- if table or specific story are nil, return preset empty story
 	else
-		if g_MTTopArchive[MTArchiveIndexNum] == nil then
+		if MTArchiveIndexNum < 1 then
 			MTTempTopArchive = MTTopArchiveDepleted
 		else
 			MTTempTopArchive = g_MTTopArchive[MTArchiveIndexNum]
 		end
+	end
+	if MTTempTopArchive == nil then
+		MTTempTopArchive = MTTopArchiveDepleted
 	end
 	return MTTempTopArchive
 end
@@ -710,11 +766,14 @@ function MTGetEngArchives(MTArchiveIndexNum)
 		g_MTEngArchive = {}
 		MTTempEngArchive = MTEngArchiveDepleted  -- if archive empty, send default message
 	else
-		if g_MTEngArchive[MTArchiveIndexNum] == nil then
+		if MTArchiveIndexNum < 1 then
 			MTTempEngArchive = MTEngArchiveDepleted
 		else
 			MTTempEngArchive = g_MTEngArchive[MTArchiveIndexNum]  -- else send EngArchive's old story
 		end
+	end
+	if MTTempEngArchive == nil then
+		MTTempEngArchive = MTEngArchiveDepleted
 	end
 	return MTTempEngArchive
 end
@@ -728,11 +787,14 @@ function MTGetSocialArchives(MTArchiveIndexNum)
 		g_MTSocialArchive = {}
 		MTTempSocialArchive = MTSocialArchiveDepleted  -- if archive empty, send default message
 	else
-		if g_MTSocialArchive[MTArchiveIndexNum] == nil then
+		if MTArchiveIndexNum < 1 then
 			MTTempSocialArchive = MTSocialArchiveDepleted
 		else
 			MTTempSocialArchive = g_MTSocialArchive[MTArchiveIndexNum]  -- else send SocArchive's old story
 		end
+	end
+	if MTTempSocialArchive == nil then
+		MTTempSocialArchive = MTSocialArchiveDepleted
 	end
 	return MTTempSocialArchive
 end
@@ -741,9 +803,12 @@ function MTSetTopStory(MTPushPull)
 	if MTNewTopStory == nil then
 		MTNewTopStory = {}
 	end
-	if MTPushPull == "push" then  -- push request comes from new story day
+	if MTPushPull == "push" then -- push request comes from new story day
 		MTNewTopStory = MTGetNewTopStory()  -- this pushes a new story out of the tables of potential and free stories
 	else
+		if MTNewTopStory == nil then
+			MTNewTopStory = MTNoNews
+		end
 		return MTNewTopStory  -- this, then responds to the "pull" request from the popup
 	end
 end
@@ -755,6 +820,9 @@ function MTSetEngStory(MTPushPull)
 	if MTPushPull == "push" then  -- push request comes from new story day
 		MTNewEngStory = MTGetNewEngStory()  -- this pushes a new story out of the tables of potential and free stories
 	else
+		if MTNewEngStory == nil then
+			MTNewEngStory = MTNoNews
+		end
 		return MTNewEngStory  -- this, then responds to the "pull" request from the popup
 	end
 end
@@ -766,6 +834,9 @@ function MTSetSocialStory(MTPushPull)
 	if MTPushPull == "push" then  -- push request comes from new story day
 		MTNewSocialStory = MTGetNewSocialStory()  -- this pushes a new story out of the tables of potential and free stories
 	else
+		if MTNewSocialStory == nil then
+			MTNewSocialStory = MTNoNews
+		end
 		return MTNewSocialStory  -- this, then responds to the "pull" request from the popup
 	end
 end
@@ -835,6 +906,7 @@ end
 
 -- Section 3:  functions governing insert/remove of stories into their respective tables
 ------------- starting with story release functions.  ---- variables start at MTInitializeStoryTables()
+-------------- unless otherwise noted, the Story functions are triggered via OnMsg.NewDay()
 --------------
 --------------
 --------------
@@ -847,7 +919,580 @@ end
 --------------
 --------------
 --------------
---------------
+
+
+-- triggered via TechResearched
+function MTLowGHydroStory()
+	MTLowGHydroRandom = Random(1,2)
+	if MTLowGHydroRandom == 1 then
+		MTLowGHydro1 = {}
+		MTLowGHydro1["title"] = T{"Fuel of the Future"}
+		MTLowGHydro1["story"] = T{"     Researchers have recently completed designs for the construction of Martian Fuel Refineries and the Polymer Factories using only drones and parts found on the surface of Mars. This is a huge breakthrough in Martian engineering as before this point all fuel refineries and polymer factories had to be imported as fully built structures from Earth, an expensive and time consuming process that may now be bypassed thanks to their hard work and diligence."}
+		table.insert(g_MTEngPotentialStories, MTLowGHydro1)
+	else
+		MTLowGHydro2 = {}
+		MTLowGHydro2["title"] = T{"Drones Imbued With the Secrets of Hydrosynthesis"}
+		MTLowGHydro2["story"] = T{"     Martian Drones have recently been given the plans for fuel refinery and polymer factory construction, which up until now was a closely guarded secret from "..MTSponsor..". This advancement will let us create both fuel and polymers, without any support from Earth, requiring only locally sourced water."}
+		table.insert(g_MTEngPotentialStories, MTLowGHydro2)
+	end
+end
+
+-- triggered via TechResearched
+function MTDecomissionStory()
+	MTDecomissionRandom = Random(1,2)
+	if MTDecomissionRandom == 1 then
+		MTDecomission1 = {}
+		MTDecomission1["title"] = T{"Drones Reminded That Structure Shells Look Silly"}
+		MTDecomission1["story"] = T{"     Drones on Mars Have received a software upgrade that reminds them that leaving the shell of a former structure looks messy, unkept and serves no purpose, thus it is ok for them to remove the shell and make the surface look nice again.  We simply have to say 'please', is all."}
+		table.insert(g_MTEngPotentialStories, MTDecomission1)
+	else
+		MTDecomission2 = {}
+		MTDecomission2["title"] = T{"Decommissioning Buildings Necessary for Colonial Advancement"}
+		MTDecomission2["story"] = T{"     "..MTSponsor.." has announced that some of the buildings made on Mars may need to not only be salvaged but entirely decommissioned and destroyed in order to pave the way for future construction. Drones have now been updated with the necessary tools to perform this function whenever instructed. Please be purposeful in making such requests.  All requests to decommission Spacebars will automatically be refused."}
+		table.insert(g_MTEngPotentialStories, MTDecomission2)
+	end
+end
+
+-- triggered via TechResearched
+function MTFuelCompressionStory()
+	MTFuelCompressionRandom = Random(1,2)
+	if MTFuelCompressionRandom == 1 then
+		MTFuelCompression1 = {}
+		MTFuelCompression1["title"] = T{"Rockets Now Made More Spacious"}
+		MTFuelCompression1["story"] = T{"     Scientists have discovered a way to fit up to 10,000kg more junk food and supplies in each rocket sent to Mars. By squeezing the fuel into a smaller tank, they have created more cargo space. “It’s amazing we didn’t think of this earlier, just make the fuel tank smaller.  It might pertain to rockets, but it is definitely not rocket science'."}
+		table.insert(g_MTEngPotentialStories, MTFuelCompression1)
+	else
+		MTFuelCompression2 = {}
+		MTFuelCompression2["title"] = T{"Looser Safety Restrictions Means More Room For Cargo"}
+		MTFuelCompression2["story"] = T{"     Claiming to employ new, improved Kerbal construction methods, "..MTSponsor.." has taken the liberty of removing nearly all of the safety features from our Mars-bound rockets, replacing them instead with a healthy supply of MK16 Parachutes.  This one, relatively minor change allows us to fit 10,000kg more cargo in the Ship and should keep colonists safe in their travels regardless.  Hopefully."}
+		table.insert(g_MTEngFreeStories, MTFuelCompression2)
+	end
+end
+
+--triggered via TechResearched
+function MTWaterReclamationStory()
+	if UICity.labels.scientist ~= nil then
+		MTGetScientist("set")
+		MTScientist = MTGetScientist("name")
+		MTScientistPerson = MTGetScientist("colonist")
+		MTScientistPerson:TogglePin()
+		MTWaterReclmation1 = {}
+		MTWaterReclmation1["title"] = T{"Water Recovery Explained"}
+		MTWaterReclmation1["story"] = T{"     We recently sat down for an interview with "..MTScientist.." where we learned what lead to the new Water Reclamation technology: 'Well basically, we realised that the dome is very similar in design to a water purifier on Earth, except that it's missing the cup in the middle to collect all the water. That's what this new spire will do. It will collect the condensation from the dome's interior and convert it back into consumable water for the inhabitants, effectively cutting our water usage in half.'"}
+		table.insert(g_MTEngPotentialStories, MTWaterReclamation1)
+	else
+		MTWaterReclmation2 = {}
+		MTWaterReclmation2["title"] = T{"New Spire Does NOT Contain Swimming Pool"}
+		MTWaterReclmation2["story"] = T{"     Despite many requests, and the far reaching rumors about “Project Whirlpool”. It has been revealed that the recent spire design will not contain a swimming pool, but is instead a system for reclaiming water inside a dome and preparing it for re-use. Personally, while there is clear value in the end result, I think a pool would be far more fun."}
+		table.insert(g_MTEngPotentialStories, MTWaterReclamation2)
+	end
+end
+
+function MTGetScientist(setnameorcolonist)
+	if setnameorcolonist == "set" then
+		for k, colonist in ipairs (UICity.labels.Colonist) do
+			if colonist.traits["scientist"] then
+				MTScientistColonist = {}
+				MTScientistColonist = colonist
+				MTScientistColonistName = MTScientistColonist.name
+				break
+			end
+		end
+	elseif setnameorcolonist == "colonist" then
+		if MTScientistColonist ~= nil then
+			return MTScientistColonist
+		else
+			return "error"
+		end
+	elseif setnameorcolonist == "name" then
+		MTScientistColonistName = "random scientist"
+		if MTScientistColonist ~= nil then
+			MTScientistColonistName = MTScientistColonist.name
+		end
+	end
+	return MTScientistColonistName
+end
+
+-- triggered via TechResearched
+function MTHygroscopicVaporatorsStory()
+	MTHygroscopic1 = {}
+	MTHygroscopic1["title"] = T{"Painting Water Vaporators"}
+	MTHygroscopic1["story"] = T{"     Scientists have recently discovered that painting water vaporators with Hygroscopic Paint actually has the effect of increasing water output.  In celebration, the Martian Tribune would like to announce the First Annual Vaporator Graffiti Contest!  Grab your paint brushes and let's see those designs!  The top five entries, voted on by you, our faithful readers, will become the new designs for all future vaporators!"}
+	table.insert(g_MTEngPotentialStories, MTHygroscopic1)
+end
+
+-- triggered via ColonistBorn
+function MTFutureExpansionStory()
+	if MTFutureExpansionStorySent ~= "true" then
+		if #UICity.labels.Colonist > 250 then
+			MTFutureExpansion = {}
+			MTFutureExpansion["title"] = T{"Successful Martian Colony Brings Hope"}
+			MTFutureExpansion["story"] = T{"     Our beautiful Martian colony, that started many sol ago has brought hope to humanity, inspiring her to look beyond, unto other planets, with a desire to colonise other rocks within the Milky Way. Most of the impetus at the moment are for colonisation of the moon, Europa, Venus and Jupiter.  Russia has stated that it would consider trying to colonise Pluto, though this was before realising Russia is already bigger then the icy dwarf planet."}
+			table.insert(g_MTTopPotentialStories, MTFutureExpansion)
+			MTFutureExpansionStorySent = "true"
+		end
+	end
+end
+
+-- triggered via ColonistArrived
+function MTElonMuskStory()
+	if MTElonMuskStorySent ~= "true" then
+		MTElonMusk = {}
+		MTElonMusk["title"] = T{"It's a bird!  It's a plane! It's..."}
+		MTElonMusk["story"] = T{"     Nope, it's a 2018 Tesla Roadster.  The car was originally hurled into space by the eccentric billionaire Elon Musk through his now famouse spacefaring organization, Space X.  The Roadster is just now passing Mars in an eliptical orbit before continuing on its course back toward low Earth orbit.  Without this groundbreaking Roadster, we may not be where we are today.  Be sure to look up and thank the cars that we made it here safely!"}
+		table.insert(g_MTTopFreeStories, MTElonMusk)
+		MTElonMuskStorySent = "true"
+	end
+end
+
+-- triggered via TechResearched
+function MTMagneticStory()
+	MTMagneticRandom = Random(1,2)
+	if MTMagneticRandom == 1 then
+		MTMagnetic1 = {}
+		MTMagnetic1["title"] = T{"But How Do They Work?"}
+		MTMagnetic1["story"] = T{"     Our Martian Moxies will now be able to put magnets into their filtration chambers in order to create more oxygen. We don’t fully understand how, and when a scientist explained it to us, we fell asleep about 45 minutes in. Nonetheless, they assure us that it works as intended, but that we may need to take some iron supplements to enhance the effects to desired levels."}
+		table.insert(g_MTEngPotentialStories, MTMagnetic1)
+	else
+		MTMagnetic2 = {}
+		MTMagnetic2["title"] = T{"Moxie Magnets Make Magic"}
+		MTMagnetic2["story"] = T{"     Scientists Have developed a novel magnetic attachment for the Moxie. The attachment filters out far more of the tiny metals floating in the Martian atmosphere than previously thought possible.  This new filtration technique allows the Moxie to more effectively create that life saving oxygen that we so desperately need."}
+		table.insert(g_MTEngPotentialStories, MTMagnetic2)
+	end
+end
+
+-- triggered via TechResearched
+function MTLowGFungiStory()
+	MTLowGFungiRandom = Random(1,2)
+	if MTLowGFungiRandom == 1 then
+		MTLowGFungi1 = {}
+		MTLowGFungi1["title"] = T{"People With Mushroom Allergies Beware"}
+		MTLowGFungi1["story"] = T{"     We have recently discovered the secret to growing mushrooms on Mars. It wasn't really too complicated as Mushrooms can grow just about anywhere, but now we can farm them. If you have a mushroom allergy, we recommend taking one of the next shuttles to Earth, as a new Martian staple has been added to the menu."}
+		table.insert(g_MTEngPotentialStories, MTLowGFungi1)
+	else
+		MTLowGFungi2 = {}
+		MTLowGFungi2["title"] = T{"Mushrooms on Mars"}
+		MTLowGFungi2["story"] = T{"     Researchers have designed a new building that can be placed outside of a dome. It will be its own self-contained farm and will grow a specialized Martian Mushroom. It should be noted these specialized mushrooms are illegal on Earth, and should never be brought back when traveling back to the blue planet."}
+		table.insert(g_MTEngPotentialStories, MTLowGFungi2)
+	end
+end
+
+-- triggered via TechResearched
+function MTSoilAdaptationStory()
+	MTSoilRandom = Random(1,2)
+	if MTSoilRandom == 1 then
+		MTSoil1 = {}
+		MTSoil1["title"] = T{"Adding Waste To The Dust Makes Soil"}
+		MTSoil1["story"] = T{"     Scientists have discovered that adding human waste to a water and dust mixture can create a viable soil for arable farming.  Botonists have immedietly begun working with dome architects to create designs for the first Martian Farms that do not require electricity and might reduce our reliance on hydroponics."}
+		table.insert(g_MTEngPotentialStories, MTSoil1)
+	else
+		MTSoil2 = {}
+		MTSoil2["title"] = T{"Botonists Rejoice As Farming Becomes Viable"}
+		MTSoil2["story"] = T{"     It was once thought that the only possible way to make food on Mars would be with a significant number of hydroponic farms, but after many sol of rigorous research, it has been found that we can indeed make normal flat Farms inside our domes. Numerous botonists have betrayed their irrational fear of heights and urged the use of these new farms as soon as possible."}
+		table.insert(g_MTEngPotentialStories, MTSoil2)
+	end
+end
+
+-- triggered via OlympicBid (START) or NewDay (ADD)
+function MTMartianOlympicsStory(startoradd)
+	if MTMartianOlympicsStorySent ~= "true" then
+		if startoradd == "start" then
+			MTMartianOlympicsWait = 0
+		else
+			if MTMartianOlympicsWait ~= nil then
+				MTNewMartianOlympicsWait = MTMartianOlympicsWait + 1
+				MTMartianOlympicsWait = MTNewMartianOlympicsWait
+				if MTMartianOlympicsWait > 15 then
+					MTMartianOlympics = {}
+					MTMartianOlympics["title"] = T{"The Martian Games"}
+					MTMartianOlympics["story"] = T{"     Following The Failed bid to host the olympics on Mars, "..MTLeader.." has decided to create our own games, incorporating Blackjack and Hoopers, among others. Games of Hoopers will start things off this coming Saturday in the open air gym. Also considered for the Martian Games are Dome Skiing, where contestants race down the outside of a dome on pallets, and Drone Jumping."}
+					table.insert(g_MTTopPotentialStories, MTMartianOlympics)
+					MTMartianOlympicsStorySent = "true"
+				end
+			end
+		end
+	end
+end
+
+function MTMarsDayStory()
+	if MTMarsDayStorySent ~= "true" then
+		if UICity.day > 100 then
+			MTMarsDay = {}
+			MTMarsDay["title"] = T{"Mars Day"}
+			MTMarsDay["story"] = T{"     Today we celebrate Mars Day, a day of merriment and joy, to celebrate Humanity shooting for the stars, and finding a home away from home. We are Martians, and we are proud. Join with your friends and family in a great meal, come to the space bar for a drink, but most importantly: go to work and celebrate with your colleagues as well."}
+			table.insert(g_MTSocialFreeStories, MTMarsDay)
+			MTMarsDayStorySent = "true"
+		end
+	end
+end
+
+function MTFoundersFirstWordsStory()
+	if MTFoundersFirstWordsStorySent ~= "true" then
+		MTGetFounder("set")
+		MTFounder = MTGetFounder("colonist")
+		MTFounderName = MTGetFounder("name")
+		MTFounder:TogglePin()
+		MTFoundersFirstWords = {}
+		MTFoundersFirstWords["title"] = T{"First Words Spoken On Mars"}
+		MTFoundersFirstWords["story"] = T{"     'Our journey began with one small step and one giant leap. Today, we take another of each, and begin to find our stride'. Powerful words from "..MTFounder.." as Humanity expands for the first time to another planet."}
+		table.insert(g_MTTopPotentialStories, MTFoundersFirstWords)
+		MTFoundersFirstWordsStorySent = "true"
+	end
+end
+
+function MTGetFounder(setnameorcolonist)
+	if setnameorcolonist == "set" then
+		for k, colonist in ipairs (UICity.labels.Colonist) do
+			if colonist.traits["Founder"] then
+				MTFounderColonist = {}
+				MTFounderColonist = colonist
+				MTFounderColonistName = MTFounderColonist.name
+				break
+			end
+		end
+	elseif setnameorcolonist == "colonist" then
+		if MTFounderColonist ~= nil then
+			return MTFounderColonist
+		else
+			return "error"
+		end
+	elseif setnameorcolonist == "name" then
+		MTFounderColonistName = "random founder"
+		if MTFounderColonist ~= nil then
+			MTFounderColonistName = MTFounderColonist.name
+		end
+	end
+	return MTFounderColonistName
+end
+
+function MTFightClubStory()
+	if MTFightClubStorySent ~= "true" then
+		if CountColonistsWithTrait("Renegade") > 0 then
+			MTGetRenegade("set")
+			MTRenegade = MTGetRenegade("name")
+			MTRenegadePerson = MTGetRenegade("colonist")
+			MTRenegadePerson:TogglePin()
+			MTFightClub = {}
+			MTFightClub["title"] = T{"They're Fighting, Stop Fighting!"}
+			MTFightClub["story"] = T{"     Local outspoken dome inhabitant, "..MTRenegade.." was caught instigating several fights this weekend.  Rumor has it that he was trying to build interest in a club.  After sobering up overnight, the renegade was quoted as saying, 'What club? There is no club.'"}
+			table.insert(g_MTSocialPotentialStories, MTFightClub)
+			MTFightClubStorySent = "true"
+			MTFightClub2("start")
+		end
+	end
+end
+
+function MTGetRenegade(setnameorcolonist)
+	if setnameorcolonist == "set" then
+		for k, colonist in ipairs (UICity.labels.Colonist) do
+			if colonist.traits["Renegade"] then
+				MTRenegadeColonist = {}
+				MTRenegadeColonist = colonist
+				MTRenegadeColonistName = MTRenegadeColonist.name
+				break
+			end
+		end
+	elseif setnameorcolonist == "colonist" then
+		if MTRenegadeColonist ~= nil then
+			return MTRenegadeColonist
+		else
+			return "error"
+		end
+	elseif setnameorcolonist == "name" then
+		MTRenegadeColonistName = "random renegade"
+		if MTRenegadeColonist ~= nil then
+			MTRenegadeColonistName = MTRenegadeColonist.name			
+		end
+	end
+	return MTRenegadeColonistName
+end
+
+function MTFightClub2(startoradd)
+	if MTFightClub2StorySent ~= "true" then
+		if startoradd == "start" then
+			MTFightClub2Wait = 0
+		else
+			if MTFightClub2Wait ~= nil then
+				MTNewFightClub2Wait = MTFightClub2Wait + 1
+				MTFightClub2Wait = MTNewFightClub2Wait
+				if MTFightClub2Wait > 9 then
+					MTRenegade = MTGetRenegade("name")
+					MTFightClub2 = {}
+					MTFightClub2["title"] = T{"Fight Club Story Retraction"}
+					MTFightclub2["story"] = T{"     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story 'They're fighting, stop fighting'.  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned 'club'."}
+					table.insert(g_MTSocialPotentialStories, MTFightClub2)
+					MTFightClub2StorySent = "true"
+				end
+			end
+		end
+	end
+end
+
+function MTMartianFaithStory()
+	if MTMartianFaithStorySent ~= "true" then
+		if UICity.day > 140 then
+			MTMartianFaith = {}
+			MTMartianFaith["title"] = T{"The Faith of Mars"}
+			MTMartianFaith["story"] = T{"     Religion has become a very important part of Martian life, ever since our first founders, who melded together all forms of Christiandom, Islam and Judaism into a single super faith. Today, there are a wide variety of religions on Mars: The True Humanity Society, who follow the teachings of Earth and worship her children, The Jedi, who follow the teachings of a galaxy far far away, The aforementioned Tri-Faith, which follows the teachings of each of the above Earthling faiths, and of course, our very own Red Church of Mars, which needs no explanation."}
+			table.insert(g_MTSocialPotentialStories, MTMartianFaith)
+			MTMartianFaithStorySent = "true"
+		end
+	end
+end
+
+function MTGuruGardenStory()
+	if MTGuruGardenStorySent ~= "true" then
+		if CountColonistsWithTrait("Guru") > 0 then
+			MTGuru = MTGetGuru("set")
+			if MTGetGuruGarden("check") == "true" then
+				MTGuruGarden = {}
+				MTGuruGarden["title"] = T{"Guru In The Garden"}
+				MTGuruGarden["story"] = T{"     Martian Guru "..MTGuru.." has informed the Martian Tribune that they will be holding frequent meditation and contemplation sesions in the dome's garden. 'The garden is the natural spot for gurus like me, it lets me reach a more intense inner core, and connect more deeply with others and with nature.'"}
+				table.insert(g_MTTopPotentialStories, MTGuruGarden)
+				MTGuruGardenStorySent = "true"
+			end
+		end
+	end
+end
+
+function MTGetGuruGarden()
+	MTTempGuruColonist = MTGetGuru("colonist")
+	if MTTempGuruColonist ~= "error" then
+		if MTTempGuruColonist.dome.labels.GardenNatural_Medium ~= nil or MTTempGuruColonist.dome.labels.GardenNatural_Small ~= nil then
+			return "true"
+		else
+			return "false"
+		end
+	else
+		return "false"
+	end
+end
+
+function MTGetGuru(setcheckorcolonist)
+	if setcheckorcolonist == "set" then
+		for k, colonist in ipairs (UICity.labels.Colonist) do
+			if colonist.traits["Guru"] then
+				MTGuruColonist = {}
+				MTGuruColonist = colonist
+				MTGuruColonistName = MTGuruColonist.name
+				break
+			end
+		end
+	elseif setcheckorcolonist == "colonist" then
+		if MTGuruColonist ~= nil then
+			return MTGuruColonist
+		else
+			return "error"
+		end
+	elseif setcheckorcolonist == "check" then
+		if MTGuruColonistName == nil then
+			MTGuruColonistName = "random guru"
+		end
+	end
+	return MTGuruColonistName
+end
+
+
+function MTElPresidenteStory()
+	if MTElPresidenteStorySent ~= "true" then
+		MTGetLeader()
+		if MTLeader ~= "Silent Leader" then
+			MTElPresidente = {}
+			MTElPresidente["title"] = T{"El Presidente to Visit Mars"}
+			MTElPresidente["story"] = T{"     The self-proclaimed El Presidente of Cayo de Fortuna has decided on an official visit to Mars.  He comes with hopes of meeting with "..MTLeaderTitle.." "..MTLeader.." and brokering a potential trade deal."}
+			table.insert(g_MTTopFreeStories, MTElPresidente)
+			MTElPresidenteStorySent = "true"
+		end
+	end
+end
+
+function MTMarathonExplorerStory()
+	if MTMarathonExplorerStorySent ~= "true" then
+		if UICity.day > 35 then
+			if #GetObjects{class = "ExplorerRover"} > 0 then
+				MTMarathonExplorer = {}
+				MTMarathonExplorer["title"] = T{"A Martian Marathon"}
+				MTMarathonExplorer["story"] = T{"     Mars' first RC Explorer has now traversed a whopping 42.2 Kilometers, or 26.2 miles, compleating its own personal marathon on Mars. We at the Martian Tribune support this great explorer in its marithon effort. May the discoveries continue to pour in as a result of such diligence and dedication."}
+				table.insert(g_MTTopPotentialStories, MTMarathonExplorer)
+				MTMarathonExplorerStorySent = "True"
+			end
+		end
+	end
+end
+
+-- SEND comes from NewDay, REMOVE comes from ColonistsArrived
+function MTDroneBreakdownStory(sendremove)
+	if sendremove == "send" then
+		if MTDroneBreakdownStorySent ~= "true" then
+			if MTDroneBreakdownStoryRemoved == nil then
+				if #GetObjects{class = "Drone"} > 2 then
+					MTDrone1 = MTGetRandomDrone()
+					MTDrone2 = MTGetRandomDrone()
+					MTDroneBreakdown = {}
+					MTDroneBreakdown["title"] = T{" "..MTDrone1.." Breakdown"}
+					MTDroneBreakdown["story"] = T{"     "..MTDrone1.." suffered a minor fault to its front left wheel yesterday causing the drone to be unable to complete tasks for the sol. The lucky drone had friends, however, namely "..MTDrone2.." who noticed "..MTDrone1.." struggling and helped to repair their wheel before sol's end."}
+					table.insert(g_MTTopPotentialStories, MTDroneBreakdown)
+					MTDroneBreakdownStorySent = "true"
+				end
+			end
+		end
+	elseif sendremove == "remove" then
+		if MTDroneBreakdownStoryRemoved ~= "true" then
+			if MTDroneBreakdownStorySent == "true" then
+				for k, v in (g_MTTopPotentialStories) do
+					if v == MTDroneBreakdown then
+						table.remove(g_MTTopPotentialStories, k)
+						break
+					end
+				end
+			end
+		end
+		MTDroneBreakdownStoryRemoved = "true"
+	end
+end
+
+function MTCompactPassengerStory()
+	if MTCompactPassengerStorySent ~= "true" then
+		if UICity.tech_status["CompactPassengerModule"].discovered ~= nil then
+			MTCompactPassenger = {}
+			MTCompactPassenger["title"] = T{"Shuttle Capacity Doubled"}
+			MTCompactPassenger["story"] = T{"     Researchers have discovered that it is possible to add up to ten more seats to our passenger shuttles, allowing up to 22 new colonists to come to Mars at once! This new discovery was made when a researcher knocked his chair over, causing him to realise that there is no up or down in space, so we could simply add more seats to the 'ceiling' of the previous design."}
+			table.insert(g_MTEngPotentialStories, MTCompactPassenger)
+			MTCompactPassengerStorySent = "true"
+		end
+	end
+end			
+
+function MTDroneShortageStory()
+	if MTDroneShortageStorySent ~= "true" then
+		if MTColonistsArrivedCheck("check") == "true" then
+			MTDroneRatio = (#GetObjects{class = "Drone"} / #GetObjects{class = "Dome"})
+			if MTDroneRatio > 12 then
+				MTDroneShortage = {}
+				MTDroneShortage["title"] = T{"A Clinic on Inefficiency"}
+				MTDroneShortage["story"] = T{"     Attending a clinic is often a place to learn, unless you're "..MTLeaderTitle.." "..MTLeader..".  Apparently it's expected that resources will move themselves and planning is just plain overrated.  "..MTLeaderTitle..", we need more drones and we need them yesterday!  I only hope that everyone receives their food and other essential supplies in time."}
+				MTDroneShortageStorySent = "true"
+			end
+		end
+	end
+end
+
+function MTPowerSupplyStory()
+	if UICity.day > 20 then		-- after Sol 20
+		if MTCurrentPowerIssue == nil then
+			MTCurrentPowerIssue = 0
+		end
+		if UICity.day - MTCurrentPowerIssue > 14 then	-- if 14 days+ have passed since last story
+			MTCurrentPowerBalance = ResourceOverviewObj.data.total_power_demand - ResourceOverviewObj.data.total_power_production
+			if MTCurrentPowerBalance > 0 then	-- if production is lower than demand
+				MTCurrentPowerHoursRemaining = ResourceOverviewObj.data.total_power_storage / MTCurrentPowerBalance  -- and stored resources run out within 12 hours
+				if MTCurrentPowerHoursRemaining < 12 then
+					MTCurrentPowerIssue = UICity.day
+					MTPowerSupply1 = {}
+					MTPowerSupply1["title"] = T{"Word of the Day:  Power Conservation"}
+					MTPowerSupply1["story"] = T{"     Leadership has declared it a non-issue, but the flickering lights are not your imagination: our power infrastructure is failing us and no longer meets the burgeoning demands of our colony.  Please remember to turn off all lights and electronics when not in use.  Your neighbors will thank you for it."}
+					MTPowerSupply2 = {}
+					MTPowerSupply2["title"] = T{"Power Grid Depleted"}
+					MTPowerSupply2["story"] = T{"     If it feels a little colder in your dome today than yesterday, that may be because our power grid is maxed and the "..MTLeaderTitle.." seems to be doing nothing about it.  Dress warmly, this isn't the first day the power's gone out and it likely won't be the last."}
+					MTPowerSupplyRandom = Random(1,2)
+					if MTPowerSupplyRandom == 1 then		-- send this story, else send the other
+						if MTPowerSupply1StorySent ~= "true" then
+							table.insert(g_MTEngPotentialStories, MTPowerSupply1)
+							MTPowerSupply1StorySent = "true"
+						else
+							table.insert(g_MTEngPotentialStories, MTPowerSupply2)
+						end
+					elseif MTPowerSupplyRandom == 2 then
+						if MTPowerSupply2StorySent ~= "true" then
+							table.insert(g_MTEngPotentialStories, MTPowerSupply2)
+							MTPowerSupply2StorySent = "true"
+						else
+							table.insert(g_MTEngPotentialStories, MTPowerSupply1)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function MTWaterSupplyStory()
+	if UICity.day > 20 then		-- after Sol 20
+		if MTCurrentWaterIssue == nil then
+			MTCurrentWaterIssue = 0
+		end
+		if UICity.day - MTCurrentWaterIssue > 14 then	-- if 14 days+ have passed since last story
+			MTCurrentWaterBalance = ResourceOverviewObj.data.total_water_demand - ResourceOverviewObj.data.total_water_production
+			if MTCurrentWaterBalance > 0 then	-- if production is lower than demand
+				MTCurrentWaterHoursRemaining = ResourceOverviewObj.data.total_water_storage / MTCurrentWaterBalance  -- and stored resources run out within 12 hours
+				if MTCurrentWaterHoursRemaining < 12 then
+					MTCurrentWaterIssue = UICity.day
+					MTWaterSupply1 = {}
+					MTWaterSupply1["title"] = T{"Water Shortage Rumors Abound"}
+					MTWaterSupply1["story"] = T{"     Water is on short supply these days.  "..MTLeaderTitle.." "..MTLeader.." has declared the shortage to be an outright lie, but rumors abound that plans are in the works to boost output in these coming sol."}
+					MTWaterSupply2 = {}
+					MTWaterSupply2["title"] = T{"Let It Mellow"}
+					MTWaterSupply2["story"] = T{"     Conservation is the name of the game in our domes today as we find ourselves short on water production and storage.  In the coming days, we urge you to adopt a new philosophy if you haven't already: 'if it's yellow let it mellow, if it's brown flush it down.'  Hopefully this is a temporary situation.  We will advise you when the situation has improved."}
+					MTWaterSupplyRandom = Random(1,2)
+					if MTWaterSupplyRandom == 1 then		-- send this story, else send the other
+						if MTWaterSupply1StorySent ~= "true" then
+							table.insert(g_MTEngPotentialStories, MTWaterSupply1)
+							MTWaterSupply1StorySent = "true"
+						else
+							table.insert(g_MTEngPotentialStories, MTWaterSupply2)
+						end
+					elseif MTWaterSupplyRandom == 2 then
+						if MTWaterSupply2StorySent ~= "true" then
+							table.insert(g_MTEngPotentialStories, MTWaterSupply2)
+							MTWaterSupply2StorySent = "true"
+						else
+							table.insert(g_MTEngPotentialStories, MTWaterSupply1)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function MTAirSupplyStory()
+	if UICity.day > 20 then
+		if MTCurrentAirIssue == nil then
+			MTCurrentAirIssue = 0
+		end
+		if UICity.day - MTCurrentAirIssue > 14 then
+			MTCurrentAirBalance = ResourceOverviewObj.data.total_air_demand - ResourceOverviewObj.data.total_air_production
+			if MTCurrentAirBalance > 0 then
+				MTCurrentAirHoursRemaining = ResourceOverviewObj.data.total_air_storage / MTCurrentAirBalance
+				if MTCurrentAirHoursRemaining < 12 then
+					MTCurrentAirIssue = UICity.day
+						MTAirSupply1 = {}
+						MTAirSupply1["title"] = T{"Oxygen Short: Time To Lay Low"}
+						MTAirSupply1["story"] = T{"     Oxygen production is a bit under current demand for the time being.  It's best to lie low for a few days!  Save that exercise until details have been sorted, more Moxies constructed, and for the drones to complete any necessary maintenance."}
+						MTAirSupply2 = {}
+						MTAirSupply2["title"] = T{"Oxygen Production Goals Unmet"}
+						MTAirSupply2["story"] = T{"     If you find yourself with chest pains in these next few days, it might be better to consult with your local engineer than your local doctor!  Our current oxygen production is just short of demand.  Expect the atmosphere to be a bit thin in the coming days and prepare for the worst."}
+					MTAirSupplyRandom = Random(1,2)
+					if MTAirSupplyRandom == 1 then
+						if MTAirSupply1StorySent ~= "true" then
+							table.insert(g_MTEngPotentialStories, MTAirSupply1)
+							MTAirSupply1StorySent = "true"
+						else
+							table.insert(g_MTEngPotentialStories, MTAirSupply2)
+						end
+					elseif MTAirSupplyRandom == 2 then
+						if MTAirSupply2StorySent ~= "true" then
+							table.insert(g_MTEngPotentialStories, MTAirSupply2)
+							MTAirSupply2StorySent = "true"
+						else
+							table.insert(g_MTEngPotentialStories, MTAirSupply1)
+						end
+					end
+				end
+			end
+		end
+	end
+end
 
 -- triggered by ConstructionComplete
 function MTArcologyInuendoStory()
@@ -860,7 +1505,6 @@ function MTArcologyInuendoStory()
 		MTArcologyInuendoStorySent = "true"
 	end
 end
-
 
 function MTGetArcologyDome(setorcheck)
 	if setorcheck == "set" then
@@ -915,6 +1559,7 @@ end
 function MTConcreteLoveStory()
 	if MTConcreteLoveStorySent ~= "true" then
 		if #GetObjects{class = "RegolithExtractor"} > 2 then
+			MTConcreteLove = {}
 			MTConcreteLove["title"] = T{"Concrete Extractor Loves Its Job"}
 			MTConcreteLove["story"] = T{"     Concrete Extractor #2 has been observed to really love its job extracting concrete for the embetterment of humanity, always putting in 100% exactly. Unlike the other extractors, Concrete Extractor #2 is programmed specifically to remember every piece of concrete it extracts, and it's programmer claims that it even develops an emotional connection with the concrete it extracts. Love is in the air, folks!  ...and the concrete."}
 			table.insert(g_MTEngPotentialStories, MTConcreteLove)
@@ -1096,9 +1741,10 @@ end
 function MTMarsRealityTVStory()
 	if MTMarsRealityTVStorySent ~= "true" then
 		if CountColonistsWithTrait("Celebrity") > 0 then
-			if tech_status["LiveFromMars"].researched then
+			if UICity.tech_status["LiveFromMars"].researched ~= nil then
 				MTGetCelebrity("set")
 				MTCelebrity = MTGetCelebrity("check")
+				MTMarsRealityTV = {}
 				MTMarsRealityTV["title"] = T{"Live From Mars Renewed for Season 2"}
 				MTMarsRealityTV["story"] = T{"     The hit martian reality TV show, Planet Mars, has been renewed for a second season. "..MTCelebrity.." will be the host for the second season.  "..MTSponsor.." has offered their full support of the endeavor, while our new director has already declared their disgust with working in the Martian environment declaring 'Dust. It's coarse, and rough, and irritating, and it just gets everywhere. EVERYWHERE!'"}
 				table.insert(g_MTSocialPotentialStories, MTMarsRealityTV)
@@ -1140,7 +1786,7 @@ end
 -- triggered via OnMsg.ColonistDied
 function MTSoylentGreen()
 	if MTSoylentGreenStorySent ~= "true" then
-		if tech_status["SoylentGreen"].researched ~= nil then
+		if UICity.tech_status["SoylentGreen"].researched ~= nil then
 			MTSoylentRandom = Random(1,1)
 			if MTSoylentRandom == 1 then
 				MTSoylentGreen1 = {}
@@ -1157,6 +1803,7 @@ end
 function MTDomelenolStory()
 	if MTDomelenolStorySent ~= "true" then
 		if #GetObjects{class = "Infirmary"} > 0 then
+			MTDomelenol = {}
 			MTDomelenol["title"] = T{"Domelenol Now Available!"}
 			MTDomelenol["story"] = T{"     Got any aches and pains? Go to your local infirmary and ask for some Domelenol, the only sponsor-approved painkiller on Mars. Warning: Domelenol will not cure earthsickness, headaches, being an idiot, toothaches, alcoholism, feelings of loneliness, gambling addiction, nausea or just about anything else. Use at your own risk."}
 			table.insert(g_MTSocialPotentialStories, MTDomelenol)
@@ -1202,7 +1849,7 @@ function MTNewLanguageStory()
 end
 
 -- triggered via OnMsg.NewDay
---  put into FREE stories
+--  put into FREE stories  -- also initiates story on Dome To Dome Messaging
 function MTVigilanteStory()
 	if MTVigilanteStorySent ~= "true" then
 		if #GetObjects{class = "Dome"} > 2 then
@@ -1221,7 +1868,7 @@ function MTPassportStory()
 		if MTColonistsArrivedCheck("check") then
 			MTPassport = {}
 			MTPassport["title"] = T{"New Martian Passport Revealed"}
-			MTPassport["story"] = T{"     The Martian Tribune has received an advanced copy of the new martian passport, designed in Armstrong city on Luna, the passport is red, the front has a hologram of Mars with Phobos and Deimos behind it. Designers have stated the passport is 'completely uncopyable.' If you have yet to see the design, plenty of copies a rumored to be available from various undisclosed sources both here on Mars as well as on the Moon."}
+			MTPassport["story"] = T{"     The Martian Tribune has received an advanced copy of the new martian passport, designed behind closed doors in Armstrong City on Luna, the passport is red, the front has a hologram of Mars with Phobos and Deimos behind it. Designers have stated the passport is 'completely uncopyable.' If you have yet to see the design, plenty of copies a rumored to be available from various undisclosed sources both here on Mars as well as on the Moon."}
 			table.insert(g_MTSocialPotentialStories, MTPassport)
 			MTPassportStorySent = "true"
 		end
@@ -1260,7 +1907,8 @@ end
 -- triggered via OnMsg.NewDay
 function MTReligiousArtifactStory()
 	if MTReligiousArtifactStorySent ~= "true" then
-		if MTReligiousSaint("set") == "yes" then
+		if CountColonistsWithTrait("Saint") > 0 then
+			MTReligiousSaint("set")
 			MTSaint = MTReligiousSaint("check")
 			MTReligiousArtifact = {}
 			MTReligiousArtifact["title"] = T{"Religious Artifact Found on Mars"}
@@ -1272,7 +1920,7 @@ function MTReligiousArtifactStory()
 end
 
 function MTReligiousSaint(setcheckorcolonist)
-		if setcheckorcolonist == "set" then
+	if setcheckorcolonist == "set" then
 		for k, colonist in ipairs (UICity.labels.Colonist) do
 			if colonist.traits["Saint"] then
 				if MTSaintColonist == nil then
@@ -1282,11 +1930,6 @@ function MTReligiousSaint(setcheckorcolonist)
 				MTSaintColonistName = MTSaintColonist.name
 				break
 			end
-		end
-		if MTSaintColonist ~= nil then
-			return "yes"
-		else
-			return "no"
 		end
 	elseif setcheckorcolonist == "check" then
 		if MTSaintColonist ~= nil then
@@ -1306,7 +1949,7 @@ function MTHappyBirthdayStory()
 		MTBirthdayName = MTGetBirthdayName("set")
 		MTHappyBirthday = {}
 		MTHappyBirthday["title"] = T{"A New Milestone Has Been Achieved!"}
-		MTHappyBirthday["story"] = T{"Today marks yet another first as it pertains to martian colonization: Today we celebrate the first birthday on Mars!  "..MTBirthdayName.." is celebrating their birthday today! Let us all sing and cheer for them, and for many more to come!"}
+		MTHappyBirthday["story"] = T{"     Today marks yet another first as it pertains to martian colonization: Today we celebrate the first birthday on Mars!  "..MTBirthdayName.." is celebrating their birthday today! Let us all sing and cheer for them, and for many more to come!"}
 		table.insert(g_MTSocialPotentialStories, MTHappyBirthday)
 		MTHappyBDayStorySent = "true"
 	end
@@ -1317,16 +1960,14 @@ function MTGetBirthdayName(setorcheck)
 		MTBirthdayColonistName = MTGetRandomColonist("name")
 		MTBDayColonistName = MTBirthdayColonistName
 	else
-		if MTBirthdayColonistName == nil then
-			MTBDayColonistName = "random birthday colonist"
-		else
+		MTBDayColonistName = "random birthday colonist"
+		if MTBirthdayColonistName ~= nil then
 			MTBDayColonistName = MTBirthdayColonistName
 		end
 	end
 	return MTBDayColonistName
 end
 			
-
 -- triggered via OnMsg.ColonistDied
 function MTFirstMartianbornDied(MTDeadColonist)
 	if MTFirstMartianbornDiedStorySent ~= "true" then
@@ -1353,17 +1994,21 @@ function MTGetDeadMartian(MTDeadMartianorcheck)
 		MTFirstDeadMartian = MTDeadMartianorcheck
 		MTFirstDeadMartianName = MTFirstDeadMartian.name
 	end
+	return MTFirstDeadMartianName
 end
 	
 
 function MTLeaderVices()
 	if MTVirtueOverVicesStorySent ~= "true" then
-		if MTLeaderColonist.traits.Glutton or MTLeaderColonist.traits.Gambler or MTLeaderColonist.traits.Alcoholic then
-			MTVirtue = {}
-			MTVirtue["title"] = T{"Virtue Over Vices"}
-			MTVirtue["story"] = T{"     The stresses of colonizing a new planet have clearly taken their toll on "..MTLeaderTitle.." "..MTLeader.." as the foolishness of last night’s escapades will not be long forgotten.  "..MTLeaderTitle..", learn to control your vices better before they take us all down with you!  If things don’t change soon, it might be time to start looking for a new leader."}
-			table.insert(g_MTTopPotentialStories, MTVirtue)
-			MTVirtueOverVicesStorySent = "true"
+		if MTColonistsArrivedCheck("check") == "true" then
+			MTGetLeader()
+			if MTLeaderColonist.traits.Glutton or MTLeaderColonist.traits.Gambler or MTLeaderColonist.traits.Alcoholic then
+				MTVirtue = {}
+				MTVirtue["title"] = T{"Virtue Over Vices"}
+				MTVirtue["story"] = T{"     The stresses of colonizing a new planet have clearly taken their toll on "..MTLeaderTitle.." "..MTLeader.." as the foolishness of last night’s escapades will not be long forgotten.  "..MTLeaderTitle..", learn to control your vices better before they take us all down with you!  If things don’t change soon, it might be time to start looking for a new leader."}
+				table.insert(g_MTTopPotentialStories, MTVirtue)
+				MTVirtueOverVicesStorySent = "true"
+			end
 		end
 	end
 end
@@ -1396,16 +2041,21 @@ function MTWatchWhatYouEatStory()
 end
 
 function MTGetRandomColonist(colonistorname)
-	if MTColonistsArrivedCheck("check") == "true" then
+	if UICity.labels.Colonist ~= nil then
 		if MTRandomColonistPerson == nil then
 			MTRandomColonistPerson = {}
 		end
-		MTRandomColonistPerson = Random(1,#UICity.labels.Colonist)
+		MTRandomColonistPersonNumber = Random(1,#UICity.labels.Colonist)
+		MTRandomColonistPerson = UICity.labels.Colonist[MTRandomColonistPersonNumber]
 		if colonistorname == "colonist" then
 			return MTRandomColonistPerson
 		elseif colonistorname == "name" then
-			return MTRandomColonistPerson.name
+			MTRandomColonistPersonName = MTRandomColonistPerson.name
+			return MTRandomColonistPersonName
 		end
+	else
+		MTRandomColonistPersonName = "random colonist"
+		return MTRandomColonistPersonName
 	end
 end
 
@@ -1432,14 +2082,16 @@ function MTOopsIBrokeItAgainStory()
 		if CountColonistsWithTrait("Idiot") > 0 then
 			MTGetIdiotColonist("set")
 			MTIdiotWorkplaceBuilding = MTGetIdiotWorkplace("set")
-			if MTIdiotWorkplaceBuilding.maintenance_place == "demand" then
-				MTIdiotWorkplace = MTGetIdiotWorkplace("check")
-				MTIdiotName = MTGetIdiotColonist("check")
-				MTOopsIBrokeItAgain = {}
-				MTOopsIBrokeItAgain["title"] = T{"Oops I Broke It Again"}
-				MTOopsIBrokeItAgain["title"] = T{"     Dome dimwit "..MTIdiotName.." has once again managed to again find a way to get around the idiot-proof safety features of the local  "..MTIdiotWorkplace.." with an amazing display of acrobatics, luck, and skill. Once again "..MTIdiotName.." found themselves holding a vital part of the building in their hand as they left work today. 'I honestly have no idea how they managed it. The building can't function without it, so we keep it behind three feet of concrete... yet, somehow, they still managed to walk off with it. I'm not even mad. It really is just plain amazing.'"}
-				table.insert(g_MTEngPotentialStories, MTOopsIBrokeItAgain)
-				MTOopsIBrokeItAgainStorySent = "true"
+			if MTIdiotWorkplaceBuilding ~= false then
+				if MTIdiotWorkplaceBuilding.maintenance_place == "demand" then
+					MTIdiotWorkplace = MTGetIdiotWorkplace("check")
+					MTIdiotName = MTGetIdiotColonist("check")
+					MTOopsIBrokeItAgain = {}
+					MTOopsIBrokeItAgain["title"] = T{"Oops I Broke It Again"}
+					MTOopsIBrokeItAgain["title"] = T{"     Dome dimwit "..MTIdiotName.." has once again managed to again find a way to get around the idiot-proof safety features of the local  "..MTIdiotWorkplace.." with an amazing display of acrobatics, luck, and skill. Once again "..MTIdiotName.." found themselves holding a vital part of the building in their hand as they left work today. 'I honestly have no idea how they managed it. The building can't function without it, so we keep it behind three feet of concrete... yet, somehow, they still managed to walk off with it. I'm not even mad. It really is just plain amazing.'"}
+					table.insert(g_MTEngPotentialStories, MTOopsIBrokeItAgain)
+					MTOopsIBrokeItAgainStorySent = "true"
+				end
 			end
 		end
 	end
@@ -1447,13 +2099,20 @@ end
 
 function MTGetIdiotWorkplace(setorcheck)
 	if setorcheck == "check" then
-		if MTIdiotWorkplaceBuilding == nil then
-			return "idiot workplace"
+		if MTIdiotWorkplaceBuilding ~= nil then
+			if MTIdiotWorkplaceBuilding ~= false then
+				return MTIdiotWorkplaceBuilding.encyclopedia_id
+			else
+				return "idiot workplace"
+			end
 		else
-			return MTIdiotWorkplaceBuilding.encyclopedia_id
+			return "idiot workplace"			
 		end
 	elseif setorcheck == "set" then
 		MTIdiotPerson = MTGetIdiotColonist("colonist")
+		if MTIdiotWorkplaceBuilding == nil then
+			MTIdiotWorkplaceBuilding = {}
+		end
 		MTIdiotWorkplaceBuilding = MTIdiotPerson.workplace
 		return MTIdiotWorkplaceBuilding
 	end
@@ -1495,15 +2154,17 @@ end
 
 function MTGetMartianCelebrityName(setorcheck)
 	if setorcheck == "check" then
-		if MTMartianCelebrity == nil then
+		if MTMartianCelebrityPerson == nil then
 			MTMartianCelebrityName = "martian celebrity"
 		end
+		return MTMartianCelebrityName
 	elseif setorcheck == "set" then
-		if MTMartianCelebrity ~= nil or MTMartianCelebrityName == "martian celebrity" then
-			MTMartianCelebrityName = colonistorcheck.name
-		end
+			MTMartianCelebrityName = MTMartianCelebrityPerson.name
+		return MTMartianCelebrityName
+	else
+		MTMartianCelebrityPerson = {}
+		MTMartianCelebrityPerson = setorcheck
 	end
-	return MTMartianCelebrityName
 end
 
 -- triggered via OnMsg.ColonistDied
@@ -1529,13 +2190,15 @@ end
 --triggered via OnMsg.NewDay
 function MTHippieStory()
 	if MTHippieStorySent ~= "true" then
-		if MTGetHippie("set") ~= "no botanist" then
-			MTHippieName = MTGetHippie("check")
-			MTHippie = {}
-			MTHippie["title"] = T{"The Grass Couldn't Be Greener"}
-			MTHippie["story"] = T{"     Local botanist "..MTHippieName.." has been caught smoking what officers referred to as 'the greatest stuff on the planet,' which was found to be grown in their very own closet. Though technically not illegal on Mars, questions have been raised as to how the botanist got the plant here in the first place. Dome security declared to us that 'it's definitely home-grown, it really is pretty high quality,' unfortunately this was all the information we could gather as the officers were all quite insistent on returning to their spudtato snacks.  We will keep you updated as more news unfolds."}
-			table.insert(g_MTSocialPotentialStories, MTHippie)
-			MTHippieStorySent = "true"
+		if CountColonistsWithTrait("botanist") > 0 then
+			if MTGetHippie("set") ~= "no botanist" then
+				MTHippieName = MTGetHippie("check")
+				MTHippie = {}
+				MTHippie["title"] = T{"The Grass Couldn't Be Greener"}
+				MTHippie["story"] = T{"     Local botanist "..MTHippieName.." has been caught smoking what officers referred to as 'the greatest stuff on the planet,' which was found to be grown in their very own closet. Though technically not illegal on Mars, questions have been raised as to how the botanist got the plant here in the first place. Dome security declared to us that 'it's definitely home-grown, it really is pretty high quality,' unfortunately this was all the information we could gather as the officers were all quite insistent on returning to their spudtato snacks.  We will keep you updated as more news unfolds."}
+				table.insert(g_MTSocialPotentialStories, MTHippie)
+				MTHippieStorySent = "true"
+			end
 		end
 	end
 end
@@ -1562,8 +2225,6 @@ function MTGetHippie(setorcheck)
 	end
 	return MTBotanistColonistName
 end
-
-
 
 function MTMovingDomesStory()
 	if MTMovingDomesStorySent ~= "true" then
@@ -1795,18 +2456,20 @@ function MTGetVegan(setorcheck)
 end
 
 function MTVeganPurgatory(setaddcheck)
-	if MTVeganPurgatoryDays < 40 then
-		if setaddcheck == "set" then
-			MTVeganPurgatoryDays = 0
-		end
-		if setaddcheck == "add" then
-			if MTVegan1StorySent("check") == "true" then
-				MTNewVeganPurgatoryDays = MTVeganPurgatoryDays + 1
-				MTVeganPurgatoryDays = MTNewVeganPurgatoryDays
+	if MTVeganPurgatoryDays ~= nil then
+		if MTVeganPurgatoryDays < 40 then
+			if setaddcheck == "set" then
+				MTVeganPurgatoryDays = 0
 			end
-		end
-		if setaddcheck == "check" then
-			return MTVeganPurgatoryDays
+			if setaddcheck == "add" then
+				if MTVegan1StorySent("check") == "true" then
+					MTNewVeganPurgatoryDays = MTVeganPurgatoryDays + 1
+					MTVeganPurgatoryDays = MTNewVeganPurgatoryDays
+				end
+			end
+			if setaddcheck == "check" then
+				return MTVeganPurgatoryDays
+			end
 		end
 	end
 end
@@ -2012,16 +2675,18 @@ function MTDroneHackCounter(startoradd)
 	if startoradd == "start" then
 		MTDroneHackDay = UICity.day
 	else
-		if MTDroneHack2StoryInitiated ~= "true" then
-			if UICity.day - MTDroneHackDay == 5 then  -- release DroneHack2 5 days after Joyride/DroneHack1
-				MTDroneHack2Story()
-				MTDroneHack2StoryInitiated = "true"
+		if MTDroneHackDay ~= nil then
+			if MTDroneHack2StoryInitiated ~= "true" then
+				if UICity.day - MTDroneHackDay == 5 then  -- release DroneHack2 5 days after Joyride/   DroneHack1
+					MTDroneHack2Story()
+					MTDroneHack2StoryInitiated = "true"
+				end
 			end
-		end
-		if MTDroneHack3StoryInitiated ~= "true" then
-			if UICity.day - MTDroneHackDay == 20 then  -- release DroneHack3 20 days after Joyride/DroneHack1
-				MTDroneHack3Story()
-				MTDroneHack3StoryInitiated = "true"
+			if MTDroneHack3StoryInitiated ~= "true" then
+				if UICity.day - MTDroneHackDay == 20 then  -- release DroneHack3 20 days after Joyride/DroneHack1
+					MTDroneHack3Story()
+					MTDroneHack3StoryInitiated = "true"
+				end
 			end
 		end
 	end
@@ -2076,11 +2741,11 @@ end
 -- triggered by OnMsg.NewDay()
 function MTRefuseHitsTheFanStory()
 	if MTRefuseHitsFanStorySent ~= "true" then
-		if UICity.labels.Diner[1] ~= nil then
+		if UICity.labels.Diner ~= nil then
 			MTRefuseHitsFanDinerDome = MTGetRefuseHitsTheFanDinerDome()
 			MTRefuseHitsTheFan = {}
 			MTRefuseHitsTheFan["title"] = T{"The Refuse Hits The Fan"}
-			MTRefuseHitsTheFan["story"] = T{"     Last night a sewage pump overflowed in "..MTRefuseHitsFanDinerDome.." when one of the pump's propellers broke under the pressure.  After what can only be described as a dining fiasco, last night's meal of extruded bean substitute seems to have played a critical role in overloading the sewage systems. There have been dozens of reports of a foul oder filling the dome even now.  Match usage is strictly prohibited until the blockage can be cleared. It will be a rough few days for everyone but there should be no lasting impact once the odor gets washed out of everyone's clothing once and for all."}
+			MTRefuseHitsTheFan["story"] = T{"     Last night a sewage pump overflowed in "..MTRefuseHitsFanDinerDome.." when one of the pump's propellers broke under the pressure.  After what can only be described as a dining fiasco, last night's meal of extruded bean substitute seems to have played a critical role in overloading the sewage systems. There have been dozens of reports of a foul odor filling the dome even now.  Match usage is strictly prohibited until the blockage can be cleared."}
 			table.insert(g_MTSocialPotentialStories, MTRefuseHitsTheFan)
 			MTRefuseHitsFanStorySent = "true"
 		end
@@ -2107,6 +2772,7 @@ function MTOlympicBidStory()
 			MTOlympicBid["story"] = T{"     After the opening of our new open-air gym in "..MTOlympicBidGymDome..", "..MTSponsor.." applied to host the Olympics on Mars, saying, 'We have the best view of Mount Olympus and a Gym, what more could one ask for?' The International Olympics Committee on Earth rejected the proposal, saying 'Wait, that was an actual bid? You don't even have a pool.' "..MTSponsor.." responded by saying they will start their own Interstellar Olympics.  Expect track, blackjack, marbles, and Drone Jumping to headline the experience."}
 			table.insert(g_MTSocialPotentialStories, MTOlympicBid)
 			MTOlympicBidStorySent = "true"
+			MTMartianOlympicsStory("start")
 		end
 	end
 end
@@ -2202,17 +2868,17 @@ function MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
 		if MTNewLeaderStoryRandom == 1 then
 			MTNewLeaderStory1 = {}
 			MTNewLeaderStory1["title"] = T{"A New "..MTLeaderTitle.." Takes the Helm"}
-			MTNewLeaderStory1["story"] = T{"As "..MTLeader.." steps in to assume the recently vacated role of "..MTLeaderTitle..", we can hope that they get their bearings in short order.  We here at the Martian Tribune will keep you apprised of any decrees and movements of the "..MTLeaderTitle..".  A new day is dawning here on Mars.  The question remains, however: is that a day of dawning, or a day of darkness.  Our fate is in your hands, "..MTLeaderTitle..".  Don't let us down."}
+			MTNewLeaderStory1["story"] = T{"     As "..MTLeader.." steps in to assume the recently vacated role of "..MTLeaderTitle..", we can hope that they get their bearings in short order.  We here at the Martian Tribune will keep you apprised of any decrees and movements of the "..MTLeaderTitle..".  A new day is dawning here on Mars.  The question remains, however: is that a day of dawning, or a day of darkness.  Our fate is in your hands, "..MTLeaderTitle..".  Don't let us down."}
 			table.insert(g_MTTopPotentialStories, MTNewLeaderStory1)
 		elseif MTNewLeaderStoryRandom == 2 then
 			MTNewLeaderStory2 = {}
 			MTNewLeaderStory2["title"] = T{" "..MTLeader.." Breathes New Life Into Colony"}
-			MTNewLeaderStory2["story"] = T{"A new "..MTLeaderTitle.." has been chosen!  It is time to rejoice, for my fellow Martians, the future is bright!  "..MTLeader.." steps in as our new "..MTLeaderTitle.." today and we could not be in better hands.  With "..MTLeader.."'s past work here on Mars, we can expect big plans to continue to balance out the workload and supply chain even further, as well as to care for the aging and nurture the young.  Today, the Martian Tribune declares: the future is bright.  It is time to celebrate!"}
+			MTNewLeaderStory2["story"] = T{"     A new "..MTLeaderTitle.." has been chosen!  It is time to rejoice, for my fellow Martians, the future is bright!  "..MTLeader.." steps in as our new "..MTLeaderTitle.." today and we could not be in better hands.  With "..MTLeader.."'s past work here on Mars, we can expect big plans to continue to balance out the workload and supply chain even further, as well as to care for the aging and nurture the young.  Today, the Martian Tribune declares: the future is bright.  It is time to celebrate!"}
 			table.insert(g_MTTopPotentialStories, MTNewLeaderStory2)
 		elseif MTNewLeaderStoryRandom == 3 then
 			MTNewLeaderStory3 = {}
 			MTNewLeaderStory3["title"] = T{"Wrong Sibling Elevated?"}
-			MTNewLeaderStory3["story"] = T{"As we move into a new era of Martian development, we here at the Martian Tribune can’t help but wonder at the agenda of our sponsor, "..MTSponsor..".  Perhaps someone mixed up their paperwork, but somehow they saw fit to raise "..MTLeader.." to the role of "..MTLeaderTitle.." without recognizing that more than one person shares that last name.  The responsibilities are vast in leading such an intrepid endeavor as ours here on Mars.  Let's hope and pray (hard) that "..MTLeader.." is up to the challenge."}
+			MTNewLeaderStory3["story"] = T{"     As we move into a new era of Martian development, we here at the Martian Tribune can’t help but wonder at the agenda of our sponsor, "..MTSponsor..".  Perhaps someone mixed up their paperwork, but somehow they saw fit to raise "..MTLeader.." to the role of "..MTLeaderTitle.." without recognizing that more than one person shares that last name.  The responsibilities are vast in leading such an intrepid endeavor as ours here on Mars.  Let's hope and pray (hard) that "..MTLeader.." is up to the challenge."}
 			table.insert(g_MTTopPotentialStories, MTNewLeaderStory3)
 		end
 		MTNewLeaderChosenIndex = nil
@@ -2240,6 +2906,9 @@ function MTColonistsArrivedCheck(MTColonistCheckOrTrue)
 	if MTColonistCheckOrTrue == "true" then
 		MTColonistsHaveArrived = "true"
 	elseif MTColonistCheckOrTrue == "check" then
+		if MTColonistsHaveArrived == nil then
+			MTColonistsHaveArrived = "false"
+		end
 		return MTColonistsHaveArrived
 	end
 end
@@ -2267,15 +2936,15 @@ end
 --  will check each day after Sol 10
 function MTRocketCount()
 	if UICity.day > 10 then
-		MTcurrentSupplyRocketCount = #GetObjects{class = "SupplyRocket"}
+		MTCurrentSupplyRocketCount = #GetObjects{class = "SupplyRocket"}
 		if MTrockets3StorySent ~= "true" then
-			if MTcurrentSupplyRocketCount > 2 then
+			if MTCurrentSupplyRocketCount > 2 then
 				table.insert(g_MTTopPotentialStories, MTrockets3)
 				MTrockets3StorySent = "true"
 			end
 		end
 		if MTrockets0StorySent ~= "true" then
-			if MTcurrentSupplyRocketCount == 0 then
+			if MTCurrentSupplyRocketCount == 0 then
 				table.insert(g_MTTopPotentialStories, MTrockets0)
 				MTrockets0StorySent = "true"
 			end
@@ -2356,11 +3025,11 @@ function MTGetFoundersLegacyDome(setorcheck)
 	if setorcheck == "set" then
 		if UICity.labels.Domes[1] ~= nil then
 			MTFoundersDomeName = UICity.labels.Domes[1].name
-		else
-			MTFoundersDomeName = "every dome"
 		end
 	else
-		MTFoundersDomeName = "every dome"
+		if MTFoundersDomeName == nil then
+			MTFoundersDomeName = "every dome"
+		end
 	end
 	return MTFoundersDomeName
 end
@@ -2400,7 +3069,9 @@ function MTGetFoundersLegacyBuilding(setorcheck)
 			MTFoundersDomeRelaxation = "your local park"
 		end
 	else
-		MTFoundersDomeRelaxation = "your local park"
+		if MTFoundersDomeRelaxation == nil then
+			MTFoundersDomeRelaxation = "your local park"
+		end
 	end
 	return MTFoundersDomeRelaxation
 end
@@ -2443,10 +3114,11 @@ end
 function MTCheckDroneRights()
 	if MTDroneRightsStorySent ~= "true" then
 		if CountColonistsWithTrait("Idiot") > 0 then
-			MTDroneColonistName = MTGetIdiotColonist("set")
+			MTGetIdiotColonist("set")
+			MTDroneColonistName = MTGetIdiotColonist("check")
 			MTDroneRights = {}
 			MTDroneRights["title"] = T{"Push For Drone Rights"}
-			MTDroneRights["story"] = T{"It has been reported that a local alliance of Martians believe that because so many drones are now integral to our daily lives they now deserve the same rights as colonists. "..MTDroneColonistName..",  the leader of the self-dubbed Drone Alliance for Freedom and Transparency (DAFT) has stated that 'these drones do more work then all of the humans on mars combined' when asked if this meant drones should be able to vote as well "..MTDroneColonistName.." responded, 'what? no. That's ridiculous. they are machines...'"}
+			MTDroneRights["story"] = T{"     It has been reported that a local alliance of Martians believe that because so many drones are now integral to our daily lives they now deserve the same rights as colonists. "..MTDroneColonistName..",  the leader of the self-dubbed Drone Alliance for Freedom and Transparency (DAFT) has stated that 'these drones do more work then all of the humans on mars combined' when asked if this meant drones should be able to vote as well "..MTDroneColonistName.." responded, 'what? no. That's ridiculous. they are machines...'"}
 			table.insert(g_MTTopPotentialStories, MTDroneRights)
 			MTDroneRightsStorySent = "true"
 		end
@@ -2454,12 +3126,12 @@ function MTCheckDroneRights()
 end
 
 function MTGetIdiotColonist(status)
-	if MTIdiotColonist == nil then
-		MTIdiotColonist = {}
-	end
 	if status == "set" then
 		for k, colonist in ipairs (UICity.labels.Colonist or empty_table) do
 			if colonist.traits["Idiot"] then
+				if MTIdiotColonist == nil then
+					MTIdiotColonist = {}
+				end
 				MTIdiotColonist = colonist
 				MTIdiotColonistName = MTIdiotColonist.name
 				MTIdiotColonistSelected = "true"
@@ -2470,9 +3142,10 @@ function MTGetIdiotColonist(status)
 		if MTIdiotColonist ~= nil then
 			return MTIdiotColonist
 		end
-	else
-		if 	MTIdiotColonistName == nil then
-			MTIdiotColonistName = "idiot colonist"
+	elseif status == "check" then
+		MTIdiotColonistName = "idiot colonist"
+		if 	MTIdiotColonist ~= nil then
+			MTIdiotColonistName = MTIdiotColonist.name
 		end
 		return MTIdiotColonistName
 	end
@@ -2481,7 +3154,7 @@ end
 
 -- Section 4: story table initialization and population
 function MTInitializeStoryTables() -- loading all the story titles and stories when Mods get loaded so that they're always available globally
-	
+
 	MTNoNews = {}
 	MTTopArchiveDepleted = {}
 	MTArchiveDepleted2 = {}
@@ -2534,15 +3207,20 @@ function MTInitializeStoryTables() -- loading all the story titles and stories w
 	MTDroneToys = {}
 	MTMartianMusic = {}
 	MTMysteriousRadio = {}
+	MTVikingsFirst = {}
+	MTMacburgers = {}
+	MTMartianPrince = {}
 	--EngFree
 	MTISSSovereignty = {}
 	MTWoodys = {}
+	MTDroneReverse = {}
 	--TopFree
 	MTWeAreMartian = {}
 	MTOnThisDayin1965 = {}
 	MTOnThisDayin1976 = {}
 	MTOnThisDayin1997 = {}
 	MTOnThisDayin2015 = {}
+	MTNuclearThreat = {}
 end
 
 function MTLoadStoriesIntoTables()
@@ -2637,30 +3315,323 @@ function MTLoadStoriesIntoTables()
 	table.insert(g_MTSocialFreeStories, MTMysteriousRadio)
 
 	MTWoodys["title"] = T{"Woody's Woods to Expand to Mars"}
-	MTWoodys["story"] = T{"Woodys Woods, a tree-felling business of Cities Skylines fame, has decided to expand its operations to Mars. This Decision has come as a surprise to many people, mainly because there are no trees on Mars.  When asked about this, Woody responded, 'I'm sure we'll find something to cut down!'"}
+	MTWoodys["story"] = T{"     Woodys Woods, a tree-felling business of Cities Skylines fame, has decided to expand its operations to Mars. This Decision has come as a surprise to many people, mainly because there are no trees on Mars.  When asked about this, Woody responded, 'I'm sure we'll find something to cut down!'"}
 	table.insert(g_MTEngFreeStories, MTWoodys)
 
+	MTDroneReverse["title"] = T{"Drone Reverse Engineering"}
+	MTDroneReverse["story"] = T{"     After many days, drones have finaly completed their reverse engineering training and can now move both forwards and backwards. This advancement will be a huge help in traversing the un-even surface of Mars."}
+	table.insert(g_MTEngFreeStories, MTDroneReverse)
+
+	MTNuclearThreat["title"] = T{"Former Peaceful Organization Threatens Nuclear War"}
+	MTNuclearThreat["story"] = T{"     An organization formerly believed to be peaceful has been uncovered as a sleeper cell that is now threatening interstellar war.  The leader of this formerly benign oceanic  movement known as Norwegians for Underdeveloped Kelp Enrichment ('NUKE') has laid claim to a former lakebed near Mount Olympus and threatened nuclear annihilation upon any civilization that settles too close to their newly founded city."}
+	table.insert(g_MTSocialFreeStories, MTNuclearThreat)
+
+	MTVikingsFirst["title"] = T{"Were We Really The First?"}
+	MTVikingsFirst["story"] = T{"     Reports are coming in that "..MTSponsor.." may not, in fact, be the first to have arrived on Mars. It is stated that an ancient Viking ship was found near one of our scout's landing sites that contained manuscripts stating that 'the Blue Land has been conquered in the name of Ulfric the Great.' While no other evidence of this former civilzation has been found, it is a clear reminder: we are not alone."}
+	table.insert(g_MTTopFreeStories, MTVikingsFirst)
+
+	MTMacburgers["title"] = T{"Macburgers expands to Mars"}
+	MTMacburgers["story"] = T{"     The large multinational fast food chain, Macburgers, is seeking to become the first multiplanetary company in history, with plans put forward to open a restaurant on the red planet as soon as permits allow. There is strong opposition to the plan, even within the company, mainly due to the lack of money and meat on Mars."}
+	table.insert(g_MTSocialFreeStories, MTMacburgers)
+
+end
+
+function OnMsg.PersistSave(data)
+	data["g_MTTopPotentialStories"] = g_MTTopPotentialStories
+	data["g_MTTopFreeStories"] = g_MTTopFreeStories
+	data["g_MTTopArchive"] = g_MTTopArchive
+	data["g_MTEngPotentialStories"] = g_MTEngPotentialStories
+	data["g_MTEngFreeStories"] = g_MTEngFreeStories
+	data["g_MTEngArchive"] = g_MTEngArchive
+	data["g_MTSocialPotentialStories"] = g_MTSocialPotentialStories
+	data["g_MTSocialFreeStories"] = g_MTSocialFreeStories
+	data["g_MTSocialArchive"] = g_MTSocialArchive
+	data["MTLeader"] = MTLeader
+	data["MTLeaderTitle"] = MTLeaderTitle
+	data["MTColonistsHaveArrived"] = MTColonistsHaveArrived
+	data["MTNoHumansStoryRemoved"] = MTNoHumansStoryRemoved
+	data["MTFinancesStorySent"] = MTFinancesStorySent
+	data["MTrockets3StorySent"] = MTrockets3StorySent
+	data["MTrockets0StorySent"] = MTrockets0StorySent
+	data["MTHackThePlanetStorySent"] = MTHackThePlanetStorySent
+	data["MTHackThePlanetStoryRemoved"] = MTHackThePlanetStoryRemoved
+	data["MTFoundersDeadSolSet"] = MTFoundersDeadSolSet
+	data["MTFoundersMourningPeriod"] = MTFoundersMourningPeriod
+	data["MTFoundersDeadSol"] = MTFoundersDeadSol
+	data["MTFoundersLegacyStorySent"] = MTFoundersLegacyStorySent
+	data["MTAdultFilmStorySent"] = MTAdultFilmStorySent
+	data["MTDroneRightsStorySent"] = MTDroneRightsStorySent
+	data["MTDroneColonistName"] = MTDroneColonistName
+	data["MTIdiotColonistSelected"] = MTIdiotColonistSelected
+	data["MTSexyColonistSelected"] = MTSexyColonistSelected
+	data["MTLeaderColonist"] = MTLeaderColonist
+	data["MTPetRockStorySent"] = MTPetRockStorySent
+	data["MTPetRockColonist"] = MTPetRockColonist
+	data["MTPetRockColonistInterimName"] = MTPetRockColonistInterimName
+	data["MTTempGymDome"] = MTTempGymDome
+	data["MTOlympicBidGymDome"] = MTOlympicBidGymDome
+	data["MTOlympicBidStorySent"] = MTOlympicBidStorySent
+	data["MTRefuseHitsFanStorySent"] = MTRefuseHitsFanStorySent
+	data["MTTeenagerColonist"] = MTTeenagerColonist
+	data["MTTempTeenagerName"] = MTTempTeenagerName
+	data["MTTeenagerDomeName"] = MTTeenagerDomeName
+	data["MTTeenagerJoyrideName"] = MTTeenagerJoyrideName
+	data["MTTeenagerJoyrideDome"] = MTTeenagerJoyrideDome
+	data["MTDroneHackDays"] = MTDroneHackDays
+	data["MTTeenagerJoyrideStorySent"] = MTTeenagerJoyrideStorySent
+	data["MTDroneHack2StoryInitiated"] = MTDroneHack2StoryInitiated
+	data["MTDroneHack2StorySent"] = MTDroneHack2StorySent
+	data["MTDH3ColonistName"] = MTDH3ColonistName
+	data["MTDH3Colonist"] = MTDH3Colonist
+	data["MTDroneHack3StorySent"] = MTDroneHack3StorySent
+	data["MTVeganColonist"] = MTVeganColonist
+	data["MTVeganColonistName"] = MTVeganColonistName
+	data["MTVegan1MedicColonist"] = MTVegan1MedicColonist
+	data["MTVegan1MedicColonistName"] = MTVegan1MedicColonistName
+	data["MTVegan1StoryHasBeenSent"] = MTVegan1StoryHasBeenSent
+	data["MTVeganPurgatoryDays"] = MTVeganPurgatoryDays
+	data["MTVeganStory2HasBeenSent"] = MTVeganStory2HasBeenSent
+	data["MTVDDome"] = MTVDDome
+	data["MTVeganDinerColonist"] = MTVeganDinerColonist
+	data["MTVeganColonistName"] = MTVeganColonistName
+	data["MTRMWorkerDome"] = MTRMWorkerDome
+	data["MTRMWorkerDomeName"] = MTRMWorkerDomeName
+	data["MTRMColonist"] = MTRMColonist
+	data["MTRMColonistName"] = MTRMColonistName
+	data["MTGetColonistRandom"] = MTGetColonistRandom
+	data["MTTempMovingDome1"] = MTTempMovingDome1
+	data["MTTempMovingDome2"] = MTTempMovingDome2
+	data["MTBotanistColonist"] = MTBotanistColonist
+	data["MTBotanistColonistName"] = MTBotanistColonistName
+	data["MTHippieStorySent"] = MTHippieStorySent
+	data["MTDeadFounder"] = MTDeadFounder
+	data["MTDeadFounderColonist"] = MTDeadFounderColonist
+	data["MTConnoisseurStorySent"] = MTConnoisseurStorySent
+	data["MTWatchWhatYouEatStorySent"] = MTWatchWhatYouEatStorySent
+	data["MTIdiotFMLStorySent"] = MTIdiotFMLStorySent
+	data["MTOopsIBrokeItAgainStorySent"] = MTOopsIBrokeItAgainStorySent
+	data["MTShuttleHubStorySent"] = MTShuttleHubStorySent
+	data["MTUniversityStorySent"] = MTUniversityStorySent
+	data["MTMartianCelebrityStorySent"] = MTMartianCelebrityStorySent
+	data["MTFirstFounderDiedStorySent"] = MTFirstFounderDiedStorySent
+	data["MTMartianCelebrity"] = MTMartianCelebrity
+	data["MTVirtueOverVicesStorySent"] = MTVirtueOverVicesStorySent
+	data["MTFirstDeadMartian"] = MTFirstDeadMartian
+	data["MTDeadMartian"] = MTDeadMartian
+	data["MTFirstMartianbornDiedStorySent"] = MTFirstMartianbornDiedStorySent
+	data["MTBirthdayColonistName"] = MTBirthdayColonistName
+	data["MTHappyBDayStorySent"] = MTHappyBDayStorySent
+	data["MTSaintColonist"] = MTSaintColonist
+	data["MTSaintColonistName"] = MTSaintColonistName
+	data["MTReligiousArtifactStorySent"] = MTReligiousArtifactStorySent
+	data["MTEqualityStorySent"] = MTEqualityStorySent
+	data["MTPassportStorySent"] = MTPassportStorySent
+	data["MTMartianMusicStorySent"] = MTMartianMusicStorySent
+	data["MTVigilanteStorySent"] = MTVigilanteStorySent
+	data["MTNewLanguageStorySent"] = MTNewLanguageStorySent
+	data["MTSpyStorySent"] = MTSpyStorySent
+	data["MTMarsRealityTVStorySent"] = MTMarsRealityTVStorySent
+	data["MTSoylentGreenStorySent"] = MTSoylentGreenStorySent
+	data["MTCelebrityColonist"] = MTCelebrityColonist
+	data["MTCelebrityColonistName"] = MTCelebrityColonistName
+	data["MTMarsRealityTVStorySent"] = MTMarsRealityTVStorySent
+	data["MTScratchingTheSurfaceStoryRemoved"] = MTScratchingTheSurfaceStoryRemoved
+	data["MTScratchingTheSurfaceStorySent"] = MTScratchingTheSurfaceStorySent
+	data["MTPewPewStorySent"] = MTPewPewStorySent
+	data["MTPewPewWaitingPeriod"] = MTPewPewWaitingPeriod
+	data["MTPewPewPewStorySent"] = MTPewPewPewStorySent
+	data["MTConcreteLoveStorySent"] = MTConcreteLoveStorySent
+	data["MTOvalDomeUnnaturalStorySent"] = MTOvalDomeUnnaturalStorySent
+	data["MTDroneGoesViralStorySent"] = MTDroneGoesViralStorySent
+	data["MTMoxieMagicStorySent"] = MTMoxieMagicStorySent
+	data["MTTempArcologyDome"] = MTTempArcologyDome
+	data["MTArcologyInuendoStorySent"] = MTArcologyInuendoStorySent
+	data["MTMoxieMagicStorySent"] = MTMoxieMagicStorySent
+	data["MTRocketObservationStorySent"] = MTRocketObservationStorySent
+	data["MTAirSupply1StorySent"] = MTAirSupply1StorySent
+	data["MTAirSupply2StorySent"] = MTAirSupply2StorySent
+	data["MTCurrentAirIssue"] = MTCurrentAirIssue
+	data["MTWaterSupply1StorySent"] = MTWaterSupply1StorySent
+	data["MTWaterSupply2StorySent"] = MTWaterSupply2StorySent
+	data["MTCurrentWaterIssue"] = MTCurrentWaterIssue
+	data["MTPowerSupply1StorySent"] = MTPowerSupply1StorySent
+	data["MTPowerSupply2StorySent"] = MTPowerSupply2StorySent
+	data["MTCurrentPowerIssue"] = MTCurrentPowerIssue
+	data["MTDroneShortageStorySent"] = MTDroneShortageStorySent
+	data["MTCompactPassengerStorySent"] = MTCompactPassengerStorySent
+	data["MTDroneBreakdownStoryRemoved"] = MTDroneBreakdownStoryRemoved
+	data["MTDroneBreakdownStorySent"] = MTDroneBreakdownStorySent
+	data["MTMarathonExplorerStorySent"] = MTMarathonExplorerStorySent
+	data["MTGuruColonistName"] = MTGuruColonistName
+	data["MTGuruColonist"] = MTGuruColonist
+	data["MTMartianFaithStorySent"] = MTMartianFaithStorySent
+	data["MTScientist"] = MTScientist
+	data["MTScientistColonist"] = MTScientistColonist
+	data["MTFutureExpansionStorySent"] = MTFutureExpansionStorySent
+	data["MTElonMuskStorySent"] = MTElonMuskStorySent
+	data["MTMartianOlympicsStorySent"] = MTMartianOlympicsStorySent
+	data["MTMarsDayStorySent"] = MTMarsDayStorySent
+	data["MTFoundersFirstWordsStorySent"] = MTFoundersFirstWordsStorySent
+	data["MTFounderColonist"] = MTFounderColonist
+	data["MTFounderColonistName"] = MTFounderColonistName
+	data["MTRenegadeColonist"] = MTRenegadeColonist
+	data["MTRenegadeColonistName"] = MTRenegadeColonistName
+	data["MTScientistColonist"] = MTScientistColonist
+	data["MTScientistColonistName"] = MTScientistColonistName
+	data["MTFightClub2StorySent"] = MTFightClub2StorySent
+	data["MTFightClub2Wait"] = MTFightClub2Wait
+end
+
+function OnMsg.PersistLoad(data)
+	g_MTTopPotentialStories = data["g_MTTopPotentialStories"]
+	g_MTTopFreeStories = data["g_MTTopFreeStories"]
+	g_MTTopArchive = data["g_MTTopArchive"]
+	g_MTEngPotentialStories = data["g_MTEngPotentialStories"]
+	g_MTEngFreeStories = data["g_MTEngFreeStories"]
+	g_MTEngArchive = data["g_MTEngArchive"]
+	g_MTSocialPotentialStories = data["g_MTSocialPotentialStories"]
+	g_MTSocialFreeStories = data["g_MTSocialFreeStories"]
+	g_MTSocialArchive = data["g_MTSocialArchive"]
+	MTLeader = data["MTLeader"]
+	MTLeaderTitle = data["MTLeaderTitle"]
+	MTColonistsHaveArrived = data["MTColonistsHaveArrived"]
+	MTNoHumansStoryRemoved  = data["MTNoHumansStoryRemoved"]
+	MTFinancesStorySent = data["MTFinancesStorySent"]
+	MTrockets3StorySent = data["MTrockets3StorySent"]
+	MTrockets0StorySent = data["MTrockets0StorySent"]
+	MTHackThePlanetStorySent = data["MTHackThePlanetStorySent"]
+	MTHackThePlanetStoryRemoved = data["MTHackThePlanetStoryRemoved"]
+	MTFoundersDeadSolSet = data["MTFoundersDeadSolSet"]
+	MTFoundersMourningPeriod = data["MTFoundersMourningPeriod"]
+	MTFoundersDeadSol = data["MTFoundersDeadSol"]
+	MTFoundersLegacyStorySent = data["MTFoundersLegacyStorySent"]
+	MTAdultFilmStorySent = data["MTAdultFilmStorySent"]
+	MTDroneRightsStorySent = data["MTDroneRightsStorySent"]
+	MTDroneColonistName = data["MTDroneColonistName"]
+	MTIdiotColonistSelected = data["MTIdiotColonistSelected"]
+	MTSexyColonistSelected = data["MTSexyColonistSelected"]
+	MTLeaderColonist = data["MTLeaderColonist"]
+	MTPetRockStorySent = data["MTPetRockStorySent"]
+	MTPetRockColonist = data["MTPetRockColonist"]
+	MTPetRockColonistInterimName = data["MTPetRockColonistInterimName"]
+	MTTempGymDome = data["MTTempGymDome"]
+	MTOlympicBidGymDome = data["MTOlympicBidGymDome"]
+	MTOlympicBidStorySent = data["MTOlympicBidStorySent"]
+	MTRefuseHitsFanStorySent = data["MTRefuseHitsFanStorySent"]
+	MTTeenagerColonist = data["MTTeenagerColonist"]
+	MTTempTeenagerName = data["MTTempTeenagerName"]
+	MTTeenagerDomeName = data["MTTeenagerDomeName"]
+	MTTeenagerJoyrideName = data["MTTeenagerJoyrideName"]
+	MTTeenagerJoyrideDome = data["MTTeenagerJoyrideDome"]
+	MTDroneHackDays = data["MTDroneHackDays"]
+	MTTeenagerJoyrideStorySent = data["MTTeenagerJoyrideStorySent"]
+	MTDroneHack2StoryInitiated = data["MTDroneHack2StoryInitiated"]
+	MTDroneHack2StorySent = data["MTDroneHack2StorySent"]
+	MTDH3ColonistName = data["MTDH3ColonistName"]
+	MTDH3Colonist = data["MTDH3Colonist"]
+	MTDroneHack3StorySent = data["MTDroneHack3StorySent"]
+	MTVeganColonist = data["MTVeganColonist"]
+	MTVeganColonistName = data["MTVeganColonistName"]
+	MTVegan1MedicColonist = data["MTVegan1MedicColonist"]
+	MTVegan1MedicColonistName = data["MTVegan1MedicColonistName"]
+	MTVegan1StoryHasBeenSent = data["MTVegan1StoryHasBeenSent"]
+	MTVeganPurgatoryDays = data["MTVeganPurgatoryDays"]
+	MTVeganStory2HasBeenSent = data["MTVeganStory2HasBeenSent"]
+	MTVDDome = data["MTVDDome"]
+	MTVeganDinerColonist = data["MTVeganDinerColonist"]
+	MTVeganColonistName = data["MTVeganColonistName"]
+	MTRMWorkerDome = data["MTRMWorkerDome"]
+	MTRMWorkerDomeName = data["MTRMWorkerDomeName"]
+	MTRMColonist = data["MTRMColonist"]
+	MTRMColonistName = data["MTRMColonistName"]
+	MTGetColonistRandom = data["MTGetColonistRandom"]
+	MTTempMovingDome1 = data["MTTempMovingDome1"]
+	MTTempMovingDome2 = data["MTTempMovingDome2"]
+	MTBotanistColonist = data["MTBotanistColonist"]
+	MTBotanistColonistName = data["MTBotanistColonistName"]
+	MTHippieStorySent = data["MTHippieStorySent"]
+	MTDeadFounder = data["MTDeadFounder"]
+	MTDeadFounderColonist = data["MTDeadFounderColonist"]
+	MTConnoisseurStorySent = data["MTConnoisseurStorySent"]
+	MTWatchWhatYouEatStorySent = data["MTWatchWhatYouEatStorySent"]
+	MTIdiotFMLStorySent = data["MTIdiotFMLStorySent"]
+	MTOopsIBrokeItAgainStorySent = data["MTOopsIBrokeItAgainStorySent"]
+	MTShuttleHubStorySent = data["MTShuttleHubStorySent"]
+	MTUniversityStorySent = data["MTUniversityStorySent"]
+	MTMartianCelebrityStorySent = data["MTMartianCelebrityStorySent"]
+	MTFirstFounderDiedStorySent = data["MTFirstFounderDiedStorySent"]
+	MTMartianCelebrity = data["MTMartianCelebrity"]
+	MTVirtueOverVicesStorySent = data["MTVirtueOverVicesStorySent"]
+	MTFirstDeadMartian = data["MTFirstDeadMartian"]
+	MTDeadMartian = data["MTDeadMartian"]
+	MTFirstMartianbornDiedStorySent = data["MTFirstMartianbornDiedStorySent"]
+	MTBirthdayColonistName = data["MTBirthdayColonistName"]
+	MTHappyBDayStorySent = data["MTHappyBDayStorySent"]
+	MTSaintColonist = data["MTSaintColonist"]
+	MTSaintColonistName = data["MTSaintColonistName"]
+	MTReligiousArtifactStorySent = data["MTReligiousArtifactStorySent"]
+	MTEqualityStorySent = data["MTEqualityStorySent"]
+	MTPassportStorySent = data["MTPassportStorySent"]
+	MTMartianMusicStorySent = data["MTMartianMusicStorySent"]
+	MTVigilanteStorySent = data["MTVigilanteStorySent"]
+	MTNewLanguageStorySent = data["MTNewLanguageStorySent"]
+	MTSpyStorySent = data["MTSpyStorySent"]
+	MTMarsRealityTVStorySent = data["MTMarsRealityTVStorySent"]
+	MTSoylentGreenStorySent = data["MTSoylentGreenStorySent"]
+	MTCelebrityColonist = data["MTCelebrityColonist"]
+	MTCelebrityColonistName = data["MTCelebrityColonistName"]
+	MTMarsRealityTVStorySent = data["MTMarsRealityTVStorySent"]
+	MTScratchingTheSurfaceStoryRemoved = data["MTScratchingTheSurfaceStoryRemoved"]
+	MTScratchingTheSurfaceStorySent = data["MTScratchingTheSurfaceStorySent"]
+	MTPewPewStorySent = data["MTPewPewStorySent"]
+	MTPewPewWaitingPeriod = data["MTPewPewWaitingPeriod"]
+	MTPewPewPewStorySent = data["MTPewPewPewStorySent"]
+	MTConcreteLoveStorySent = data["MTConcreteLoveStorySent"]
+	MTOvalDomeUnnaturalStorySent = data["MTOvalDomeUnnaturalStorySent"]
+	MTDroneGoesViralStorySent = data["MTDroneGoesViralStorySent"]
+	MTMoxieMagicStorySent = data["MTMoxieMagicStorySent"]
+	MTTempArcologyDome = data["MTTempArcologyDome"]
+	MTArcologyInuendoStorySent = data["MTArcologyInuendoStorySent"]
+	MTMoxieMagicStorySent = data["MTMoxieMagicStorySent"]
+	MTRocketObservationStorySent = data["MTRocketObservationStorySent"]
+	MTAirSupply1StorySent = data["MTAirSupply1StorySent"]
+	MTAirSupply2StorySent = data["MTAirSupply2StorySent"]
+	MTCurrentAirIssue = data["MTCurrentAirIssue"]
+	MTWaterSupply1StorySent = data["MTWaterSupply1StorySent"]
+	MTWaterSupply2StorySent = data["MTWaterSupply2StorySent"]
+	MTCurrentWaterIssue = data["MTCurrentWaterIssue"]
+	MTPowerSupply1StorySent = data["MTPowerSupply1StorySent"]
+	MTPowerSupply2StorySent = data["MTPowerSupply2StorySent"]
+	MTCurrentPowerIssue = data["MTCurrentPowerIssue"]
+	MTDroneShortageStorySent = data["MTDroneShortageStorySent"]
+	MTCompactPassengerStorySent = data["MTCompactPassengerStorySent"]
+	MTDroneBreakdownStoryRemoved = data["MTDroneBreakdownStoryRemoved"]
+	MTDroneBreakdownStorySent = data["MTDroneBreakdownStorySent"]
+	MTMarathonExplorerStorySent = data["MTMarathonExplorerStorySent"]
+	MTGuruColonistName = data["MTGuruColonistName"]
+	MTGuruColonist = data["MTGuruColonist"]
+	MTMartianFaithStorySent = data["MTMartianFaithStorySent"]
+	MTScientist = data["MTScientist"]
+	MTScientistColonist = data["MTScientistColonist"]
+	MTFutureExpansionStorySent = data["MTFutureExpansionStorySent"]
+	MTElonMuskStorySent = data["MTElonMuskStorySent"]
+	MTMartianOlympicsStorySent = data["MTMartianOlympicsStorySent"]
+	MTMarsDayStorySent = data["MTMarsDayStorySent"]
+	MTFoundersFirstWordsStorySent = data["MTFoundersFirstWordsStorySent"]
+	MTFounderColonist = data["MTFounderColonist"]
+	MTFounderColonistName = data["MTFounderColonistName"]
+	MTRenegadeColonist = data["MTRenegadeColonist"]
+	MTRenegadeColonistName = data["MTRenegadeColonistName"]
+	MTScientistColonist = data["MTScientistColonist"]
+	MTScientistColonistName = data["MTScientistColonistName"]
+	MTFightClub2StorySent = data["MTFightClub2StorySent"]
+	MTFightClub2Wait = data["MTFightClub2Wait"]
 end
 
 function MTDelVar()  -- clears out all variables for testing purposes
 	g_MTTopFreeStories = nil
 	g_MTTopPotentialStories = nil
 	g_MTTopArchive = nil
-	MTWeAreMartian = nil
-	MTrockets0 = nil
-	MTrockets3 = nil
-	MTOnThisDayin1965 = nil
-	MTOnThisDayin1976 = nil
-	MTOnThisDayin1997 = nil
-	MTOnThisDayin2015 = nil
-	MTNoHumans = nil
-	MTHackThePlanet = nil
-	MTFinances1 = nil
-	MTFinances2 = nil
-	MTFinances3 = nil
-	MTSponsor = nil
-	MTLeader = nil
-	MTLeaderTitle = nil
 	MTTopStoryRandom = nil
 	MTTopCurrentStory = nil
 	MTEngArchiveDepleted = nil
@@ -2681,73 +3652,60 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTTempSocialArchive = nil
 	MTSocialArchive1 = nil
 	MTSocialArchive2 = nil
-	MTColonistDied = nil
-	MTFoundersDome = nil
-	MTFoundersDeadCount = nil
-	MTFoundersLegacyDome = nil
-	MTFoundersLegacyBuilding = nil
-	MTFounders = nil
-	MTFoundersDomeRelaxation = nil
-	MTFoundersDomeName = nil
-	MTFoundersDeadSolSet = nil
-	MTFoundersMourningPeriod = nil
-	MTFoundersDeadSol = nil
-	MTFoundersLegacyStorySent = nil
-	MTNoHumansStoryRemoved = nil
+	g_MTTopPotentialStories = nil
+	g_MTTopFreeStories = nil
+	g_MTTopArchive = nil
+	g_MTEngPotentialStories = nil
+	g_MTEngFreeStories = nil
+	g_MTEngArchive = nil
+	g_MTSocialPotentialStories = nil
+	g_MTSocialFreeStories = nil
+	g_MTSocialArchive = nil
+	MTLeader = nil
+	MTLeaderTitle = nil
+	MTColonistsHaveArrived = nil
+	MTNoHumansStoryRemoved  = nill
 	MTFinancesStorySent = nil
 	MTrockets3StorySent = nil
 	MTrockets0StorySent = nil
 	MTHackThePlanetStorySent = nil
 	MTHackThePlanetStoryRemoved = nil
-	MTAdultFilm = nil
+	MTFoundersDeadSolSet = nil
+	MTFoundersMourningPeriod = nil
+	MTFoundersDeadSol = nil
+	MTFoundersLegacyStorySent = nil
 	MTAdultFilmStorySent = nil
-	MTSexyColonistName = nil
-	MTSexyColonist = nil
-	MTIdiotColonist = nil
-	MTIdiotColonistName = nil
-	MTDroneColonistName = nil
 	MTDroneRightsStorySent = nil
+	MTDroneColonistName = nil
+	MTIdiotColonistSelected = nil
+	MTSexyColonistSelected = nil
 	MTLeaderColonist = nil
-	MTGetLeaderTrait = nil
-	MTGetLeaderTableRandom = nil
-	MTGetLeaderTable = nil
-	MTDeadLeader = nil
-	MTDeadLeaderRandom = nil
-	MTDeadColonist = nil
-	MTNewLeaderStory1 = nil
-	MTNewLeaderStory2 = nil
-	MTNewLeaderStory3 = nil
-	MTNewLeaderStoryRandom = nil
-	MTNewLeaderChosenIndex = nil
-	MTNewLeaderChosenNewIndex = nil
-	MTLeaderDied1 = nil
-	MTLeaderDied2 = nil
 	MTPetRockStorySent = nil
-	MTPetRockColonistName = nil
+	MTPetRockColonist = nil
 	MTPetRockColonistInterimName = nil
-	MTPetRock = nil
-	MTPoliticalAmbitions = nil
+	MTTempGymDome = nil
+	MTOlympicBidGymDome = nil
+	MTOlympicBidStorySent = nil
+	MTRefuseHitsFanStorySent = nil
 	MTTeenagerColonist = nil
 	MTTempTeenagerName = nil
 	MTTeenagerDomeName = nil
 	MTTeenagerJoyrideName = nil
 	MTTeenagerJoyrideDome = nil
+	MTDroneHackDays = nil
 	MTTeenagerJoyrideStorySent = nil
+	MTDroneHack2StoryInitiated = nil
+	MTDroneHack2StorySent = nil
 	MTDH3ColonistName = nil
 	MTDH3Colonist = nil
 	MTDroneHack3StorySent = nil
-	MTDroneHackDays = nil
-	MTDroneHack2StoryInitiated = nil
-	MTDroneHack2StorySent = nil
 	MTVeganColonist = nil
 	MTVeganColonistName = nil
 	MTVegan1MedicColonist = nil
 	MTVegan1MedicColonistName = nil
 	MTVegan1StoryHasBeenSent = nil
 	MTVeganPurgatoryDays = nil
-	MTNewVeganPurgatoryDays = nil
 	MTVeganStory2HasBeenSent = nil
-	MTVeganColonist = nil
 	MTVDDome = nil
 	MTVeganDinerColonist = nil
 	MTVeganColonistName = nil
@@ -2756,23 +3714,87 @@ function MTDelVar()  -- clears out all variables for testing purposes
 	MTRMColonist = nil
 	MTRMColonistName = nil
 	MTGetColonistRandom = nil
+	MTTempMovingDome1 = nil
+	MTTempMovingDome2 = nil
 	MTBotanistColonist = nil
 	MTBotanistColonistName = nil
 	MTHippieStorySent = nil
-	MTDomeDelay2StoryInitiated = nil
-	MTMovingDomesStorySent = nil
-	MTRareMetalsComplaintStorySent = nil
-	MTConcretePavingStorySent = nil
-	MTVeganDinerStorySent = nil
-	MTVegan3StorySent = nil
-	MTVegan4StorySent = nil
-	MTDomeDelay1StorySent = nil
-	MTDomeDelay2StorySent = nil
-	MTNoNews = nil
-	MTTopArchiveDepleted = nil
-	MTSocialArchiveDepleted = nil
-	MTEngArchiveDepleted = nil
-	MTArchiveDepleted2 = nil
+	MTDeadFounder = nil
+	MTDeadFounderColonist = nil
+	MTConnoisseurStorySent = nil
+	MTWatchWhatYouEatStorySent = nil
+	MTIdiotFMLStorySent = nil
+	MTOopsIBrokeItAgainStorySent = nil
+	MTShuttleHubStorySent = nil
+	MTUniversityStorySent = nil
+	MTMartianCelebrityStorySent = nil
+	MTFirstFounderDiedStorySent = nil
+	MTMartianCelebrity = nil
+	MTVirtueOverVicesStorySent = nil
+	MTFirstDeadMartian = nil
+	MTDeadMartian = nil
+	MTFirstMartianbornDiedStorySent = nil
+	MTBirthdayColonistName = nil
+	MTHappyBDayStorySent = nil
+	MTSaintColonist = nil
+	MTSaintColonistName = nil
+	MTReligiousArtifactStorySent = nil
+	MTEqualityStorySent = nil
+	MTPassportStorySent = nil
+	MTMartianMusicStorySent = nil
+	MTVigilanteStorySent = nil
+	MTNewLanguageStorySent = nil
+	MTSpyStorySent = nil
+	MTMarsRealityTVStorySent = nil
+	MTSoylentGreenStorySent = nil
+	MTCelebrityColonist = nil
+	MTCelebrityColonistName = nil
+	MTMarsRealityTVStorySent = nil
+	MTScratchingTheSurfaceStoryRemoved = nil
+	MTScratchingTheSurfaceStorySent = nil
+	MTPewPewStorySent = nil
+	MTPewPewWaitingPeriod = nil
+	MTPewPewPewStorySent = nil
+	MTConcreteLoveStorySent = nil
+	MTOvalDomeUnnaturalStorySent = nil
+	MTDroneGoesViralStorySent = nil
+	MTMoxieMagicStorySent = nil
+	MTTempArcologyDome = nil
+	MTArcologyInuendoStorySent = nil
+	MTMoxieMagicStorySent = nil
+	MTRocketObservationStorySent = nil
+	MTAirSupply1StorySent = nil
+	MTAirSupply2StorySent = nil
+	MTCurrentAirIssue = nil
+	MTWaterSupply1StorySent = nil
+	MTWaterSupply2StorySent = nil
+	MTCurrentWaterIssue = nil
+	MTPowerSupply1StorySent = nil
+	MTPowerSupply2StorySent = nil
+	MTCurrentPowerIssue = nil
+	MTDroneShortageStorySent = nil
+	MTCompactPassengerStorySent = nil
+	MTDroneBreakdownStoryRemoved = nil
+	MTDroneBreakdownStorySent = nil
+	MTMarathonExplorerStorySent = nil
+	MTGuruColonistName = nil
+	MTGuruColonist = nil
+	MTMartianFaithStorySent = nil
+	MTScientist = nil
+	MTScientistColonist = nil
+	MTFutureExpansionStorySent = nil
+	MTElonMuskStorySent = nil
+	MTMartianOlympicsStorySent = nil
+	MTMarsDayStorySent = nil
+	MTFoundersFirstWordsStorySent = nil
+	MTFounderColonist = nil
+	MTFounderColonistName = nil
+	MTRenegadeColonist = nil
+	MTRenegadeColonistName = nil
+	MTScientistColonist = nil
+	MTScientistColonistName = nil
+	MTFightClub2StorySent = nil
+	MTFightClub2Wait = nil
 
 
 end
