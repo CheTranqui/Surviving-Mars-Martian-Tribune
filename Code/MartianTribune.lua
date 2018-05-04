@@ -1131,16 +1131,20 @@ end
 
 function MTFoundersFirstWordsStory()
 	if MTFoundersFirstWordsStorySent ~= "true" then
-		MTFounderCheck = MTGetFounder("set")
-		if MTFounderCheck ~= "none" then
-			MTFounder = MTGetFounder("colonist")
-			MTFounderName = MTGetFounder("name")
-			MTFounder:TogglePin()
-			MTFoundersFirstWords = {}
-			MTFoundersFirstWords["title"] = T{"First Words Spoken On Mars"}
-			MTFoundersFirstWords["story"] = T{"     'Our journey began with one small step and one giant leap. Today, we take another of each, and begin to find our stride'. Powerful words from "..MTFounderName.." as Humanity expands for the first time to another planet."}
-			table.insert(g_MTTopPotentialStories, MTFoundersFirstWords)
-			MTFoundersFirstWordsStorySent = "true"
+		if UICity.labels.Colonist ~= nil then
+			MTFounderCheck = MTGetFounder("set")
+			if MTFounderCheck ~= "none" then
+				MTFounder = MTGetFounder("colonist")
+				MTFounderName = MTGetFounder("name")
+				MTFounder:TogglePin()
+				MTFoundersFirstWords = {}
+				MTFoundersFirstWords["title"] = T{"First Words Spoken On Mars"}
+				MTFoundersFirstWords["story"] = T{"     'Our journey began with one small step and one giant leap. Today, we take another of each, and begin to find our stride'. Powerful words from "..MTFounderName.." as Humanity expands for the first time to another planet."}
+				table.insert(g_MTTopPotentialStories, MTFoundersFirstWords)
+				MTFoundersFirstWordsStorySent = "true"
+			else
+				MTFoundersFirstWordsStorySent = "true"
+			end
 		end
 	end
 end
@@ -3636,6 +3640,10 @@ function OnMsg.PersistLoad(data)
 	MTScientistColonistName = data["MTScientistColonistName"]
 	MTFightClub2StorySent = data["MTFightClub2StorySent"]
 	MTFightClub2Wait = data["MTFightClub2Wait"]
+	if g_MTTopPotentialStories == nil or #g_MTTopPotentialStories > 1 then
+		MTInitializeStoryTables()
+		MTLoadStoriesIntoTables()
+	end
 end
 
 function MTDelVar()  -- clears out all variables for testing purposes
