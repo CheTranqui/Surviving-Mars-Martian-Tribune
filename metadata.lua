@@ -4,12 +4,12 @@ return PlaceObj('ModDef', {
 	'id', "lf1iELO",
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
-	'version', 761,
+	'version', 765,
 	'lua_revision', 229422,
 	'code', {
 		"Code/MartianTribune.lua",
 	},
-	'saved', 1525651458,
+	'saved', 1525870634,
 	'TagCosmetics', true,
 	'TagOther', true,
 })

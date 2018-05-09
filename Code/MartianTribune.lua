@@ -1003,10 +1003,10 @@ end
 -- triggered via ColonistBorn
 function MTFutureExpansionStory()
 	if MTFutureExpansionStorySent ~= "true" then
-		if #UICity.labels.Colonist > 250 then
+		if #UICity.labels.Colonist > 600 then
 			MTFutureExpansion = {}
 			MTFutureExpansion["title"] = T{"Successful Martian Colony Brings Hope"}
-			MTFutureExpansion["story"] = T{"     Our beautiful Martian colony, that started many sol ago has brought hope to humanity, inspiring her to look beyond, unto other planets, with a desire to colonise other rocks within the Milky Way. Most of the impetus at the moment are for colonisation of the moon, Europa, Venus and Jupiter.  Russia has stated that it would consider trying to colonise Pluto, though this was before realising Russia is already bigger then the icy dwarf planet."}
+			MTFutureExpansion["story"] = T{"     Our beautiful Martian colony, that started many sol ago has brought hope to humanity, inspiring her to look beyond, unto other planets, with a desire to colonise other rocks within the Milky Way. Most of the impetus at the moment are for colonisation of the moon, Europa, Venus and Jupiter.  Russia has stated that it would consider trying to colonise Pluto, though this was before realising Russia is already bigger than the icy dwarf planet."}
 			table.insert(g_MTTopPotentialStories, MTFutureExpansion)
 			MTFutureExpansionStorySent = "true"
 		end
@@ -1304,7 +1304,7 @@ function MTMarathonExplorerStory()
 			if #GetObjects{class = "ExplorerRover"} > 0 then
 				MTMarathonExplorer = {}
 				MTMarathonExplorer["title"] = T{"A Martian Marathon"}
-				MTMarathonExplorer["story"] = T{"     Mars' first RC Explorer has now traversed a whopping 42.2 Kilometers, or 26.2 miles, completing its own personal marathon on Mars. We at the Martian Tribune support this great explorer in its marithon effort. May the discoveries continue to pour in as a result of such diligence and dedication."}
+				MTMarathonExplorer["story"] = T{"     Mars' first RC Explorer has now traversed a whopping 42.2 Kilometers, or 26.2 miles, completing its own personal marathon on Mars. We at the Martian Tribune support this great explorer in its marathon effort. May the discoveries continue to pour in as a result of such diligence and dedication."}
 				table.insert(g_MTTopPotentialStories, MTMarathonExplorer)
 				MTMarathonExplorerStorySent = "true"
 			end
@@ -1483,7 +1483,7 @@ function MTArcologyInuendoStory()
 		MTArcologyDomeName = MTGetArcologyDome("set")
 		MTArcologyInuendo = {}
 		MTArcologyInuendo["title"] = T{"First Dome-Penetrating Structure Erected"}
-		MTArcologyInuendo["story"] = T{"     The Arcology erected in "..MTArcologyDomeName.." has been praised as an exquisite example of engineering, poking through the rounded dome, to a firm stance with a rounded bottom. As ever, the typical architectural tropes remain well intact, as one of the arcology residents put it, 'Seriously, the entire building is one giant inuendo!'"}
+		MTArcologyInuendo["story"] = T{"     The Arcology erected in "..MTArcologyDomeName.." has been praised as an exquisite example of engineering, poking through the rounded dome, to a firm stance with a rounded bottom. As ever, the typical architectural tropes remain well intact, as one of the arcology residents put it, 'How are we not doing phrasing anymore?  Seriously, the entire building is one giant inuendo!'"}
 		table.insert(g_MTEngPotentialStories, MTArcologyInuendo)
 		MTArcologyInuendoStorySent = "true"
 	end
@@ -1555,8 +1555,9 @@ end
 function MTOvalDomeUnnaturalStory()
 	if MTOvalDomeUnnaturalStorySent ~= "true" then
 		if #GetObjects{class = "DomeOval"} > 0 then
+			MTOvalUnnatural = {}
 			MTOvalUnnatural["title"] = T{"Oval Dome Declared Unnatural"}
-			MTOvalUnnatural["story"] = T{"     The building of the new Oval Dome has stirred a fair share of controversy on Mars. The Flat Mars League (FML) has come forward, claiming it unnatural. 'We have always built round domes, this new oval dome is an insult to martian tradition. Whats next? Square?' The new dome design allows for two spires, which scientists have described as 'an incredible breakthrough' stating that they can now throw paper airplanes from one spire to another without even striking the sides of the dome."}
+			MTOvalUnnatural["story"] = T{"     The building of the new Oval Dome has stirred a fair share of controversy on Mars. The Flat Mars League (FML) has come forward, claiming it unnatural. 'We have always built round domes, this new oval dome is an insult to martian tradition. What's next? Square?' The new dome design allows for two spires, which scientists have described as 'an incredible breakthrough' stating that they can now throw paper airplanes from one spire to another without even striking the sides of the dome."}
 			table.insert(g_MTEngPotentialStories, MTOvalUnnatural)
 			MTOvalDomeUnnaturalStorySent = "true"
 		end
@@ -1618,7 +1619,7 @@ function MTScratchingTheSurfaceStory(addorremove)
 				if UICity.day > 75 then
 					MTScratchingTheSurface = {}
 					MTScratchingTheSurface["title"] = T{"Barely Scratching The Surface"}
-					MTScratchingTheSurface["story"] = T{"     With each day that passes we are learning more and more about the new world around us, but we this doesn't mean that we've learned a single iota about the land next to us.  Our surface deposits are great, but when are we going to probe beyond the surface?  These piddly deposits will only serve our needs in the short term.  In the long term, we need to bore.  We need to go deep."}
+					MTScratchingTheSurface["story"] = T{"     With each day that passes we are learning more and more about the new world around us, but this doesn't mean that we've learned a single iota about the land next to us.  Our surface deposits are great, but when are we going to probe beyond the surface?  These piddly deposits will only serve our needs in the short term.  In the long term, we need to bore.  We need to go deep."}
 					table.insert(g_MTEngPotentialStories, MTScratchingTheSurface)
 					MTScratchingTheSurfaceStorySent = "true"
 				end
@@ -1637,18 +1638,20 @@ function MTShortageStories()
 					MTDomeWithoutO2 = MTGetDomeWithoutO2("set")
 					MTDomeWithoutO2Random = Random(1,2)  -- 2 separate oxygen shortage stories
 					if MTDomeWithoutO2Random == 1 then
-						if MT02Shortage1StorySent ~= "true" then
+						if MTO2Shortage1StorySent ~= "true" then
+							MTO2Shortage1 = {}
 							MTO2Shortage1["title"] = T{"All of "..MTDomeWithoutO2.." Holds Their Breath"}
 							MTO2Shortage1["story"] = T{"     "..MTDomeWithoutO2.." is in dire straits as their oxygen supply was cut off from them recently.  While the "..MTLeaderTitle.." has already sent for the materials and drones necessary for repair, "..MTDomeWithoutO2.." citizens wonder anxiously: will it all arrive in time to matter?  For the rest of us: be prepared for a potential emergency evacuation."}
 							table.insert(g_MTEngPotentialStories, MTO2Shortage1)
-							MT02Shortage1StorySent = "true"
+							MTO2Shortage1StorySent = "true"
 						end
 					elseif MTDomeWithoutO2Random == 2 then
-						if MT02Shortage2StorySent ~= "true" then
+						if MTO2Shortage2StorySent ~= "true" then
+							MTO2Shortage2 = {}
 							MTO2Shortage2["title"] = T{" "..MTDomeWithoutO2.." Lets Off Some Steam"}
 							MTO2Shortage2["story"] = T{"     Without any oxygen, "..MTDomeWithoutO2.." is no longer able to sustain the population it once did.  Please make room in your own home for refugees.  Hopefully the drones are already on it, but either way, "..MTDomeWithoutO2.." will be offline for a time while under repair."}
 							table.insert(g_MTEngPotentialStories, MTO2Shortage2)
-							MT02Shortage2StorySent = "true"
+							MTO2Shortage2StorySent = "true"
 						end
 					end
 				end -- end Oxygen Shortage stories
@@ -1894,7 +1897,7 @@ function MTReligiousArtifactStory()
 			MTSaint = MTReligiousSaint("check")
 			MTReligiousArtifact = {}
 			MTReligiousArtifact["title"] = T{"Religious Artifact Found on Mars"}
-			MTReligiousArtifact["story"] = T{"     "..MTSaint.." has found what appears to be a religious artifact on Mars. The item, shaped like the Point of Origin symbol from Stargate fame, has been heralded as undenyable proof of "..MTSaint.."'s new religion as the one true faith. Sceptics however are reported saying '..its just a stupid, useless rock.. there are thousands of them all around! What's so special about this one?'"}
+			MTReligiousArtifact["story"] = T{"     "..MTSaint.." has found what appears to be a religious artifact on Mars. The item, shaped like the Point of Origin symbol from Stargate fame, has been heralded as undeniable proof of "..MTSaint.."'s new religion as the one true faith. Sceptics however are reported saying '..its just a stupid, useless rock.. there are thousands of them all around! What's so special about this one?'"}
 			table.insert(g_MTSocialPotentialStories, MTReligiousArtifact)
 			MTReligiousArtifactStorySent = "true"
 		end
@@ -2017,7 +2020,7 @@ function MTWatchWhatYouEatStory()
 			MTRandomColonistName = MTGetRandomColonist("name")
 			MTWatchWhatYouEat = {}
 			MTWatchWhatYouEat["title"] = T{"Watch What You Eat"}
-			MTWatchWhatYouEat["story"] = T{"     A new ordinance has been passed on the number of drinks one may imbibe after yet another incident.  Five of our inibriated compatriots recently snuck off to the stockpiles overnight, exchanging the contents of the food containers randomly with the polymers, machine parts, and electronics again.  Watch what you eat, folks.  As "..MTRandomColonistName.." put it, 'Those electronics just don't go down well'."}
+			MTWatchWhatYouEat["story"] = T{"     A new ordinance has been passed on the number of drinks one may imbibe after yet another incident.  Five of our inebriated compatriots recently snuck off to the stockpiles overnight, exchanging the contents of the food containers randomly with polymers, machine parts, and electronics again.  Watch what you eat, folks.  As "..MTRandomColonistName.." put it, 'Those electronics just don't go down well'."}
 			table.insert(g_MTEngPotentialStories, MTWatchWhatYouEat)
 			MTWatchWhatYouEatStorySent = "true"
 		end
@@ -2410,7 +2413,9 @@ function MTVegan1StorySent(setorcheck)
 	if setorcheck == "set" then
 		MTVegan1StoryHasBeenSent = "true"
 	else
-		MTVegan1StoryHasBeenSent = "false"
+		if MTVegan1StoryHasBeenSent == nil then
+			MTVegan1StoryHasBeenSent = "false"
+		end
 	end
 	return MTVegan1StoryHasBeenSent
 end
@@ -2814,17 +2819,13 @@ end
 function MTLeaderDiedStory(MTDeadColonist)
 	MTDeadLeader = MTDeadColonist.name
 	MTDeadLeaderRandom = Random(1,2)
-	if MTLeaderDied1 == nil then
-		MTLeaderDied1 = {}
-	end
-	if MTLeaderDied2 == nil then
-		MTLeaderDied2 = {}
-	end
 	if MTDeadLeaderRandom == 1 then
+		MTLeaderDied1 = {}
 		MTLeaderDied1["title"] = T{"Mars is in Mourning"}
 		MTLeaderDied1["story"] = T{"     Today is a solemn day.  "..MTLeaderTitle.." "..MTDeadLeader.." no longer walks the world of the living.  Martian society would not be what it is today without the indelible touch of "..MTLeaderTitle.." "..MTDeadLeader.." in so many places.  Please take a moment today to stop by your local spacebar and lift one up in honor of the late, great "..MTLeaderTitle..".  What are your best memories of the now former "..MTLeaderTitle.."?  Send in your letters to the editor.  Select entries will be printed in Thursday's edition.  Thank you for your service, "..MTLeaderTitle..".  You will be missed."}
 		table.insert(g_MTTopPotentialStories, MTLeaderDied1)
 	elseif MTDeadLeaderRandom == 2 then
+		MTLeaderDied2 = {}
 		MTLeaderDied2["title"] = T{"Mars Mourns "..MTLeaderTitle.."'s Passing"}
 		MTLeaderDied2["story"] = T{"     "..MTLeaderTitle.." "..MTDeadLeader.." served us honorably for many a sol and their passing has not gone unnoticed.  Despite serving Mars well during their tenure, it is suspected that they never quite fully adapted to the realities of life on Mars and between the stresses of daily Martian life, serving as our "..MTLeaderTitle..", and many a sleepless night, a heart attack finally took them from us.  May your slumber, "..MTLeaderTitle.." "..MTDeadLeader..", be deep and pleasant.  You will be missed."}
 		table.insert(g_MTTopPotentialStories, MTLeaderDied2)
