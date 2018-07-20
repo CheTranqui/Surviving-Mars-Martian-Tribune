@@ -87,6 +87,7 @@ GlobalVar("MTEarthlingDelayName", "lazy earthling")
 GlobalVar("MTEarthlingName", "random earthling")
 GlobalVar("MTElonMuskStorySent", "false")
 GlobalVar("MTElPresidenteStorySent", "false")
+GlobalVar("MTEngStory", 0)
 GlobalVar("MTEngStoryRandom", 0)
 GlobalVar("MTEqualityStorySent", "false")
 GlobalVar("MTFightClubStorySent", "false")
@@ -126,6 +127,7 @@ GlobalVar("MTHappyBDayStorySent", "false")
 GlobalVar("MTHippieName", "hippie")
 GlobalVar("MTHippieStorySent", "false")
 GlobalVar("MTIdiotColonistName", "idiot colonist")
+GlobalVar("MTIdiotColonistNameSet", "false")
 GlobalVar("MTIdiotFMLStorySent", "false")
 GlobalVar("MTIdiotName", "idiot colonist")
 GlobalVar("MTIdiotWorkplace", "idiot's workplace")
@@ -151,6 +153,7 @@ GlobalVar("MTMovingDome2", "random dome 2")
 GlobalVar("MTMovingDomesStorySent", "false")
 GlobalVar("MTMoxieMagicStorySent", "false")
 GlobalVar("MTNewLanguageStorySent", "false")
+GlobalVar("MTNewLeaderChosenNewIndex", 0)
 GlobalVar("MTNewPewPewWait", 0)
 GlobalVar("MTNewStoryPushed", "false")
 GlobalVar("MTNoHumansStoryRemoved", "false")
@@ -198,12 +201,15 @@ GlobalVar("MTSaintColonistNameSet", "false")
 GlobalVar("MTScientist", "scientist")
 GlobalVar("MTScientistColonist", {})
 GlobalVar("MTScientistColonistName", "scientist name")
+GlobalVar("MTScientistColonistNameSet", "false")
 GlobalVar("MTScratchingTheSurfaceStoryRemoved", "false")
 GlobalVar("MTScratchingTheSurfaceStorySent", "false")
 GlobalVar("MTSecondSpacebarDomeName", "unbuilt spacebar dome")
 GlobalVar("MTSendFinancesStory", "false")
+GlobalVar("MTSexyColonist", {})
 GlobalVar("MTSexyColonistName", "sexy colonist")
 GlobalVar("MTShuttleHubStorySent", "false")
+GlobalVar("MTSocialStory")
 GlobalVar("MTSocialStoryRandom", 0)
 GlobalVar("MTSoylentGreenStorySent", "false")
 GlobalVar("MTSponsor", "Sponsor")
@@ -222,6 +228,7 @@ GlobalVar("MTTempMovingDome2", "random dome 2")
 GlobalVar("MTTempTeenagerName", "random teenager")
 GlobalVar("MTThisIncidentDay", 0)
 GlobalVar("MTTopStoryRandom", 0)
+GlobalVar("MTTopFPStory", 0)
 GlobalVar("MTUniversityStorySent", "false")
 GlobalVar("MTVariablesFound", "false")
 GlobalVar("MTVDDome", "dome with vegan and diner")
@@ -1837,7 +1844,7 @@ end
 
 function MTGetRandomDrone()
 	if #GetObjects{class = "Drone"} > 2 then
-		MTDroneRandom = Random(1,#GetObjects{class = "Drone"})
+		local MTDroneRandom = Random(1,#GetObjects{class = "Drone"})
 		MTMyRandomDrone = GetObjects{class = "Drone"}[MTDroneRandom].name
 	else
 		MTMyRandomDrone = "Drone #7"
@@ -2340,11 +2347,11 @@ function MTGetRandomColonist(colonistorname)
 		if colonistorname == "colonist" then
 			return MTRandomColonistPerson
 		elseif colonistorname == "name" then
-			MTRandomColonistPersonName = MTRandomColonistPerson.name
+			local MTRandomColonistPersonName = MTRandomColonistPerson.name
 			return MTRandomColonistPersonName
 		end
 	else
-		MTRandomColonistPersonName = "random colonist"
+		local MTRandomColonistPersonName = "random colonist"
 		return MTRandomColonistPersonName
 	end
 end
