@@ -126,6 +126,7 @@ GlobalVar("MTHackThePlanetStorySent", "false")
 GlobalVar("MTHappyBDayStorySent", "false")
 GlobalVar("MTHippieName", "hippie")
 GlobalVar("MTHippieStorySent", "false")
+GlobalVar("MTIdiotColonist", {})
 GlobalVar("MTIdiotColonistName", "idiot colonist")
 GlobalVar("MTIdiotColonistNameSet", "false")
 GlobalVar("MTIdiotFMLStorySent", "false")
@@ -153,7 +154,6 @@ GlobalVar("MTMovingDome2", "random dome 2")
 GlobalVar("MTMovingDomesStorySent", "false")
 GlobalVar("MTMoxieMagicStorySent", "false")
 GlobalVar("MTNewLanguageStorySent", "false")
-GlobalVar("MTNewLeaderChosenNewIndex", 0)
 GlobalVar("MTNewPewPewWait", 0)
 GlobalVar("MTNewStoryPushed", "false")
 GlobalVar("MTNoHumansStoryRemoved", "false")
@@ -259,7 +259,6 @@ GlobalVar("MTWaterSupply2StorySent", "false")
 
 -- globals not retained when saving (game throws errors if globals are defined inside functions)
 MTNewLeaderChosenIndex = 0
-MTNewLeaderChosenNewIndex = 0
 
 MTNoNews = {}
 MTTopArchiveDepleted = {}
@@ -1251,7 +1250,7 @@ function MTFuelCompressionStory()
 	if MTFuelCompressionRandom == 1 then
 		local MTFuelCompression1 = {}
 		MTFuelCompression1["title"] = T{MTText.StringIdBase + 54, "Rockets Now Made More Spacious"}
-		MTFuelCompression1["story"] = T{MTText.StringIdBase + 55, "     Scientists have discovered a way to fit up to 10,000kg more junk food and supplies in each rocket sent to Mars. By squeezing the fuel into a smaller tank, they have created more cargo space. “It’s amazing we didn’t think of this earlier, just make the fuel tank smaller.  It might pertain to rockets, but it is definitely not rocket science'."}
+		MTFuelCompression1["story"] = T{MTText.StringIdBase + 55, "     Scientists have discovered a way to fit up to 10,000kg more junk food and supplies in each rocket sent to Mars. By squeezing the fuel into a smaller tank, they have created more cargo space. ï¿½Itï¿½s amazing we didnï¿½t think of this earlier, just make the fuel tank smaller.  It might pertain to rockets, but it is definitely not rocket science'."}
 		table.insert(g_MTEngPotentialStories, MTFuelCompression1)
 	else
 		local MTFuelCompression2 = {}
@@ -1344,7 +1343,7 @@ function MTMagneticStory()
 	if MTMagneticRandom == 1 then
 		local MTMagnetic1 = {}
 		MTMagnetic1["title"] = T{MTText.StringIdBase + 69, "But How Do They Work?"}
-		MTMagnetic1["story"] = T{MTText.StringIdBase + 70, "     Our Martian Moxies will now be able to put magnets into their filtration chambers in order to create more oxygen. We don’t fully understand how, and when a scientist explained it to us, we fell asleep about 45 minutes in. Nonetheless, they assure us that it works as intended, but that we may need to take some iron supplements to enhance the effects to desired levels."}
+		MTMagnetic1["story"] = T{MTText.StringIdBase + 70, "     Our Martian Moxies will now be able to put magnets into their filtration chambers in order to create more oxygen. We donï¿½t fully understand how, and when a scientist explained it to us, we fell asleep about 45 minutes in. Nonetheless, they assure us that it works as intended, but that we may need to take some iron supplements to enhance the effects to desired levels."}
 		table.insert(g_MTEngPotentialStories, MTMagnetic1)
 	else
 		local MTMagnetic2 = {}
@@ -1518,13 +1517,13 @@ function MTFightClub2(startoradd)
 			MTFightClub2Wait = 1
 		else
 			if MTFightClub2Wait > 0 then
-				MTNewFightClub2Wait = MTFightClub2Wait + 1
+				local MTNewFightClub2Wait = MTFightClub2Wait + 1
 				MTFightClub2Wait = MTNewFightClub2Wait
 				if MTFightClub2Wait > 9 then
 					MTRenegade = MTGetRenegade("name")
 					local MTFightClub2 = {}
 					MTFightClub2["title"] = T{MTText.StringIdBase + 91, "Fight Club Story Retraction"}
-					MTFightclub2["story"] = T{MTText.StringIdBase + 92, "     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story 'They're fighting, stop fighting'.  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned 'club'."}
+					MTFightClub2["story"] = T{MTText.StringIdBase + 92, "     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story 'They're fighting, stop fighting'.  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned 'club'."}
 					table.insert(g_MTSocialPotentialStories, MTFightClub2)
 					MTFightClub2StorySent = "true"
 				end
@@ -1645,7 +1644,7 @@ function MTDroneBreakdownStory(sendremove)
 	elseif sendremove == "remove" then
 		if MTDroneBreakdownStoryRemoved ~= "true" then
 			if MTDroneBreakdownStorySent == "true" then
-				for k, v in (g_MTTopPotentialStories) do
+				for k, v in pairs(g_MTTopPotentialStories) do
 					if v == MTDroneBreakdown then
 						table.remove(g_MTTopPotentialStories, k)
 						break
@@ -1686,9 +1685,9 @@ end
 function MTPowerSupplyStory()
 	if UICity.day > 20 then		-- after Sol 20
 		if UICity.day - MTCurrentPowerIssue > 14 then	-- if 14 days+ have passed since last story
-			MTCurrentPowerBalance = ResourceOverviewObj.data.total_power_demand - ResourceOverviewObj.data.total_power_production
+			local MTCurrentPowerBalance = ResourceOverviewObj.data.total_power_demand - ResourceOverviewObj.data.total_power_production
 			if MTCurrentPowerBalance > 0 then	-- if production is lower than demand
-				MTCurrentPowerHoursRemaining = ResourceOverviewObj.data.total_power_storage / MTCurrentPowerBalance  -- and stored resources run out within 12 hours
+				local MTCurrentPowerHoursRemaining = ResourceOverviewObj.data.total_power_storage / MTCurrentPowerBalance  -- and stored resources run out within 12 hours
 				if MTCurrentPowerHoursRemaining < 12 then
 					MTCurrentPowerIssue = UICity.day
 					local MTPowerSupply1 = {}
@@ -1722,9 +1721,9 @@ end
 function MTWaterSupplyStory()
 	if UICity.day > 20 then		-- after Sol 20
 		if UICity.day - MTCurrentWaterIssue > 14 then	-- if 14 days+ have passed since last story
-			MTCurrentWaterBalance = ResourceOverviewObj.data.total_water_demand - ResourceOverviewObj.data.total_water_production
+			local MTCurrentWaterBalance = ResourceOverviewObj.data.total_water_demand - ResourceOverviewObj.data.total_water_production
 			if MTCurrentWaterBalance > 0 then	-- if production is lower than demand
-				MTCurrentWaterHoursRemaining = ResourceOverviewObj.data.total_water_storage / MTCurrentWaterBalance  -- and stored resources run out within 12 hours
+				local MTCurrentWaterHoursRemaining = ResourceOverviewObj.data.total_water_storage / MTCurrentWaterBalance  -- and stored resources run out within 12 hours
 				if MTCurrentWaterHoursRemaining < 12 then
 					MTCurrentWaterIssue = UICity.day
 					local MTWaterSupply1 = {}
@@ -1758,9 +1757,9 @@ end
 function MTAirSupplyStory()
 	if UICity.day > 20 then
 		if UICity.day - MTCurrentAirIssue > 14 then
-			MTCurrentAirBalance = ResourceOverviewObj.data.total_air_demand - ResourceOverviewObj.data.total_air_production
+			local MTCurrentAirBalance = ResourceOverviewObj.data.total_air_demand - ResourceOverviewObj.data.total_air_production
 			if MTCurrentAirBalance > 0 then
-				MTCurrentAirHoursRemaining = ResourceOverviewObj.data.total_air_storage / MTCurrentAirBalance
+				local MTCurrentAirHoursRemaining = ResourceOverviewObj.data.total_air_storage / MTCurrentAirBalance
 				if MTCurrentAirHoursRemaining < 12 then
 					MTCurrentAirIssue = UICity.day
 					local MTAirSupply1 = {}
@@ -1918,7 +1917,7 @@ function MTScratchingTheSurfaceStory(addorremove)
 	if MTScratchingTheSurfaceStorySent == "true" then
 		if addorremove == "remove" then
 			if MTScratchingTheSurface.title ~= nil then
-				for k, v in (g_MTEngPotentialStories) do
+				for k, v in pairs(g_MTEngPotentialStories) do
 					if v == MTScratchingTheSurface then
 						table.remove(g_MTEngPotentialStories, k)
 						break
@@ -1979,7 +1978,7 @@ function MTShortageStories()
 						if MTWaterShortage1StorySent ~= "true" then
 							local MTWaterShortage1 = {}
 							MTWaterShortage1["title"] = T{"Draught Declared"}
-							MTWaterShortage1["story"] = T{"     A draught has been declared in "..MTDomeWithoutWater..".  Dehydration is setting in and the citizens are nervous.  "..MTWaterDomeResident.." has declared it a non-issue, professing his faith in "..MTLeaderTitle.." "..MTLeader.."’s planning and provision."}
+							MTWaterShortage1["story"] = T{"     A draught has been declared in "..MTDomeWithoutWater..".  Dehydration is setting in and the citizens are nervous.  "..MTWaterDomeResident.." has declared it a non-issue, professing his faith in "..MTLeaderTitle.." "..MTLeader.."ï¿½s planning and provision."}
 							table.insert(g_MTEngPotentialStories, MTWaterShortage1)
 							MTWaterShortage1StorySent = "true"
 						end
@@ -2302,7 +2301,7 @@ function MTLeaderVices()
 			if MTLeaderColonist.traits.Glutton or MTLeaderColonist.traits.Gambler or MTLeaderColonist.traits.Alcoholic then
 				local MTVirtue = {}
 				MTVirtue["title"] = T{"Virtue Over Vices"}
-				MTVirtue["story"] = T{"     The stresses of colonizing a new planet have clearly taken their toll on "..MTLeaderTitle.." "..MTLeader.." as the foolishness of last night’s escapades will not be long forgotten.  "..MTLeaderTitle..", learn to control your vices better before they take us all down with you!  If things don’t change soon, it might be time to start looking for a new leader."}
+				MTVirtue["story"] = T{"     The stresses of colonizing a new planet have clearly taken their toll on "..MTLeaderTitle.." "..MTLeader.." as the foolishness of last nightï¿½s escapades will not be long forgotten.  "..MTLeaderTitle..", learn to control your vices better before they take us all down with you!  If things donï¿½t change soon, it might be time to start looking for a new leader."}
 				table.insert(g_MTTopPotentialStories, MTVirtue)
 				MTVirtueOverVicesStorySent = "true"
 			end
@@ -2406,7 +2405,7 @@ function MTGetIdiotWorkplace(setorcheck)
 			return "idiot workplace"			
 		end
 	elseif setorcheck == "set" then
-		MTIdiotPerson = MTGetIdiotColonist("colonist")
+		local MTIdiotPerson = MTGetIdiotColonist("colonist")
 		if MTIdiotWorkplaceBuilding == nil then
 			MTIdiotWorkplaceBuilding = {}
 		end
@@ -2772,7 +2771,7 @@ function MTVeganPurgatory(setaddcheck)
 			end
 			if setaddcheck == "add" then
 				if MTVegan1StorySent("check") == "true" then
-					MTNewVeganPurgatoryDays = MTVeganPurgatoryDays + 1
+					local MTNewVeganPurgatoryDays = MTVeganPurgatoryDays + 1
 					MTVeganPurgatoryDays = MTNewVeganPurgatoryDays
 				end
 			end
@@ -2863,7 +2862,7 @@ function MTDomeDelay2StoryWait(setoradd)
 					MTDomeDelay2Story()
 					MTDomeDelay2StoryInitiated = "true"
 				else
-					MTNewDomeDelay2DaysWaiting = MTDomeDelay2DaysWaiting + 1
+					local MTNewDomeDelay2DaysWaiting = MTDomeDelay2DaysWaiting + 1
 					MTDomeDelay2DaysWaiting = MTNewDomeDelay2DaysWaiting
 				end
 			end
@@ -2905,6 +2904,7 @@ function MTGetEarthlingDelayName(setorcheck)
 end
 
 function MTGetCurrentDomeCount()
+	local MTCurrentDomeCount = 0
 	if UICity.labels.Domes ~= nil then
 		MTCurrentDomeCount = #UICity.labels.Domes
 	end
@@ -2917,7 +2917,7 @@ function MTDomeDelayCheck()
 		MTDomeDelayDays = 1
 	else
 		if MTDomeCount == MTGetCurrentDomeCount() then
-			MTNewDomeDelayDays = MTDomeDelayDays + 1
+			local MTNewDomeDelayDays = MTDomeDelayDays + 1
 			MTDomeDelayDays = MTNewDomeDelayDays
 		else
 			MTDomeDelayDays = 0
@@ -3156,7 +3156,7 @@ function MTNewLeaderChosenStory(startadd)
 		MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
 	elseif startadd == "add" then  -- comes from New Day, only if MTNewLeaderChosenIndex isn't nil
 		if MTNewLeaderChosenIndex ~= nil then  -- index resets when new leader story is inserted
-			MTNewLeaderChosenNewIndex = MTNewLeaderChosenIndex + 1
+			local MTNewLeaderChosenNewIndex = MTNewLeaderChosenIndex + 1
 			MTNewLeaderChosenIndex = MTNewLeaderChosenNewIndex  
 			MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
 		end
@@ -3180,11 +3180,10 @@ function MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
 		elseif MTNewLeaderStoryRandom == 3 then
 			local MTNewLeaderStory3 = {}
 			MTNewLeaderStory3["title"] = T{"Wrong Sibling Elevated?"}
-			MTNewLeaderStory3["story"] = T{"     As we move into a new era of Martian development, we here at the Martian Tribune can’t help but wonder at the agenda of our sponsor, "..MTSponsor..".  Perhaps someone mixed up their paperwork, but somehow they saw fit to raise "..MTLeader.." to the role of "..MTLeaderTitle.." without recognizing that more than one person shares that last name.  The responsibilities are vast in leading such an intrepid endeavor as ours here on Mars.  Let's hope and pray (hard) that "..MTLeader.." is up to the challenge."}
+			MTNewLeaderStory3["story"] = T{"     As we move into a new era of Martian development, we here at the Martian Tribune canï¿½t help but wonder at the agenda of our sponsor, "..MTSponsor..".  Perhaps someone mixed up their paperwork, but somehow they saw fit to raise "..MTLeader.." to the role of "..MTLeaderTitle.." without recognizing that more than one person shares that last name.  The responsibilities are vast in leading such an intrepid endeavor as ours here on Mars.  Let's hope and pray (hard) that "..MTLeader.." is up to the challenge."}
 			table.insert(g_MTTopPotentialStories, MTNewLeaderStory3)
 		end
 		MTNewLeaderChosenIndex = nil
-		MTNewLeaderChosenNewIndex = nil
 	end
 end
 
@@ -3192,7 +3191,7 @@ end
 function MTNoHumansStory()
 	if MTNoHumansStoryRemoved ~= "true" then
 		if MTColonistsArrivedCheck("check") == "true" then
-			for k, v in (g_MTTopPotentialStories) do
+			for k, v in pairs(g_MTTopPotentialStories) do
 				if v == MTNoHumans then
 				table.remove(g_MTTopPotentialStories, k)
 				MTNoHumansStoryRemoved = "true"
@@ -3238,7 +3237,7 @@ end
 --  will check each day after Sol 10
 function MTRocketCount()
 	if UICity.day > 10 then
-		MTCurrentSupplyRocketCount = #GetObjects{class = "SupplyRocket"}
+		local MTCurrentSupplyRocketCount = #GetObjects{class = "SupplyRocket"}
 		if MTrockets3StorySent ~= "true" then
 			if MTCurrentSupplyRocketCount > 2 then
 				table.insert(g_MTTopPotentialStories, MTrockets3)
