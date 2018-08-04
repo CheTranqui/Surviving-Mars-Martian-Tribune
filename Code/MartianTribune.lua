@@ -851,8 +851,8 @@ end
 -- comes from NewDay
 local function MTDroneBreakdownStory()
 	if not MTDroneBreakdownStorySent and not MTDroneBreakdownStoryRemoved and CountObjects{class = "Drone"} > 2 then
-		MTDrone1 = MTGetRandomDroneName()
-		MTDrone2 = MTGetRandomDroneName()
+		local MTDrone1 = MTGetRandomDroneName()
+		local MTDrone2 = MTGetRandomDroneName()
 		-- make sure they are not the same drone
 		while MTDrone2 == MTDrone1 do
 			MTDrone2 = MTGetRandomDroneName()
