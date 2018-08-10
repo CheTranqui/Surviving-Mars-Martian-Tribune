@@ -9,6 +9,12 @@ return PlaceObj('ModDef', {
 	'code', {
 		"Code/MartianTribune.lua",
 	},
+	'loctables', {
+		{
+			filename = "Locales/English.csv",
+			language = "English",
+		},
+	},
 	'saved', 1525918559,
 	'TagCosmetics', true,
 	'TagOther', true,
