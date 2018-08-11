@@ -307,7 +307,7 @@ local function MTGetLeaderTitle(sponsorname)
 			-- if one of the above 4, randomly pick one of the 3 and return that
 			local MTBusinessTitleRandom = Random(1,3)  -- randomize these corps to get one of the 3 following leader types
 			if MTBusinessTitleRandom == 1 then
-				return T{MTText.StringIdBase + 18, "Chairman"}
+				return T{MTText.StringIdBase + 17, "Chairman"}
 			elseif MTBusinessTitleRandom == 2 then
 				return T{MTText.StringIdBase + 14, "CFO"}
 			else
@@ -321,6 +321,56 @@ local function MTGetLeaderTitle(sponsorname)
 	else
 		return MTLeaderTitle
 	end
+end
+
+local function PostprocessTrait(trait_id)
+	local trait = DataInstances.Trait[trait_id]
+	if not trait then
+		print("Did not find trait "..trait_id.." inside DataInstances.Trait")
+		return
+	end
+	trait:AddIncompatible()
+	trait._incompatible = string.gsub(trait._incompatible, " ", "")
+	local tbl = string.tokenize(trait._incompatible, ",", false, true)
+	for _, val in ipairs(tbl) do
+		local class = DataInstances.Trait[val]
+		class:AddIncompatible()
+		assert(class, "Invalid trait:", val)
+		rawset(trait.incompatible, val, true)
+		rawset(class.incompatible, trait_id, true)
+	end
+	if trait.rare then 
+		g_RareTraits[trait_id] = true
+	else
+		g_NoneRareTraits[trait_id] = true
+	end
+	if trait.hidden_on_start then
+		g_HiddenTraitsDefault[trait_id] = true
+	end
+	DataInstances.Trait[trait_id] = trait
+end
+
+-- Leadership "trait" so that it can be displayed in the colonist info.
+local function MTUpdateLeaderTrait()
+	if MTSponsor and not DataInstances.Trait.ColonyLeader then
+		local trait = Trait:new()
+		trait.name = "ColonyLeader"
+		trait.id = trait.name
+		trait.display_name = MTLeaderTitle
+		trait.description = _InternalTranslate(T{9014489,"<MTSponsor> <MTLeaderTitle>", MTSponsor = MTSponsor, MTLeaderTitle = _InternalTranslate(MTLeaderTitle)})
+		trait.category = "other"
+		trait.group = trait.category
+		trait.weight = 30
+		trait.rare = false
+		trait.auto = false
+		trait.show_in_traits_ui = true
+		trait.hidden_on_start = true
+		trait.dome_filter_only = true
+		trait.incompatible = {}
+		DataInstances.Trait.ColonyLeader = trait
+		PostprocessTrait(trait.id)
+	end
+	GuruTraitBlacklist.ColonyLeader = true
 end
 
 -- Create a list of rare traits that exist within the colony for use in selecting a leader
@@ -369,6 +419,7 @@ local function MTGetLeaderName()
 			MTLeaderColonist = table.rand(colonists) -- random colonist is chosen
 		end
 		if MTIsValidObj(MTLeaderColonist) then
+			MTLeaderColonist:AddTrait("ColonyLeader")
 			MTLeaderName = MTLeaderColonist.name
 		end
 	end  -- if we have a leader already chosen and alive, then they stay leader
@@ -2512,9 +2563,12 @@ function OnMsg.ConstructionComplete(building)
 end
 
 function OnMsg.ColonistBorn(colonist, event)
-	local MTColonistBorn = colonist
-	if MTColonistBorn.traits.Celebrity then
-		MTMartianCelebrityStory(MTColonistBorn)
+	if colonist.traits.Celebrity then
+		MTMartianCelebrityStory(colonist)
+	end
+	-- Just in case this could happen due to Project Phoenix...
+	if colonist.traits.ColonyLeader then
+		colonist:RemoveTrait("ColonyLeader")
 	end
 	MTFutureExpansionStory()
 end
@@ -2543,6 +2597,7 @@ function OnMsg.ColonistDied(colonist, reason)
 	local MTDeadColonist = colonist
 	if MTIsValidObj(MTDeadColonist) and MTDeadColonist == MTLeaderColonist then
 		MTLeaderDiedStory(MTDeadColonist)
+		MTDeadColonist:RemoveTrait("ColonyLeader")
 		MTLeaderColonist = false
 		-- Trigger selection of a new leader
 		MTGetLeaderName()
@@ -2593,6 +2648,7 @@ function OnMsg.NewMapLoaded()
 	if not MTLeaderTitle then
 		MTLeaderTitle = MTGetLeaderTitle(MTMissionSponsor.name)
 	end
+	MTUpdateLeaderTrait()
 	if not g_MTTopPotentialStories then
 		MTLoadStoriesIntoTables()
 	end
@@ -2603,7 +2659,11 @@ function OnMsg.LoadGame(data)
 	-- If Leader Title is not already set, generate it.
 	if not MTLeaderTitle then
 		MTLeaderTitle = MTGetLeaderTitle(MTMissionSponsor.name)
+	elseif type(MTLeaderTitle) ~= "userdata" then
+		MTLeaderTitle = false
+		MTLeaderTitle = MTGetLeaderTitle(MTMissionSponsor.name)
 	end
+	MTUpdateLeaderTrait()
 
 	-- Check for any flags that should be set that haven't been
 	if not MTColonistsHaveArrived and UICity.labels.Colonist ~= nil then
@@ -2612,6 +2672,12 @@ function OnMsg.LoadGame(data)
 
 	if not MTColonyApproved and UICity.labels.Colonist ~= nil and g_ColonyNotViableUntil < 0 then
 		MTColonyApproved = true
+	end
+
+	if MTIsValidObj(MTLeaderColonist) then
+		if not MTLeaderColonist.traits.ColonyLeader then
+			MTLeaderColonist:AddTrait("ColonyLeader")
+		end
 	end
 
 	-- If this is the first time this mod is used with the loaded game, the story tables will
