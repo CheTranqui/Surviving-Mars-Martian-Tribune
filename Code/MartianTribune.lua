@@ -204,12 +204,6 @@ local MTSponsor = false
 
 -- Section 2: Utility functions designed to be reused for multiple stories
 
-local function MTIsValidObj(obj)
-	-- Test whether an object is a valid game object (i.e. building or colonist)
-	-- All game objects contain an 'entity' field, so this distinguishes a real object from "{}"
-	return obj and obj.entity
-end
-
 -- Find a random colonist who does not have a specific trait.
 local function MTGetColonistWithoutTrait(trait, colonistList)
 	local colonists = FilterObjects({
@@ -258,7 +252,7 @@ end
 
 -- Retrieve the list of workers for a specific workplace
 local function MTGetWorkers(workplace)
-	if MTIsValidObj(workplace) then
+	if IsValid(workplace) then
 		local MTWorkers = {}
 		for k, shift in pairs(workplace.workers) do
 			for s, worker in pairs(shift) do
@@ -273,7 +267,7 @@ end
 -- Choose a random worker for a specific workplace
 local function MTGetRandomWorker(workplace)
 	local MTWorkers = MTGetWorkers(workplace)
-	if (MTIsValidObj(MTWorkers)) then
+	if (IsValid(MTWorkers)) then
 		return table.rand(MTWorkers)
 	end
 	return nil
@@ -324,16 +318,16 @@ local function MTGetLeaderTitle(sponsorname)
 end
 
 local function PostprocessTrait(trait_id)
-	local trait = DataInstances.Trait[trait_id]
+	local trait = TraitPresets[trait_id]
 	if not trait then
-		print("Did not find trait "..trait_id.." inside DataInstances.Trait")
+		print("Did not find trait "..trait_id.." inside TraitPresets")
 		return
 	end
 	trait:AddIncompatible()
 	trait._incompatible = string.gsub(trait._incompatible, " ", "")
 	local tbl = string.tokenize(trait._incompatible, ",", false, true)
 	for _, val in ipairs(tbl) do
-		local class = DataInstances.Trait[val]
+		local class = TraitPresets[val]
 		class:AddIncompatible()
 		assert(class, "Invalid trait:", val)
 		rawset(trait.incompatible, val, true)
@@ -347,13 +341,13 @@ local function PostprocessTrait(trait_id)
 	if trait.hidden_on_start then
 		g_HiddenTraitsDefault[trait_id] = true
 	end
-	DataInstances.Trait[trait_id] = trait
+	TraitPresets[trait_id] = trait
 end
 
 -- Leadership "trait" so that it can be displayed in the colonist info.
 local function MTUpdateLeaderTrait()
-	if MTSponsor and not DataInstances.Trait.ColonyLeader then
-		local trait = Trait:new()
+	if MTSponsor and not TraitPresets.ColonyLeader then
+		local trait = TraitPreset:new()
 		trait.name = "ColonyLeader"
 		trait.id = trait.name
 		trait.display_name = MTLeaderTitle
@@ -367,7 +361,7 @@ local function MTUpdateLeaderTrait()
 		trait.hidden_on_start = true
 		trait.dome_filter_only = true
 		trait.incompatible = {}
-		DataInstances.Trait.ColonyLeader = trait
+		TraitPresets.ColonyLeader = trait
 		PostprocessTrait(trait.id)
 	end
 	GuruTraitBlacklist.ColonyLeader = true
@@ -403,10 +397,10 @@ end
 -- Defaults to "Silent Leader" if no colonists exist
 local function MTGetLeaderName()
 	local MTLeaderName =
-		(MTIsValidObj(MTLeaderColonist) and MTLeaderColonist.name)
+		(IsValid(MTLeaderColonist) and MTLeaderColonist.name)
 		or T{MTText.StringIdBase + 21, "Silent Leader"}
 
-	if not MTIsValidObj(MTLeaderColonist) and MTColonistsHaveArrived then  -- this only happens on New Game when colonists first land, or when current leader dies
+	if not IsValid(MTLeaderColonist) and MTColonistsHaveArrived then  -- this only happens on New Game when colonists first land, or when current leader dies
 		local MTLeaderTraitTable = MTLeaderSetTraitSearch()  -- which rare traits are in the colony?
 		if (#MTLeaderTraitTable > 0) then  -- pick a trait to single out
 			local MTLeaderTrait = table.rand(MTLeaderTraitTable)
@@ -414,11 +408,11 @@ local function MTGetLeaderName()
 		end
 		-- failed to find a usable leader with a rare trait
 		local colonists = UICity.labels.Colonist or empty_table
-		if not MTIsValidObj(MTLeaderColonist) and #colonists > 0 then
+		if not IsValid(MTLeaderColonist) and #colonists > 0 then
 			-- if none with rare traits,
 			MTLeaderColonist = table.rand(colonists) -- random colonist is chosen
 		end
-		if MTIsValidObj(MTLeaderColonist) then
+		if IsValid(MTLeaderColonist) then
 			MTLeaderColonist:AddTrait("ColonyLeader")
 			MTLeaderName = MTLeaderColonist.name
 		end
@@ -592,7 +586,7 @@ local function MTWaterReclamationStory()
 		local MTScientistName =
 			(MTScientistPerson and MTScientistPerson.name)
 			or T{MTText.StringIdBase + 62, "random scientist"}
-		if MTIsValidObj(MTScientistPerson) and not MTScientistPerson.is_pinned then
+		if IsValid(MTScientistPerson) and not MTScientistPerson.is_pinned then
 			MTScientistPerson:TogglePin()
 		end
 		local MTWaterReclamation1 = {
@@ -730,7 +724,7 @@ local function MTFoundersFirstWordsStory()
 	if not MTFoundersFirstWordsStorySent and CountColonistsWithTrait("Founder") > 0 then
 		local MTFounderColonist = MTGetColonistWithTrait("Founder")
 		local MTFounderName = MTFounderColonist.name or T{MTText.StringIdBase + 89, "random founder"}
-		if MTIsValidObj(MTFounderColonist) and not MTFounderColonist.is_pinned then
+		if IsValid(MTFounderColonist) and not MTFounderColonist.is_pinned then
 			MTFounderColonist:TogglePin()
 		end
 		local MTFoundersFirstWords = {
@@ -747,7 +741,7 @@ local function MTFightClubStory()
 		if CountColonistsWithTrait("Renegade") > 0 then
 			local MTRenegadePerson = MTGetColonistWithTrait("Renegade")
 			local MTRenegade = MTRenegadePerson.name or T{MTText.StringIdBase + 90, "random renegade"}
-			if MTIsValidObj(MTRenegadePerson) and not MTRenegadePerson.is_pinned then
+			if IsValid(MTRenegadePerson) and not MTRenegadePerson.is_pinned then
 				MTRenegadePerson:TogglePin()
 			end
 			local MTFightClub = {
@@ -790,7 +784,7 @@ local function MTMartianFaithStory()
 end
 
 local function MTGetGuruGarden(colonist)
-	return MTIsValidObj(colonist) and colonist.dome and (
+	return IsValid(colonist) and colonist.dome and (
 		colonist.dome.labels.GardenNatural_Medium ~= nil or colonist.dome.labels.GardenNatural_Small ~= nil
 	)
 end
@@ -816,7 +810,7 @@ local function MTGuruGardenStory()
 end
 
 local function MTElPresidenteStory()
-	if not MTElPresidenteStorySent and MTIsValidObj(MTLeaderColonist) then
+	if not MTElPresidenteStorySent and IsValid(MTLeaderColonist) then
 		local MTElPresidente = {
 			title = T{MTText.StringIdBase + 98, "El Presidente to Visit Mars"},
 			story = T{MTText.StringIdBase + 99, "     The self-proclaimed El Presidente of Cayo de Fortuna has decided on an official visit to Mars.  He comes with hopes of meeting with <MTLeaderTitle> <MTLeader> and brokering a potential trade deal.", MTLeaderTitle = MTLeaderTitle, MTLeader = MTGetLeaderName()}
@@ -1022,7 +1016,7 @@ local function MTArcologyInuendoStory()
 	if not MTArcologyInuendoStorySent and MTArcologies ~= nil then
 		local MTArcology = table.rand(MTArcologies)
 		local MTArcologyDomeName =
-			(MTIsValidObj(MTArcology) and MTArcology.parent_dome.name)
+			(IsValid(MTArcology) and MTArcology.parent_dome.name)
 			or T{MTText.StringIdBase + 122, "arcology dome"}
 		local MTArcologyInuendo = {
 			title = T{MTText.StringIdBase + 120, "First Dome-Penetrating Structure Erected"},
@@ -1359,7 +1353,7 @@ end
 
 -- triggered via OnMsg.ColonistDied
 local function MTFirstMartianbornDied(MTDeadColonist)
-	if not MTFirstMartianbornDiedStorySent and MTIsValidObj(MTDeadColonist) then
+	if not MTFirstMartianbornDiedStorySent and IsValid(MTDeadColonist) then
 		local MTDeadMartianName = MTDeadColonist.name or T{MTText.StringIdBase + 176, "first dead martian"}
 		local MTFirstMartianbornDied = {
 			title = T{MTText.StringIdBase + 174, "Petition to Rename Dome"},
@@ -1373,7 +1367,7 @@ end
 local function MTLeaderVices()
 	if not MTVirtueOverVicesStorySent and MTColonistsHaveArrived then
 		local MTLeaderName = MTGetLeaderName()
-		if MTIsValidObj(MTLeaderColonist) and (MTLeaderColonist.traits.Glutton or MTLeaderColonist.traits.Gambler or MTLeaderColonist.traits.Alcoholic) then
+		if IsValid(MTLeaderColonist) and (MTLeaderColonist.traits.Glutton or MTLeaderColonist.traits.Gambler or MTLeaderColonist.traits.Alcoholic) then
 			local MTVirtue = {
 				title = T{MTText.StringIdBase + 177, "Virtue Over Vices"},
 				story = T{MTText.StringIdBase + 178, "     The stresses of colonizing a new planet have clearly taken their toll on <MTLeaderTitle> <MTLeader> as the foolishness of last night's escapades will not be long forgotten.  <MTLeaderTitle>, learn to control your vices better before they take us all down with you!  If things don't change soon, it might be time to start looking for a new leader.", MTLeaderTitle = MTLeaderTitle, MTLeader = MTLeaderName}
@@ -1420,7 +1414,7 @@ local function MTIdiotFMLStory()
 		local MTIdiotName =
 			(MTIdiotColonist and MTIdiotColonist.name)
 			or MTIdiotColonistFallbackName
-		if MTIsValidObj(MTIdiotColonist) and not MTIdiotColonist.is_pinned then
+		if IsValid(MTIdiotColonist) and not MTIdiotColonist.is_pinned then
 			MTIdiotColonist:TogglePin()
 		end
 		local MTIdiotFML = {
@@ -1435,7 +1429,7 @@ end
 -- triggered via OnMsg.MTIdiotWorkplaceBreakdown from RequiresMaintenance:SetMalfunction
 local function MTOopsIBrokeItAgainStory(workplace, idiot)
 	if not MTOopsIBrokeItAgainStorySent then
-		if MTIsValidObj(workplace) and MTIsValidObj(idiot) then
+		if IsValid(workplace) and IsValid(idiot) then
 			local MTIdiotWorkplace =
 				workplace.display_name
 				or T{MTText.StringIdBase + 188, "idiot workplace"}
@@ -1480,7 +1474,7 @@ local function MTMartianCelebrityStory(MTColonistBorn)
 		local MTMartianCelebrityName =
 			(MTColonistBorn and MTColonistBorn.name)
 			or T{MTText.StringIdBase + 195, "martian celebrity"}
-		if MTIsValidObj(MTColonistBorn) and not MTColonistBorn.is_pinned then
+		if IsValid(MTColonistBorn) and not MTColonistBorn.is_pinned then
 			MTColonistBorn:TogglePin()
 		end
 		local MTMartianCelebrity = {
@@ -1494,7 +1488,7 @@ end
 
 -- triggered via OnMsg.ColonistDied
 local function MTFirstFounderDied(MTDeadColonist)
-	if not MTFirstFounderDiedStorySent and MTIsValidObj(MTDeadColonist) and MTDeadColonist.traits.Founder then
+	if not MTFirstFounderDiedStorySent and IsValid(MTDeadColonist) and MTDeadColonist.traits.Founder then
 		local MTDeadFounder = MTDeadColonist.name or T{MTText.StringIdBase + 198, "dead founder"}
 		local MTFirstFounder = {
 			title = T{MTText.StringIdBase + 196, "First Founder Passed Away"},
@@ -1544,7 +1538,7 @@ local function MTRareMetalsComplaintStory()
 	local UICity = UICity
 	if not MTRareMetalsComplaintStorySent and UICity.labels.PreciousMetalsExtractor ~= nil then
 		local MTRMExtractor = table.rand(UICity.labels.PreciousMetalsExtractor)
-		if MTIsValidObj(MTRMExtractor) then
+		if IsValid(MTRMExtractor) then
 			local MTRareMetalsColonist = MTGetRandomWorker(MTRMExtractor)
 			local MTRareMetalsColonistName =
 				(MTRareMetalsColonist and MTRareMetalsColonist.name)
@@ -1552,7 +1546,7 @@ local function MTRareMetalsComplaintStory()
 			local MTRareMetalsDome = 
 				(MTRareMetalsColonist and MTRareMetalsColonist.dome and MTRareMetalsColonist.dome.name)
 				or T{MTText.StringIdBase + 208, "random rare metals dome"}
-			if MTIsValidObj(MTRareMetalsColonist) then
+			if IsValid(MTRareMetalsColonist) then
 				local MTRareMetals = {
 					title = T{MTText.StringIdBase + 205, "Sound Complaint Filed"},
 					story = T{MTText.StringIdBase + 206, "     <MTRareMetalsColonist> has lodged a formal complaint against <MTLeader>'s natural resource exploitation.  In the complaint they declared the primary contributor to be the new Rare Metals Extractor near <MTRareMetalsDome>.  There was also mention of sleep being precious and the constant pounding leaving not a moment of reprieve.  <MTLeader> declared themselves unmoved by the complaint.", MTRareMetalsColonist = MTRareMetalsColonistName, MTLeader = MTGetLeaderName(), MTRareMetalsDome = MTRareMetalsDome}
@@ -1582,7 +1576,7 @@ end
 local function MTVeganDinerStory()
 	if not MTVeganDinerStorySent and CountColonistsWithTrait("Vegan") > 3 then
 		local MTVeganColonist = MTGetColonistWithTrait("Vegan")
-		if MTIsValidObj(MTVeganColonist) and MTVeganColonist.dome and MTVeganColonist.dome.labels.Diner ~= nil then
+		if IsValid(MTVeganColonist) and MTVeganColonist.dome and MTVeganColonist.dome.labels.Diner ~= nil then
 			local MTVeganDinerName = MTVeganColonist.name or MTVeganColonistFallbackName
 			local MTVeganDinerDome = MTVeganColonist.dome.name or T{MTText.StringIdBase + 213, "dome with vegan and diner"}
 			local MTVeganDiner = {
@@ -1598,11 +1592,11 @@ end
 local function MTVegan1Story()
 	if not MTVegan1StoryHasBeenSent and CountColonistsWithTrait("Vegan") > 0 then
 		local MTVegan1Colonist = MTGetColonistWithTrait("Vegan")
-		if MTIsValidObj(MTVegan1Colonist) then
+		if IsValid(MTVegan1Colonist) then
 			local MTVegan1Name = MTVegan1Colonist.name or MTVeganColonistFallbackName
 			if MTVegan1Colonist.dome.labels.medic ~= nil then
 				local MTVegan1Medic = table.rand(MTVegan1Colonist.dome.labels.medic)
-				if MTIsValidObj(MTVegan1Medic) then
+				if IsValid(MTVegan1Medic) then
 					local MTVegan1MedicName = MTVegan1Medic.name
 					local MTVegan1 = {
 						title = T{MTText.StringIdBase + 215, "Vegan Declares Mars Meat-Free Planet"},
@@ -1720,7 +1714,7 @@ end
 local function MTTeenagerJoyrideStory()
 	if not MTTeenagerJoyrideStorySent and CountColonistsWithTrait("Youth") > 0 then
 		local MTTeenager = MTGetColonistWithTrait("Youth")
-		if MTIsValidObj(MTTeenager) then
+		if IsValid(MTTeenager) then
 			local MTTeenagerJoyrideName = MTTeenager.name or MTTeenagerColonistFallbackName
 			local MTTeenagerJoyrideDome =
 				(MTTeenager.dome and MTTeenager.dome.name)
@@ -1855,7 +1849,7 @@ local function MTNewLeaderChosenStoryRelease(MTNewLeaderChosenIndex)
 	if MTNewLeaderChosenIndex ~= false and MTNewLeaderChosenIndex == 3 then
 		local MTNewLeaderStoryRandom = Random(1,3)
 		local MTLeaderName = MTGetLeaderName()
-		if MTIsValidObj(MTLeaderColonist) and not MTLeaderColonist.is_pinned then
+		if IsValid(MTLeaderColonist) and not MTLeaderColonist.is_pinned then
 			MTLeaderColonist:TogglePin()
 		end
 		if MTNewLeaderStoryRandom == 1 then
@@ -1991,7 +1985,7 @@ end
 
 local function MTGetFoundersLegacyBuilding(MTFoundersDome)
 	local MTFoundersDomeRelaxation = T{MTText.StringIdBase + 270, "your local park"}
-	if MTIsValidObj(MTFoundersDome) then
+	if IsValid(MTFoundersDome) then
 		if MTFoundersDome.labels.Spacebar ~= nil then
 			MTFoundersDomeRelaxation = T{MTText.StringIdBase + 263, "Spacebar"}
 		elseif MTFoundersDome.labels.OpenAirGym ~= nil then
@@ -2585,7 +2579,7 @@ function OnMsg.ColonistArrived(colonist)
 	-- Set arrived = true
 	MTColonistsHaveArrived = true
 	-- Increment count of founders landed (in case someone had researched larger passenger capacity before sending founders). Also stop counting once the Colony Approval stage is over, so that researching Project Phoenix doesn't result in a Founder Count of hundreds.
-	if MTIsValidObj(colonist) and colonist.traits.Founder and not MTColonyApproved then
+	if IsValid(colonist) and colonist.traits.Founder and not MTColonyApproved then
 		local newCount = MTFoundersCount + 1
 		MTFoundersCount = newCount
 	end
@@ -2595,7 +2589,7 @@ end
 
 function OnMsg.ColonistDied(colonist, reason)
 	local MTDeadColonist = colonist
-	if MTIsValidObj(MTDeadColonist) and MTDeadColonist == MTLeaderColonist then
+	if IsValid(MTDeadColonist) and MTDeadColonist == MTLeaderColonist then
 		MTLeaderDiedStory(MTDeadColonist)
 		MTDeadColonist:RemoveTrait("ColonyLeader")
 		MTLeaderColonist = false
@@ -2674,7 +2668,7 @@ function OnMsg.LoadGame(data)
 		MTColonyApproved = true
 	end
 
-	if MTIsValidObj(MTLeaderColonist) then
+	if IsValid(MTLeaderColonist) then
 		if not MTLeaderColonist.traits.ColonyLeader then
 			MTLeaderColonist:AddTrait("ColonyLeader")
 		end
@@ -2715,7 +2709,7 @@ function RequiresMaintenance:SetMalfunction(...)
 		local MTWorkers = MTGetWorkers(self)
 		if MTWorkers ~= nil and #MTWorkers > 0 then
 			local MTIdiotWorker = MTGetColonistWithTrait("Idiot", MTWorkers)
-			if MTIsValidObj(MTIdiotWorker) then
+			if IsValid(MTIdiotWorker) then
 				-- Treat this as a breakdown at workplace 'self' caused by MTIdiotWorker.
 				Msg("MTIdiotWorkplaceBreakdown", self, MTIdiotWorker)
 			end

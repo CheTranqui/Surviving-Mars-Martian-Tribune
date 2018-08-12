@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
 	'version', 769,
-	'lua_revision', 229422,
+	'lua_revision', 233467,
 	'code', {
 		"Code/MartianTribune.lua",
 	},
