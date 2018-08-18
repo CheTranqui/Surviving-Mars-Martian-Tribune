@@ -8,7 +8,7 @@
 
 local MTText = {}
 MTText.StringIdBase = 9013487
-local MT_mod_dir = Mods["lf1iELO"].path
+local MT_mod_dir = CurrentModPath
 
 -- Section 1: Declare the Global Vars that need to be saved/reloaded.
 -- Using GlobalVar means that these are automatically written out to the save game, and if starting
