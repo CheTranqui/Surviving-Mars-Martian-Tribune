@@ -16,7 +16,7 @@ local function CheckStory()
 		AddStory({
 			key = Key1,
 			title = T{9013607, "First Dome-Penetrating Structure Erected"},
-			story = T{9013608, "     The Arcology erected in <MTArcologyDomeName> has been praised as an exquisite example of engineering, poking through the rounded dome, to a firm stance with a rounded bottom. As ever, the typical architectural tropes remain well intact, as one of the arcology residents put it, 'How are we not doing phrasing anymore?  Seriously, the entire building is one giant inuendo!'", MTArcologyDomeName = ArcologyDomeName}
+			story = T{9013608, "     The Arcology erected in <MTArcologyDomeName> has been praised as an exquisite example of engineering, poking through the rounded dome, to a firm stance with a rounded bottom. As ever, the typical architectural tropes remain well intact, as one of the arcology residents put it, \"How are we not doing phrasing anymore?  Seriously, the entire building is one giant inuendo!\"", MTArcologyDomeName = ArcologyDomeName}
 		})
 	end
 end

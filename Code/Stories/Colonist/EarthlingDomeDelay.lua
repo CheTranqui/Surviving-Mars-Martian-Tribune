@@ -21,7 +21,7 @@ local function CheckStory1()
 			AddStory({
 				key = Key1,
 				title = T{9013710, "Earthling Causes Delay"},
-				story = T{9013711, "     If you've been wondering why no new domes have been built of late, look no further than <MTEarthlingDelayName>.  Apparently they're now taking signatures for a petition to halt all mining operations, claiming them to be 'raping and pillaging Mars of its natural resources.'  The <MTLeaderTitle> has taken note of <MTEarthlingDelayName> and should be releasing a statement later this very sol.", MTEarthlingDelayName = Name, MTLeaderTitle = LeaderTitle},
+				story = T{9013711, "     If you've been wondering why no new domes have been built of late, look no further than <MTEarthlingDelayName>.  Apparently they're now taking signatures for a petition to halt all mining operations, claiming them to be \"raping and pillaging Mars of its natural resources.\"  The <MTLeaderTitle> has taken note of <MTEarthlingDelayName> and should be releasing a statement later this very sol.", MTEarthlingDelayName = Name, MTLeaderTitle = LeaderTitle},
 				colonist_name = Name,
 				colonist = IsValidColonist(Colonist) and Colonist or nil
 			})

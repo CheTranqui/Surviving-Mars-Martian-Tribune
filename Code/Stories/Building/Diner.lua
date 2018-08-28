@@ -43,7 +43,7 @@ local function CheckStory2()
 			AddStory({
 				key = Key2,
 				title = T{9013699, "Is this Vegan?"},
-				story = T{9013700, "     <MTVeganDinerName> has been barred from the diner in <MTVeganDinerDome> after going in 25 different times and asking, 'Is this vegan? I'm vegan, so I can't eat anything that comes from an animal,' and being repetedly informed that everything on Mars is vegan.  Staff finally banded together and has officially banned <MTVeganDinerName> from the establishment stating 'EVERYTHING is vegan!  Now GET OUT!'", MTVeganDinerName = ColonistName, MTVeganDinerDome = DomeName},
+				story = T{9013700, "     <MTVeganDinerName> has been barred from the diner in <MTVeganDinerDome> after going in 25 different times and asking, \"Is this vegan? I'm vegan, so I can't eat anything that comes from an animal\", and being repetedly informed that everything on Mars is vegan.  Staff finally banded together and has officially banned <MTVeganDinerName> from the establishment stating \"EVERYTHING is vegan!  Now GET OUT!\"", MTVeganDinerName = ColonistName, MTVeganDinerDome = DomeName},
 				-- colonist = Colonist
 			})
 		end

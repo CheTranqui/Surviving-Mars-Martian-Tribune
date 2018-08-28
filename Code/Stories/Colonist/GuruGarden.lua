@@ -23,7 +23,7 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013582, "Guru In The Garden"},
-				story = T{9013583, "     Martian Guru <MTGuru> has informed the Martian Tribune that they will be holding frequent meditation and contemplation sesions in the dome's garden. 'The garden is the natural spot for gurus like me, it lets me reach a more intense inner core, and connect more deeply with others and with nature.'", MTGuru = Name},
+				story = T{9013583, "     Martian Guru <MTGuru> has informed the Martian Tribune that they will be holding frequent meditation and contemplation sesions in the dome's garden. \"The garden is the natural spot for gurus like me, it lets me reach a more intense inner core, and connect more deeply with others and with nature.\"", MTGuru = Name},
 				colonist = GuruColonist
 			})
 		end

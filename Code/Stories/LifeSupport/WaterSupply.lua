@@ -39,7 +39,7 @@ local function CheckStory()
 					AddStory({
 						key = Key2,
 						title = T{9013601, "Let It Mellow"},
-						story = T{9013602, "     Conservation is the name of the game in our domes today as we find ourselves short on water production and storage.  In the coming days, we urge you to adopt a new philosophy if you haven't already: 'if it's yellow let it mellow, if it's brown flush it down.'  Hopefully this is a temporary situation.  We will advise you when the situation has improved."}
+						story = T{9013602, "     Conservation is the name of the game in our domes today as we find ourselves short on water production and storage.  In the coming days, we urge you to adopt a new philosophy if you haven't already: \"if it's yellow let it mellow, if it's brown flush it down.\"  Hopefully this is a temporary situation.  We will advise you when the situation has improved."}
 					})
 				end
 			end

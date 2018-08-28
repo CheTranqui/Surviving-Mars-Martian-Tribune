@@ -17,7 +17,7 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013537, "Drones Reminded That Structure Shells Look Silly"},
-				story = T{9013538, "     Drones on Mars Have received a software upgrade that reminds them that leaving the shell of a former structure looks messy, unkept and serves no purpose, thus it is ok for them to remove the shell and make the surface look nice again.  We simply have to say 'please', is all."}
+				story = T{9013538, "     Drones on Mars Have received a software upgrade that reminds them that leaving the shell of a former structure looks messy, unkept and serves no purpose, thus it is ok for them to remove the shell and make the surface look nice again.  We simply have to say \"please\", is all."}
 			})
 		else
 			AddStory({

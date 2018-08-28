@@ -47,13 +47,13 @@ local function AddTopFreeStories()
 	AddStory({
 		key = "OnThisDayIn2015",
 		title = T{9013788, "On This Day in 2015"},
-		story = T{9013789, "     On September 28th in 2015 NASA announced that the Mars Reconnaissance Orbiter had officially encountered water flowing along the Martian surface.  While it might seem like a foregone conclusion to us today, such news at the time proved quite the breakthrough, leading NASA Administrator Bolden to declare that NASA 'is firmly on a journey to Mars.'"}
+		story = T{9013789, "     On September 28th in 2015 NASA announced that the Mars Reconnaissance Orbiter had officially encountered water flowing along the Martian surface.  While it might seem like a foregone conclusion to us today, such news at the time proved quite the breakthrough, leading NASA Administrator Bolden to declare that NASA \"is firmly on a journey to Mars.\""}
 	})
 
 	AddStory({
 		key = "VikingsFirst",
 		title = T{9013806, "Were We Really The First?"},
-		story = T{9013807, "     Reports are coming in that <MTSponsor> may not, in fact, be the first to have arrived on Mars. It is stated that an ancient Viking ship was found near one of our scout's landing sites that contained manuscripts stating that 'the Blue Land has been conquered in the name of Ulfric the Great.' While no other evidence of this former civilzation has been found, it is a clear reminder: we are not alone.", MTSponsor = Sponsor}
+		story = T{9013807, "     Reports are coming in that <MTSponsor> may not, in fact, be the first to have arrived on Mars. It is stated that an ancient Viking ship was found near one of our scout's landing sites that contained manuscripts stating that \"the Blue Land has been conquered in the name of Ulfric the Great.\" While no other evidence of this former civilzation has been found, it is a clear reminder: we are not alone.", MTSponsor = Sponsor}
 	})
 end
 
@@ -69,7 +69,7 @@ local function AddEngFreeStories()
 	AddStory({
 		key = "Woodys",
 		title = T{9013800, "Woody's Woods to Expand to Mars"},
-		story = T{9013801, "     Woodys Woods, a tree-felling business of Cities Skylines fame, has decided to expand its operations to Mars. This decision has come as a surprise to many people, mainly because there are no trees on Mars.  When asked about this, Woody responded, 'I'm sure we'll find something to cut down!'"}
+		story = T{9013801, "     Woodys Woods, a tree-felling business of Cities Skylines fame, has decided to expand its operations to Mars. This decision has come as a surprise to many people, mainly because there are no trees on Mars.  When asked about this, Woody responded, \"I'm sure we'll find something to cut down!\""}
 	})
 
 	AddStory({
@@ -86,7 +86,7 @@ local function AddSocialFreeStories()
 	AddStory({
 		key = "PoliticalAmbitions",
 		title = T{9013790, "Political Ambitions Set Too High?"},
-		story = T{9013791, "     A politician on Earth has stated the obvious this week by claiming that Mars is red.  The hopeful senator took it a step further by declaring that Mars is a also a communist planet, with 'nothing but red, red, red'.  After performing some reconnissance here at the Martian Tribune Headquarters, we would like to confirm that Mars is indeed red.  The claims of communism getting a foothold, however, will have to be fielded by the <MTLeaderTitle>.", MTLeaderTitle = LeaderTitle}
+		story = T{9013791, "     A politician on Earth has stated the obvious this week by claiming that Mars is red.  The hopeful senator took it a step further by declaring that Mars is a also a communist planet, with \"nothing but red, red, red\".  After performing some reconnissance here at the Martian Tribune Headquarters, we would like to confirm that Mars is indeed red.  The claims of communism getting a foothold, however, will have to be fielded by the <MTLeaderTitle>.", MTLeaderTitle = LeaderTitle}
 	})
 
 	AddStory({

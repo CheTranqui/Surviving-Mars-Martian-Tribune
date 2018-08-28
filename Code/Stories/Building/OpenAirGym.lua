@@ -18,7 +18,7 @@ local function CheckStory1()
 		AddStory({
 			key = Key1,
 			title = T{9013727, "Olympic Bid Rejected"},
-			story = T{9013728, "     After the opening of our new open-air gym in <MTOlympicBidGymDome>, <MTSponsor> applied to host the Olympics on Mars, saying, 'We have the best view of Mount Olympus and a Gym, what more could one ask for?' The International Olympics Committee on Earth rejected the proposal, saying 'Wait, that was an actual bid? You don't even have a pool.' <MTSponsor> responded by saying they will start their own Interstellar Olympics.  Expect track, blackjack, marbles, and Drone Jumping to headline the experience.", MTOlympicBidGymDome = OlympicBidGymDome, MTSponsor = Sponsor}
+			story = T{9013728, "     After the opening of our new open-air gym in <MTOlympicBidGymDome>, <MTSponsor> applied to host the Olympics on Mars, saying, \"We have the best view of Mount Olympus and a Gym, what more could one ask for?\" The International Olympics Committee on Earth rejected the proposal, saying \"Wait, that was an actual bid? You don't even have a pool.\" <MTSponsor> responded by saying they will start their own Interstellar Olympics.  Expect track, blackjack, marbles, and Drone Jumping to headline the experience.", MTOlympicBidGymDome = OlympicBidGymDome, MTSponsor = Sponsor}
 		})
 	end
 end

@@ -24,7 +24,7 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013545, "Water Recovery Explained"},
-				story = T{9013546, "     We recently sat down for an interview with <MTScientist> where we learned what lead to the new Water Reclamation technology: 'Well basically, we realised that the dome is very similar in design to a water purifier on Earth, except that it's missing the cup in the middle to collect all the water. That's what this new spire will do. It will collect the condensation from the dome's interior and convert it back into consumable water for the inhabitants, effectively cutting our water usage in half.'", MTScientist = Name},
+				story = T{9013546, "     We recently sat down for an interview with <MTScientist> where we learned what lead to the new Water Reclamation technology: \"Well basically, we realised that the dome is very similar in design to a water purifier on Earth, except that it's missing the cup in the middle to collect all the water. That's what this new spire will do. It will collect the condensation from the dome's interior and convert it back into consumable water for the inhabitants, effectively cutting our water usage in half.\"", MTScientist = Name},
 				-- colonist = IsValidColonist(Colonist) and Colonist or nil
 			})
 		else

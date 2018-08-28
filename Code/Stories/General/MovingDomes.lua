@@ -18,7 +18,7 @@ local function CheckStory()
 		AddStory({
 			key = Key1,
 			title = T{9013689, "The Rock Is Always Redder"},
-			story = T{9013690, "     In a recent survey performed by the Martian Tribune a number of citizens have expressed disappointment after moving to a new dome.  One citizen in particular hit the nail on the head saying, 'I always thought that moving from <MTMovingDome1> to <MTMovingDome2> would be a huge upgrade in lifestyle, but I've have found it to be basically the same as before. I guess it's true what they say: The rock is redder on the other side.'", MTMovingDome1 = Dome1Name, MTMovingDome2 = Dome2Name}
+			story = T{9013690, "     In a recent survey performed by the Martian Tribune a number of citizens have expressed disappointment after moving to a new dome.  One citizen in particular hit the nail on the head saying, \"I always thought that moving from <MTMovingDome1> to <MTMovingDome2> would be a huge upgrade in lifestyle, but I've have found it to be basically the same as before. I guess it's true what they say: The rock is redder on the other side.\"", MTMovingDome1 = Dome1Name, MTMovingDome2 = Dome2Name}
 		})
 	end
 end

@@ -13,7 +13,7 @@ local function CheckStory1()
 		AddStory({
 			key = Key1,
 			title = T{9013574, "They're Fighting, Stop Fighting!"},
-			story = T{9013575, "     Local outspoken dome inhabitant, <MTRenegade> was caught instigating several fights this weekend.  Rumor has it that he was trying to build interest in a club.  After sobering up overnight, the renegade was quoted as saying, 'What club? There is no club.'", MTRenegade = Name},
+			story = T{9013575, "     Local outspoken dome inhabitant, <MTRenegade> was caught instigating several fights this weekend.  Rumor has it that he was trying to build interest in a club.  After sobering up overnight, the renegade was quoted as saying, \"What club? There is no club.\"", MTRenegade = Name},
 			colonist = RenegadePerson
 		})
 	end
@@ -35,7 +35,7 @@ local function CheckStory2()
 			AddStory({
 				key = Key2,
 				title = T{9013578, "Fight Club Story Retraction"},
-				story = T{9013579, "     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story 'They're fighting, stop fighting'.  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned 'club'."}
+				story = T{9013579, "     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story \"They're fighting, stop fighting\".  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned \"club\"."}
 			})
 		end
 	end

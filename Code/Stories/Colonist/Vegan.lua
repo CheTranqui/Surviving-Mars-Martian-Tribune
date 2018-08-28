@@ -117,7 +117,7 @@ local function CheckStory4()
 			AddStory({
 				key = Key4,
 				title = T{9013708, "Vegan Martian Coalition Talks Stalled"},
-				story = T{9013709, "     Though the VMC has managed to garner the favor of our <MTLeaderTitle> <MTLeader>, <MTSponsor> has claimed to receive millions of complaints from Earthlings who once desired to travel to Mars.  Applicants have begun to withdraw their applications by the thousands citing only one word on the cancellation form: 'bacon'.  While the backlash might dampen <MTSponsor>'s support, this reporter for one is pleased with the health benefits.  We'll keep you updated as the situation continues to progress.", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName, MTSponsor = Sponsor}
+				story = T{9013709, "     Though the VMC has managed to garner the favor of our <MTLeaderTitle> <MTLeader>, <MTSponsor> has claimed to receive millions of complaints from Earthlings who once desired to travel to Mars.  Applicants have begun to withdraw their applications by the thousands citing only one word on the cancellation form: \"bacon\".  While the backlash might dampen <MTSponsor>'s support, this reporter for one is pleased with the health benefits.  We'll keep you updated as the situation continues to progress.", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName, MTSponsor = Sponsor}
 			})
 		end
 	end

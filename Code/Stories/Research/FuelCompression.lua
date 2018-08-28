@@ -15,7 +15,7 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013541, "Rockets Now Made More Spacious"},
-				story = T{9013542, "     Scientists have discovered a way to fit up to 10,000kg more junk food and supplies in each rocket sent to Mars. By squeezing the fuel into a smaller tank, they have created more cargo space. 'It's amazing we didn't think of this earlier, just make the fuel tank smaller.  It might pertain to rockets, but it is definitely not rocket science'."}
+				story = T{9013542, "     Scientists have discovered a way to fit up to 10,000kg more junk food and supplies in each rocket sent to Mars. By squeezing the fuel into a smaller tank, they have created more cargo space. \"It's amazing we didn't think of this earlier, just make the fuel tank smaller.  It might pertain to rockets, but it is definitely not rocket science\"."}
 			})
 		else
 			local Sponsor = MartianTribune.Sponsor

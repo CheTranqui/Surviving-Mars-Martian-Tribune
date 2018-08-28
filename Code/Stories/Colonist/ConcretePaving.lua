@@ -15,7 +15,7 @@ local function CheckStory()
 		AddStory({
 			key = Key1,
 			title = T{9013696, "Paving Over The Problem"},
-			story = T{9013697, "     <MTConcreteName> has lodged a formal complaint with authorities today after the plans to construct yet another Concrete Extractor was announced. <MTConcreteName> declared within that they 'did not come to another planet to pave it over.'", MTConcreteName = Name},
+			story = T{9013697, "     <MTConcreteName> has lodged a formal complaint with authorities today after the plans to construct yet another Concrete Extractor was announced. <MTConcreteName> declared within that they \"did not come to another planet to pave it over.\"", MTConcreteName = Name},
 			-- colonist = IsValidColonist(Colonist) and Colonist or nil
 		})
 	end
