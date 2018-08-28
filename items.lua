@@ -84,6 +84,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Building/Diner.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Building_Dome",
+	'FileName', "Code/Stories/Building/Dome.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Building_DomeOval",
 	'FileName', "Code/Stories/Building/DomeOval.lua",
 }),
@@ -138,6 +142,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_EarthlingDomeDelay",
 	'FileName', "Code/Stories/Colonist/EarthlingDomeDelay.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_EarthTourism",
+	'FileName', "Code/Stories/Colonist/EarthTourism.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_FightClub",
