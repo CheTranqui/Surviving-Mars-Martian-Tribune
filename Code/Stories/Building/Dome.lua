@@ -9,8 +9,8 @@ local function CheckStory(dome)
 
 		AddStory({
 			key = Key1,
-			title = T{9013818, "Drone Repairs <DomeName> Dome", DomeName = DomeName},
-			story = T{9013819, "     <DomeName> recently developed a large crack, allowing precious oxygen to escape. Lucky for us oxygen breathing humans the drones were quick to react, gluing a full box of polymers to the crack.", DomeName = DomeName}
+			title = T{9013818, "<DomeName> Repaired, People Rejoice", DomeName = DomeName},
+			story = T{9013819, "     <DomeName> recently developed a large crack, causing much of our precious oxygen to evaporate into the martian atmosphere. Lucky for us oxygen breathing humans, however, our drones are not affected so deeply and were quick to react.  Hopefully the polymer-based super glue does the trick for many sol to come.  Keep an eye on <DomeName> in these coming days and be sure to report any shortness of breath to local authorities.", DomeName = DomeName}
 		})
 	end
 end
