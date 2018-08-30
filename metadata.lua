@@ -94,6 +94,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Research/MagneticFiltering.lua",
 		"Code/Stories/Research/SoilAdaptation.lua",
 		"Code/Stories/Research/SoylentGreen.lua",
+		"Code/Stories/Research/SubsurfaceHeating.lua",
 		"Code/Stories/Research/WaterReclamation.lua"
 	},
 	'loctables', {
