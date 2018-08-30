@@ -54,8 +54,8 @@ local function CheckStory()
 
 		AddStory({
 			key = Key4,
-			title = T{9013866, "Children confused by giant whale statue"},
-			story = T{9013867, "     Children on Mars have reported confusion and fear of the \"Giant Whale\" outside the dome. After realising that they are referring to the Rocket sent from Earth, older Martians are confused by the children knowing what a whale looks like. \"There are no pictures of whales, the kids just decided that is what the rockets looked like. It is amazing that they were right.\""}
+			title = T{9013866, "Children Confused by Giant Whale Statue"},
+			story = T{9013867, "     Children on Mars have reported confusion and fear of the \"Giant Whale\" outside the dome. After realising that they are referring to the Rocket sent from Earth, older Martians were confused by the children even knowing what a whale looks like. \"There are no pictures of whales, the kids just decided that is what the rockets looked like. It is amazing that they were right, but they've no need to fear!\""}
 		})
 	end
 end
