@@ -65,6 +65,9 @@ There are a series of functions available for removing a story from the selectio
 * `MartianTribuneMod.Functions.GetColonistWithTrait(trait_id, colonistList)` - returns a random colonist from the provided list (or from UICity.labels.Colonist if no colonistList is provided) who does have the specified trait_id.
 * `MartianTribuneMod.Functions.GetRandomDroneName()` - returns the name field from a random drone, or "Drone #1" (as a translated string) if no drones exist.
 * `MartianTribuneMod.Functions.GetPopulatedDomes(domeList)` - returns the list of Domes that have Colonists from the domeList, or from UICity.labels.Dome if no domeList is provided.
+* `MartianTribuneMod.Functions.GetPopulatedDomesWithoutAir()` - returns the list of Domes that have Colonists and have a current Air shortage.
+* `MartianTribuneMod.Functions.GetPopulatedDomesWithoutPower()` - returns the list of Domes that have Colonists and have a current Power shortage.
+* `MartianTribuneMod.Functions.GetPopulatedDomesWithoutWater()` - returns the list of Domes that have Colonists and have a current Water shortage.
 * `MartianTribuneMod.Functions.GetWorkers(building)` - returns a flattened list of workers for a specific building (so that you can then do random selection or iterate through them easily).
 
 ## Story Data

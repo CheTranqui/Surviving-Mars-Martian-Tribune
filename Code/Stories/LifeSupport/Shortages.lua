@@ -6,13 +6,15 @@ local WaterKey2 = "WaterShortage2"
 local function CheckStory()
 	local MartianTribune = MartianTribune
 	local MartianTribuneMod = MartianTribuneMod
-	local GetPopulatedDomes = MartianTribuneMod.Functions.GetPopulatedDomes
+	local GetPopulatedDomesWithoutPower = MartianTribuneMod.Functions.GetPopulatedDomesWithoutPower
+	local GetPopulatedDomesWithoutAir = MartianTribuneMod.Functions.GetPopulatedDomesWithoutAir
+	local GetPopulatedDomesWithoutWater = MartianTribuneMod.Functions.GetPopulatedDomesWithoutWater
 	local Sent = MartianTribune.Sent
 	local UICity = UICity
 
-	local populatedDomesWithNoOxygen = GetPopulatedDomes(g_DomesWithNoOxygen)
-	local populatedDomesWithNoWater = GetPopulatedDomes(g_DomesWithNoWater)
-	local populatedDomesWithNoPower = GetPopulatedDomes(g_DomesWithNoPower)
+	local populatedDomesWithNoOxygen = GetPopulatedDomesWithoutAir()
+	local populatedDomesWithNoWater = GetPopulatedDomesWithoutWater()
+	local populatedDomesWithNoPower = GetPopulatedDomesWithoutPower()
 
 	if #populatedDomesWithNoOxygen > 0
 		or #populatedDomesWithNoWater > 0

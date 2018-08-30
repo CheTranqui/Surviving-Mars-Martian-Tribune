@@ -156,6 +156,45 @@ MartianTribuneMod.Functions.GetPopulatedDomes = function(domeList)
 	domeList or UICity.labels.Dome or empty_table)
 end
 
+-- Find all the populated domes with no power
+MartianTribuneMod.Functions.GetPopulatedDomesWithoutPower = function()
+	return MapFilter(
+		g_DomesWithNoLifeSupport or empty_table,
+		function(dome)
+			return IsValid(dome)
+				and not dome:HasPower()
+				and dome.labels.Colonist
+				and #dome.labels.Colonist > 0
+		end
+	)
+end
+
+-- Find all the populated domes with no air
+MartianTribuneMod.Functions.GetPopulatedDomesWithoutAir = function()
+	return MapFilter(
+		g_DomesWithNoLifeSupport or empty_table,
+		function(dome)
+			return IsValid(dome)
+				and not dome:HasAir()
+				and dome.labels.Colonist
+				and #dome.labels.Colonist > 0
+		end
+	)
+end
+
+-- Find all the populated domes with no water
+MartianTribuneMod.Functions.GetPopulatedDomesWithoutWater = function()
+	return MapFilter(
+		g_DomesWithNoLifeSupport or empty_table,
+		function(dome)
+			return IsValid(dome)
+				and not dome:HasWater()
+				and dome.labels.Colonist
+				and #dome.labels.Colonist > 0
+		end
+	)
+end
+
 -- Retrieve the list of workers for a specific workplace
 MartianTribuneMod.Functions.GetWorkers = function(workplace)
 	if IsValid(workplace) then
