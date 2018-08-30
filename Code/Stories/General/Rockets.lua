@@ -12,7 +12,7 @@ local function CheckStory()
 		local LeaderName = MartianTribune.LeaderName
 		local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 		local Sent = MartianTribune.Sent
-		local RocketCount = CountObjects{class = "SupplyRocket"}
+		local RocketCount = MapCount("map", "SupplyRocket")
 	
 		if not Sent[Key1] and ColonistsHaveArrived and RocketCount > 2 then
 			local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory

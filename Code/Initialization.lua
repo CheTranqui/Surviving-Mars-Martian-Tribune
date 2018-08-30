@@ -112,11 +112,12 @@ local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 
 -- Find a random colonist who does not have a specific trait.
 MartianTribuneMod.Functions.GetColonistWithoutTrait = function(trait, colonistList)
-	local colonists = FilterObjects({
-		filter = function(colonist)
+	local colonists = MapFilter(
+		colonistList or UICity.labels.Colonist or empty_table,
+		function(colonist)
 			return IsValidColonist(colonist) and colonist.traits and not colonist.traits[trait]
-		end},
-	colonistList or UICity.labels.Colonist or empty_table)
+		end
+	)
 	if colonists and #colonists > 0 then
 		return table.rand(colonists)
 	end
@@ -125,11 +126,12 @@ end
 
 -- Find a random colonist who does have a specific trait.
 MartianTribuneMod.Functions.GetColonistWithTrait = function(trait, colonistList)
-	local colonists = FilterObjects({
-		filter = function(colonist)
+	local colonists = MapFilter(
+		colonistList or UICity.labels.Colonist or empty_table,
+		function(colonist)
 			return IsValidColonist(colonist) and colonist.traits and colonist.traits[trait]
-		end},
-	colonistList or UICity.labels.Colonist or empty_table)
+		end
+	)
 	if colonists and #colonists > 0 then
 		return table.rand(colonists)
 	end
@@ -138,8 +140,8 @@ end
 
 -- Find the name of a random drone
 MartianTribuneMod.Functions.GetRandomDroneName = function()
-	local Drones = GetObjects{class = "Drone"}
-	if #Drones > 0 then
+	local Drones = MapGet("map", "Drone")
+	if Drones and #Drones > 0 then
 		return table.rand(Drones).name
 	end
 	return T{9013810, "Drone #<num>", num=1}
@@ -149,11 +151,12 @@ end
 -- If no list is provided, it will use the list of domes in the colony.
 MartianTribuneMod.Functions.GetPopulatedDomes = function(domeList)
 	-- default to all domes if no list is provided
-	return FilterObjects({
-		filter = function(dome)
+	return MapFilter(
+		domeList or UICity.labels.Dome or empty_table,
+		function(dome)
 			return dome.labels.Colonist and #dome.labels.Colonist > 0
-		end},
-	domeList or UICity.labels.Dome or empty_table)
+		end
+	)
 end
 
 -- Find all the populated domes with no power

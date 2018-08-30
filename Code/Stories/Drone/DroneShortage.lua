@@ -4,10 +4,10 @@ local function CheckStory()
 	local MartianTribune = MartianTribune
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Sent = MartianTribune.Sent
-	local Domes = CountObjects{class = "Dome"}
+	local Domes = MapCount("map", "Dome")
 
 	if not Sent[Key1] and ColonistsHaveArrived and Domes > 0 then
-		local Drones = CountObjects{class = "Drone"}
+		local Drones = MapCount("map", "Drone")
 		local DroneRatio = Drones / Domes
 		if DroneRatio < 12 then
 			local LeaderTitle = MartianTribune.LeaderTitle

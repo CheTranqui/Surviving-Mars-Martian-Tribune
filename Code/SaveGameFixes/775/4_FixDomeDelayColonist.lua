@@ -13,11 +13,12 @@ MartianTribuneMod.SaveGameFixes[775].FixDomeDelayColonist = function(oldData)
 	local domeDelay2PotentialIndex, domeDelay2Potential = FindStoryInListByKey(SocialPotentialStories, "DomeDelay2")
 	if oldData.MTEarthlingDelayName and not domeDelay2PubIndex and not domeDelay2PotentialIndex then
 		-- Find Earthlings with the same name
-		local colonists = FilterObjects({
-			filter = function(colonist)
+		local colonists = MapFilter(
+			UICity.labels.Colonist or empty_table,
+			function(colonist)
 				return colonist.name == oldData.MTEarthlingDelayName and not colonist.traits.Martianborn
 			end
-		}, UICity.labels.Colonist or empty_table)
+		)
 
 		-- Find the DomeDelay1 story
 		local domeDelay1PubIndex, domeDelay1Pub = FindStoryInListByKey(SocialArchive, "DomeDelay1")
@@ -26,11 +27,12 @@ MartianTribuneMod.SaveGameFixes[775].FixDomeDelayColonist = function(oldData)
 		if colonists and #colonists > 0 then
 			if domeDelay1Pub and not IsValidColonist(domeDelay1Pub.colonist) then
 				-- try to restore a pinned earthling colonist with that name
-				local pinned = FilterObjects({
-					filter = function(colonist)
+				local pinned = MapFilter(
+					colonists,
+					function(colonist)
 						return colonist.is_pinned
 					end
-				}, colonists)
+				)
 				if pinned and #pinned > 0 then
 					domeDelay1Pub.colonist = table.random(pinned)
 				else

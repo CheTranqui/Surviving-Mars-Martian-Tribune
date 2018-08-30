@@ -5,7 +5,7 @@ local function CheckStory()
 	local Removed = MartianTribune.Removed
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key1] and not Removed[Key1] and CountObjects{class = "Drone"} > 2 then
+	if not Sent[Key1] and not Removed[Key1] and MapCount("map", "Drone") > 2 then
 		local MartianTribuneMod = MartianTribuneMod
 		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
 		local GetRandomDroneName = MartianTribuneMod.Functions.GetRandomDroneName

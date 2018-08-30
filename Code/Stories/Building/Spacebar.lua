@@ -42,7 +42,7 @@ local function CheckStory3()
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key3] and ColonistsHaveArrived and CountObjects{class = "Spacebar"} > 1 then
+	if not Sent[Key3] and ColonistsHaveArrived and MapCount("map", "Spacebar") > 1 then
 		local Colonist = table.rand(UICity.labels.Colonist)
 		local Name = (Colonist and Colonist.name) or T{9013670, "random colonist"}
 		local MartianTribuneMod = MartianTribuneMod

@@ -6,7 +6,7 @@ local function CheckStory()
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key1] and ColonistsHaveArrived and CountObjects{class = "Dome"} > 2 then
+	if not Sent[Key1] and ColonistsHaveArrived and MapCount("map", "Dome") > 2 then
 		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		AddStory({
 			key = Key1,

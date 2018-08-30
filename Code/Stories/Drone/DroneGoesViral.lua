@@ -2,7 +2,7 @@ local Key1 = "DroneGoesViral"
 
 local function CheckStory()
 	local Sent = MartianTribune.Sent
-	if not Sent[Key1] and CountObjects{class = "Drone"} > 2 then
+	if not Sent[Key1] and MapCount("map", "Drone") > 2 then
 		local MartianTribuneMod = MartianTribuneMod
 		local GetRandomDroneName = MartianTribuneMod.Functions.GetRandomDroneName
 		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory

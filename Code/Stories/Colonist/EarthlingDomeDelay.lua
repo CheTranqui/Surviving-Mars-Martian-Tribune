@@ -26,7 +26,7 @@ local function CheckStory1()
 				colonist = IsValidColonist(Colonist) and Colonist or nil
 			})
 		end
-	elseif DomeBuiltDay == nil and CountObjects{class = "Dome"} > 0 then
+	elseif DomeBuiltDay == nil and MapCount("map", "Dome") > 0 then
 		-- Missed the day when the last dome was built. Set it to "today" so that the delay chain can start in a while
 		MartianTribune.Count.DomeBuiltDay = UICity.day
 	end

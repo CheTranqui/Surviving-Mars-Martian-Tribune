@@ -33,7 +33,7 @@ local function CheckStory2()
 		and not Removed[Key2]
 		and ColonistsHaveArrived
 		and UICity.tech_status[TechId].researched ~= nil
-		and CountObjects{class = "SensorTower"} <= 2
+		and MapCount("map", "SensorTower") <= 2
 	then
 		local LeaderName = MartianTribune.LeaderName
 		local LeaderTitle = MartianTribune.LeaderTitle
@@ -62,7 +62,7 @@ local function CheckRemoveStory2()
 	local Published = MartianTribune.Published
 	local Removed = MartianTribune.Removed
 
-	if not Published[Key2] and not Removed[Key2] and CountObjects{class = "SensorTower"} > 2 then
+	if not Published[Key2] and not Removed[Key2] and MapCount("map", "SensorTower") > 2 then
 		MartianTribuneMod.Functions.RemoveTopPotentialStory(Key2)
 	end
 end

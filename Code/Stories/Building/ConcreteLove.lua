@@ -3,7 +3,7 @@ local Key1 = "ConcreteLove"
 
 local function CheckStory()
 	local Sent = MartianTribune.Sent
-	if not Sent[Key1] and CountObjects{class = BuildingClass} > 1 then
+	if not Sent[Key1] and MapCount("map", BuildingClass) > 1 then
 		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
 		AddStory({
 			key = Key1,
