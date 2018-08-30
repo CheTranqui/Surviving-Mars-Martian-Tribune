@@ -1,4 +1,6 @@
 local Key1 = "NoHumans"
+local VikingsKey1 = "VikingsFirst"
+local VikingsKey2 = "AtlantisFound"
 
 local function AddTopPotentialStories()
 	local MartianTribune = MartianTribune
@@ -51,7 +53,7 @@ local function AddTopFreeStories()
 	})
 
 	AddStory({
-		key = "VikingsFirst",
+		key = VikingsKey1,
 		title = T{9013806, "Were We Really The First?"},
 		story = T{9013807, "     Reports are coming in that <MTSponsor> may not, in fact, be the first to have arrived on Mars. It is stated that an ancient Viking ship was found near one of our scout's landing sites that contained manuscripts stating that \"the Blue Land has been conquered in the name of Ulfric the Great.\" While no other evidence of this former civilzation has been found, it is a clear reminder: we are not alone.", MTSponsor = Sponsor}
 	})
@@ -129,12 +131,28 @@ local function CheckRemoveStories()
 	end
 end
 
+local function CheckChainStories()
+	local MartianTribune = MartianTribune
+	local Published = MartianTribune.Published
+	local Sent = MartianTribune.Sent
+
+	if Published[VikingsKey1] and not Sent[VikingsKey2] then
+		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
+		AddStory({
+			key = VikingsKey2,
+			title = T{9013870, "Atlantis has been found!"},
+			story = T{9013871, "     The long lost city of Atlantis, thought to be nothing but rumor and legend, has been found, and it is where no-one expected to find it - around 15KM below the surface of Mars. The legend of the city that sunk beneath the blue sea may well have been mistranslated from ancient Viking manuscripts, who meant to say it sunk beneath the dust of the red planet. In retrospect, that was an easy mistake to make."}
+		})
+	end
+end
+
 function OnMsg.ColonistArrived()
 	CheckRemoveStories()
 end
 
 function OnMsg.MartianTribuneCheckStories()
 	CheckRemoveStories()
+	CheckChainStories()
 end
 
 function OnMsg.MartianTribuneInitializeStories()
