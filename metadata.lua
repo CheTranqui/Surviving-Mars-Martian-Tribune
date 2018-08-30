@@ -59,6 +59,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Colonist/IdiotFML.lua",
 		"Code/Stories/Colonist/LeaderDied.lua",
 		"Code/Stories/Colonist/MartianCelebrity.lua",
+		"Code/Stories/Colonist/MartianFashion.lua",
 		"Code/Stories/Colonist/NewLeader.lua",
 		"Code/Stories/Colonist/OopsIBrokeItAgain.lua",
 		"Code/Stories/Colonist/PetRock.lua",
