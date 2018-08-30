@@ -37,8 +37,8 @@ local function CheckStory2()
 
 		AddStory({
 			key = Key2,
-			title = T{9013845, "Martian Social Network"},
-			story = T{9013846, "     The Martian social network MarsIpan-Rock has been a huge hit, generating followers on Mars and Earth. The site focuses heavily on photos of pet rocks, with the odd martian showing their face to their pets followers. <CelebrityName> is currently one of the most popular posters on the site, with their pet rock Eurasia having over 3.6 Billion followers.", CelebrityName = Name}
+			title = T{9013845, "Martian Social Network Gains Traction"},
+			story = T{9013846, "     The Martian social network MarsIpan-Rock has been a huge hit, generating gobs of followers on both Mars and Earth. The site focuses heavily on photos of pet rocks, with the odd Martian showing their face to their pets' followers on occasion. <CelebrityName> , a pet rock enthusiast, has even garnered over 3.6 billion followers in awe of their pet rock Eurasia.  Mars, and its rocks, is clearly at the vanguard of changing the social landscape.", CelebrityName = Name}
 		})
 	end
 end
