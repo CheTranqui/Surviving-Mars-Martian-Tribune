@@ -16,6 +16,9 @@ local function UpdateStoredStories(list, newList, published, oldData)
 			end
 			if published and not story.publishedDay then
 				story = SaveGameFixes.SetMissingPublishedDay(story, oldData)
+			elseif not published and not story.key then
+				-- we didn't identify which story it was, and it is not already published, so delete it. It will be generated again when the story triggers are met anyway.
+				table.remove(list, i)
 			end
 		end
 	end
