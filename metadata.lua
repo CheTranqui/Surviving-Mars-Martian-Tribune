@@ -67,6 +67,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Drone/DroneBreakdown.lua",
 		"Code/Stories/Drone/DroneGoesViral.lua",
 		"Code/Stories/Drone/DroneShortage.lua",
+		"Code/Stories/General/CaptureTheFlag.lua",
 		"Code/Stories/General/ElonMusk.lua",
 		"Code/Stories/General/ElPresidente.lua",
 		"Code/Stories/General/Equality.lua",
