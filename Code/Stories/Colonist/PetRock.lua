@@ -1,6 +1,7 @@
 local Key1 = "PetRock"
+local Key2 = "MarsIPanRock"
 
-local function CheckStory()
+local function CheckStory1()
 	local MartianTribune = MartianTribune
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Sent = MartianTribune.Sent
@@ -21,6 +22,28 @@ local function CheckStory()
 	end
 end
 
+local function CheckStory2()
+	local MartianTribune = MartianTribune
+	local Published = MartianTribune.Published
+	local Sent = MartianTribune.Sent
+
+	if Published[Key1] and not Sent[Key2] and CountColonistsWithTrait("Celebrity") > 0 then
+		local MartianTribuneMod = MartianTribuneMod
+		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
+		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
+		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local Colonist = GetColonistWithTrait("Celebrity")
+		local Name = IsValidColonist(Colonist) and Colonist.name or T{9013637, "random celebrity"}
+
+		AddStory({
+			key = Key2,
+			title = T{9013845, "Martian Social Network"},
+			story = T{9013846, "     The Martian social network MarsIpan-Rock has been a huge hit, generating followers on Mars and Earth. The site focuses heavily on photos of pet rocks, with the odd martian showing their face to their pets followers. <CelebrityName> is currently one of the most popular posters on the site, with their pet rock Eurasia having over 3.6 Billion followers.", CelebrityName = Name}
+		})
+	end
+end
+
 function OnMsg.MartianTribuneCheckStories()
-	CheckStory()
+	CheckStory1()
+	CheckStory2()
 end
