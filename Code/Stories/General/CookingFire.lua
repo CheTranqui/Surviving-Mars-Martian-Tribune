@@ -24,8 +24,8 @@ local function CheckStory()
 
 		AddStory({
 			key = Key1,
-			title = T{9013868, "Fire almost kills colonist"},
-			story = T{9013869, "     <ColonistName> was lucky to escape with their life when their apartment went up in flames yesterday after an unfortunate cooking accident. Reports say the colonist called emergency services but was informed that the closest fire station was in the Adams area Fire district, and thus would take a very long time to respond. Dispatch recommended the colonist put out the fire themselves, which they did.", ColonistName = Name}
+			title = T{9013868, "Apartment Fire Tragedy Averted"},
+			story = T{9013869, "     A fire in <apartments> almost killed several colonists recently. <ColonistName> was lucky to escape when their apartment went up in flames after an unfortunate cooking accident. Reports say after calling emergency services, they were informed that fire stations have yet to be built and water supply is short. Emergency dispatch recommended the colonist put out the fire themselves using whatever they may, \"water, pee, whatever!\", which they did, averting the near disaster.", ColonistName = Name}
 		})
 	end
 end
