@@ -124,6 +124,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Building/Spacebar.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Building_Tunnel",
+	'FileName', "Code/Stories/Building/Tunnel.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_AdultFilm",
 	'FileName', "Code/Stories/Colonist/AdultFilm.lua",
 }),

@@ -39,6 +39,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Building/PreciousMetalsExtractor.lua",
 		"Code/Stories/Building/ShuttleHub.lua",
 		"Code/Stories/Building/Spacebar.lua",
+		"Code/Stories/Building/Tunnel.lua",
 		"Code/Stories/Colonist/AdultFilm.lua",
 		"Code/Stories/Colonist/ConcretePaving.lua",
 		"Code/Stories/Colonist/DroneHack.lua",
