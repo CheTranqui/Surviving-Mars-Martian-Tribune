@@ -124,6 +124,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Building/Spacebar.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Building_Tunnel",
+	'FileName', "Code/Stories/Building/Tunnel.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_AdultFilm",
 	'FileName', "Code/Stories/Colonist/AdultFilm.lua",
 }),
@@ -142,6 +146,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_EarthlingDomeDelay",
 	'FileName', "Code/Stories/Colonist/EarthlingDomeDelay.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_EarthsickColonist",
+	'FileName', "Code/Stories/Colonist/EarthsickColonist.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_EarthTourism",
@@ -196,6 +204,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Colonist/MartianCelebrity.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_MartianFashion",
+	'FileName', "Code/Stories/Colonist/MartianFashion.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_NewLeader",
 	'FileName', "Code/Stories/Colonist/NewLeader.lua",
 }),
@@ -212,12 +224,20 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Colonist/ReligiousArtifact.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_StarvingColonist",
+	'FileName', "Code/Stories/Colonist/StarvingColonist.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_Vegan",
 	'FileName', "Code/Stories/Colonist/Vegan.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_VirtueOverVices",
 	'FileName', "Code/Stories/Colonist/VirtueOverVices.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_Whiner",
+	'FileName', "Code/Stories/Colonist/Whiner.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Drone_DroneBreakdown",
@@ -230,6 +250,18 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_Drone_DroneShortage",
 	'FileName', "Code/Stories/Drone/DroneShortage.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_General_CaptureTheFlag",
+	'FileName', "Code/Stories/General/CaptureTheFlag.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_General_CookingFire",
+	'FileName', "Code/Stories/General/CookingFire.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_General_DomeBirthControl",
+	'FileName', "Code/Stories/General/DomeBirthControl.lua"
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_General_ElonMusk",
@@ -284,8 +316,28 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/General/Vigilante.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_General_Weekends",
+	'FileName', "Code/Stories/General/Weekends.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_LifeSupport_AirSupply",
 	'FileName', "Code/Stories/LifeSupport/AirSupply.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_LifeSupport_CableFault",
+	'FileName', "Code/Stories/LifeSupport/CableFault.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_LifeSupport_FoodShortage",
+	'FileName', "Code/Stories/LifeSupport/FoodShortage.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_LifeSupport_NoFood",
+	'FileName', "Code/Stories/LifeSupport/NoFood.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_LifeSupport_NoPowerRave",
+	'FileName', "Code/Stories/LifeSupport/NoPowerRave.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_LifeSupport_PowerSupply",
@@ -300,6 +352,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/LifeSupport/WaterSupply.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Research_AdaptedProbes",
+	'FileName', "Code/Stories/Research/AdaptedProbes.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Research_CompactPassengerModule",
 	'FileName', "Code/Stories/Research/CompactPassengerModule.lua",
 }),
@@ -310,6 +366,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_Research_DeepScanning",
 	'FileName', "Code/Stories/Research/DeepScanning.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_Research_EarthMarsInitiative",
+	'FileName', "Code/Stories/Research/EarthMarsInitiative.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Research_FuelCompression",
@@ -332,8 +392,16 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Research/LowGHydrosynthsis.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Research_LowGTurbines",
+	'FileName', "Code/Stories/Research/LowGTurbines.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Research_MagneticFiltering",
 	'FileName', "Code/Stories/Research/MagneticFiltering.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_Research_ProductivityTraining",
+	'FileName', "Code/Stories/Research/ProductivityTraining.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Research_SoilAdaptation",
@@ -342,6 +410,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_Research_SoylentGreen",
 	'FileName', "Code/Stories/Research/SoylentGreen.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_Research_SubsurfaceHeaters",
+	'FileName', "Code/Stories/Research/SubsurfaceHeating.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_Research_WaterReclamation",
