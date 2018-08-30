@@ -17,8 +17,8 @@ local function CheckStory(colonist)
 		if Name then
 			AddStory({
 				key = Key1,
-				title = T{"<EarthsickColonist> misses home", EarthsickColonist = Name},
-				story = T{"     <EarthsickColonist> has told us here at the Martian Tribune that they really miss home. Despite our best efforts to remind them that this is home, <EarthsickColonist> has still said they want to leave the red planet. \"I just miss being able to breath air, see water, and eat meat, man i really miss meat.\"", EarthsickColonist = Name}
+				title = T{9013843, "Missing your home planet?  You're not alone."},
+				story = T{9013844, "     Coffee with <EarthsickColonist> the other day revealed just how deeply some of us miss the prairies and oceans of Earth. One such colonist, upon a wider discussion revealed that they, \"just miss being able to breath air, see water, and eat meat. Man, I really miss meat.\" Know that you're not alone out here.  We're in this together!", EarthsickColonist = Name}
 			})
 		end
 	end
