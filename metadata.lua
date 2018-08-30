@@ -84,6 +84,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/General/Vigilante.lua",
 		"Code/Stories/LifeSupport/AirSupply.lua",
 		"Code/Stories/LifeSupport/FoodShortage.lua",
+		"Code/Stories/LifeSupport/NoFood.lua",
 		"Code/Stories/LifeSupport/PowerSupply.lua",
 		"Code/Stories/LifeSupport/Shortages.lua",
 		"Code/Stories/LifeSupport/WaterSupply.lua",
