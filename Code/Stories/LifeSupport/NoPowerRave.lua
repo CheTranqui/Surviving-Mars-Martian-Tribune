@@ -17,8 +17,8 @@ local function CheckStory(dome)
 
 		AddStory({
 			key = Key1,
-			title = T{9013864, "Colonists confuse lack of power for awesome Rave"},
-			story = T{9013865, "     The colony having some power problems has lead to a strange turn of events, where many colonists after noticing the flickering lights around the dome mistakenly thought there was a dome-wide rave, and went out to the streets to party. When power is restored, the martian council will consider a yearly planet wide rave to celebrate and remember this moment."}
+			title = T{9013864, "Lack of Power Leads to Awesome Rave"},
+			story = T{9013865, "     The colony's recent power problems have lead to an intriguing turn of events. Upon noticing the flickering lights throughout the dome, many colonists mistook the music played by several more artistically inclined domemates as a dome-wide rave, which in turn lead to a giant street party. The evening was such a great time for the community that local officials have decided to make this an annual event to commemorate this moment."}
 		})
 	end
 end
