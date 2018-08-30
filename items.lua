@@ -144,6 +144,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Colonist/EarthlingDomeDelay.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_EarthsickColonist",
+	'FileName', "Code/Stories/Colonist/EarthsickColonist.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_EarthTourism",
 	'FileName', "Code/Stories/Colonist/EarthTourism.lua",
 }),

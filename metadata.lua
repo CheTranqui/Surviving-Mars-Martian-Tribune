@@ -44,6 +44,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Colonist/DroneHack.lua",
 		"Code/Stories/Colonist/DroneRights.lua",
 		"Code/Stories/Colonist/EarthlingDomeDelay.lua",
+		"Code/Stories/Colonist/EarthsickColonist.lua",
 		"Code/Stories/Colonist/EarthTourism.lua",
 		"Code/Stories/Colonist/FightClub.lua",
 		"Code/Stories/Colonist/FirstFounderDied.lua",
