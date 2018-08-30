@@ -100,6 +100,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Research/CompactPassengerModule.lua",
 		"Code/Stories/Research/DecommissionProtocol.lua",
 		"Code/Stories/Research/DeepScanning.lua",
+		"Code/Stories/Research/EarthMarsInitiative.lua",
 		"Code/Stories/Research/FuelCompression.lua",
 		"Code/Stories/Research/HygroscopicVaporators.lua",
 		"Code/Stories/Research/LiveFromMars.lua",
