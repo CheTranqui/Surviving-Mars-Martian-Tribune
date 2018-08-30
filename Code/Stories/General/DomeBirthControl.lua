@@ -23,14 +23,14 @@ local function CheckStory()
 			if random_num == 1 then
 				AddStory({
 					key = Key1,
-					title = T{9013860, "<DomeName> has introduced a no procreation edict", DomeName = Name},
-					story = T{9013861, "     <DomeName> has announced that no more kids shall be allowed to be born, with colonists encouraged to ignore the sexy trait of other colonists, and to enjoy their own company as opposed to other colonists company.", DomeName = Name}
+					title = T{9013860, "<MTLeaderTitle> Declares One-Child Policy on Mars", MTLeaderTitle = LeaderTitle},
+					story = T{9013861, "     <DomeName> has announced that they have received notice that no more children be born. The dome lockdown is due to each family moving in at the same time and some have expressed resentment and a desire to move to less restrictive domelife.  What are your thoughts?  Have we already outgrown our britches?  Is it <MTLeaderTitle> <MTLeader>'s right to make such a sweeping declaration?  Write in your opinions, we'd love to hear your thoughts on the matter!", DomeName = Name, MTLeaderTitle = LeaderTitle, MTLeader = LeaderName}
 				})
 			else
 				AddStory({
 					key = Key2,
-					title = T{9013862, "Birth control debate rages on"},
-					story = T{9013863, "     <DomeName> has recently introduced a policy of no procreation, encouraging population control. There was much discussion based on how this would be enforced, with arguments for outlawing sex, handing out condoms, removing genitalia, and birth control pills. In the end, it was decided that all male inhabitants of the dome must take a daily birth control pill. Those that complain are reminded that this option only beat removing genitalia by 2 votes.", DomeName = Name}
+					title = T{9013862, "Birth Control Debate Rages"},
+					story = T{9013863, "     <DomeName> has recently introduced a policy against procreation, in favor of population control. There was such discussion based on how this would be enforced, with arguments for outlawing sex, requiring use of condoms, requiring all above age 12 to receive a vasectomy, or simply mandating the use of birth control pills. In the end, it was determined that proof must be given that one is not capable of conceiving. As a result, expect the medical clinics to be busy in the coming weeks and don't forget to pick up your birth control with your food rations this week.", DomeName = Name}
 				})
 			end
 		end
