@@ -107,6 +107,7 @@ return PlaceObj('ModDef', {
 		"Code/Stories/Research/LowGHydrosynthsis.lua",
 		"Code/Stories/Research/LowGTurbines.lua",
 		"Code/Stories/Research/MagneticFiltering.lua",
+		"Code/Stories/Research/ProductivityTraining.lua",
 		"Code/Stories/Research/SoilAdaptation.lua",
 		"Code/Stories/Research/SoylentGreen.lua",
 		"Code/Stories/Research/SubsurfaceHeating.lua",
