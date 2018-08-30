@@ -300,6 +300,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/LifeSupport/WaterSupply.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Research_AdaptedProbes",
+	'FileName', "Code/Stories/Research/AdaptedProbes.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Research_CompactPassengerModule",
 	'FileName', "Code/Stories/Research/CompactPassengerModule.lua",
 }),
