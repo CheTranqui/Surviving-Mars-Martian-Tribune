@@ -1,18 +1,20 @@
 local Key1 = "Rockets3"
 local Key2 = "Rockets0"
 local Key3 = "RocketObservation"
+local Key4 = "GiantWhaleRocket"
 
 --  checks for current on-planet rocket count.  Determines release of Rockets0 and Rockets3
 --  will check each day after Sol 10
 local function CheckStory()
+	local MartianTribune = MartianTribune
+	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
+	local Sent = MartianTribune.Sent
+	local RocketCount = MapCount("map", "SupplyRocket")
 	local UICity = UICity
+
 	if UICity.day > 10 then
-		local MartianTribune = MartianTribune
 		local LeaderTitle = MartianTribune.LeaderTitle
 		local LeaderName = MartianTribune.LeaderName
-		local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
-		local Sent = MartianTribune.Sent
-		local RocketCount = MapCount("map", "SupplyRocket")
 	
 		if not Sent[Key1] and ColonistsHaveArrived and RocketCount > 2 then
 			local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
@@ -41,6 +43,20 @@ local function CheckStory()
 				story = T{9013745, "     All the Drones on Mars watch in amazement as the rocket <MTMostRecentRocket> lands safely on the surface. Kicking up storm of red dust, this rocket brings us even closer to the dream of a future of Martian civilisation.", MTMostRecentRocket = MostRecentRocket}
 			})
 		end
+	end
+
+	if not Sent[Key4]
+		and RocketCount > 0
+		and ColonistsHaveArrived
+		and CountColonistsWithTrait("Child") > 0
+	then
+		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+
+		AddStory({
+			key = Key4,
+			title = T{9013866, "Children confused by giant whale statue"},
+			story = T{9013867, "     Children on Mars have reported confusion and fear of the \"Giant Whale\" outside the dome. After realising that they are referring to the Rocket sent from Earth, older Martians are confused by the children knowing what a whale looks like. \"There are no pictures of whales, the kids just decided that is what the rockets looked like. It is amazing that they were right.\""}
+		})
 	end
 end
 
