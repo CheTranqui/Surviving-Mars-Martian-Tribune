@@ -1,4 +1,4 @@
-local Key1 = "TunnelDanger"
+local Key1 = "TunnelGuangzhou"
 
 local function CheckStory()
 	local MartianTribune = MartianTribune
@@ -8,19 +8,13 @@ local function CheckStory()
 	if not Sent[Key1]
 		and UICity.labels.Tunnel
 		and #UICity.labels.Tunnel > 0
-		and CountColonistsWithTrait("Idiot") > 0
 	then
 		local MartianTribuneMod = MartianTribuneMod
-		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
-		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
-		local Colonist = GetColonistWithTrait("Idiot")
-		local Name = IsValidColonist(Colonist) and Colonist.name or T{9013763, "idiot colonist"}
-
 		AddStory({
 			key = Key1,
-			title = T{9013857, "Tunnels are Dangerous"},
-			story = T{9013858, "     \"Tunnels are extremly dangerous and unnatural\" claims <IdiotColonist>. \"Teleporting from one place to another is not human. No matter what others say about it I will NEVER use a tunnel\". The Martian Tribune would like to point out that this is not how tunnels work, it's not how any of this works.", IdiotColonist = Name}
+			title = T{9013857, "The Guangzhou's Got Nothing On Mars!"},
+			story = T{9013858, "     Earth's Guangzhou Metro might be the longest underground transit tunnel on Earth, but even the longest Earth tunnel has nothing on our martian tunnels.  With all that iron and nickel in the soil, our newly built tunnel is truly a feat of martian engineering left unrivaled in the solar system!"}
 		})
 	end
 end
