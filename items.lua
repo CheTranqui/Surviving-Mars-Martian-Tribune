@@ -216,6 +216,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Colonist/ReligiousArtifact.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_Colonist_StarvingColonist",
+	'FileName', "Code/Stories/Colonist/StarvingColonist.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Colonist_Vegan",
 	'FileName', "Code/Stories/Colonist/Vegan.lua",
 }),
