@@ -13,7 +13,7 @@ local function CheckStory1()
 		AddStory({
 			key = Key1,
 			title = T{9013666, "Spacebar a hit with local Connoisseur"},
-			story = T{9013667, "     WOOOO! Mannn, this Spacebar is great! I went... I went there, and -hic- I went there, it was great! WOOOOO! man, i love it, I don't ever want to -hic- leave... they have this great drink, made from the.. food thing, the.. potatoes, the barman called it \"poteeeen\", man its great, does anywhere on mars do Chinese? I could really do with some Chinese right now. -hic-"}
+			story = T{9013667, "     WOOOO! Mannn, this Spacebar is great! I went... I went there, and -hic- I went there, it was great! WOOOOO! man, i love it, I don't ever want to -hic- leave... they have this great drink, made from the.. food thing, the.. potatoes, the barman called it \"poteeeen\", man its great, does anywhere on Mars do Chinese? I could really do with some Chinese right now. -hic-"}
 		})
 	end
 end

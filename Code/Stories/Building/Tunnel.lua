@@ -14,7 +14,7 @@ local function CheckStory()
 		AddStory({
 			key = Key1,
 			title = T{9013857, "The Guangzhou's Got Nothing On Mars!"},
-			story = T{9013858, "     Earth's Guangzhou Metro might be the longest underground transit tunnel on Earth, but even the longest Earth tunnel has nothing on our martian tunnels.  With all that iron and nickel in the soil, our newly built tunnel is truly a feat of martian engineering left unrivaled in the solar system!"}
+			story = T{9013858, "     Earth's Guangzhou Metro might be the longest underground transit tunnel on Earth, but even the longest Earth tunnel has nothing on our Martian tunnels.  With all that iron and nickel in the soil, our newly built tunnel is truly a feat of Martian engineering left unrivaled in the solar system!"}
 		})
 	end
 end

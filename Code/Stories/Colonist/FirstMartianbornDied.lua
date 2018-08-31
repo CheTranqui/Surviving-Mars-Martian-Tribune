@@ -14,7 +14,7 @@ local function CheckStory(colonist)
 		AddStory({
 			key = Key1,
 			title = T{9013661, "Petition to Rename Dome"},
-			story = T{9013662, "     A petition has arrived at the Martian Tribune asking that a dome of ours be re-named in honor of <MTDeadMartianName>. We at the bureau also feel it would be a great way to remember the dead. If you would like to add your name to the petition, stop by the bureau before next Monday when we officially present the petition to the <MTLeaderTitle> on behalf of the martian people.", MTDeadMartianName = Name, MTLeaderTitle = LeaderTitle}
+			story = T{9013662, "     A petition has arrived at the Martian Tribune asking that a dome of ours be re-named in honor of <MTDeadMartianName>. We at the bureau also feel it would be a great way to remember the dead. If you would like to add your name to the petition, stop by the bureau before next Monday when we officially present the petition to the <MTLeaderTitle> on behalf of the Martian people.", MTDeadMartianName = Name, MTLeaderTitle = LeaderTitle}
 		})
 	end
 end

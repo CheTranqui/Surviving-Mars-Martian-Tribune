@@ -106,7 +106,7 @@ local function AddSocialFreeStories()
 	AddStory({
 		key = "MysteriousRadio",
 		title = T{9013798, "Mysterious Radio Station Causes Concern"},
-		story = T{9013799, "     The martian planet is being entertained by the great hosts at Mars Radio One, among other stations, but what has the Martian Tribune concerned is that there are no facilities to broadcast a radio station here on Mars. Come to think of it, there are no facilities to make a newspaper either... let's just let that slide then."}
+		story = T{9013799, "     The Martian planet is being entertained by the great hosts at Mars Radio One, among other stations, but what has the Martian Tribune concerned is that there are no facilities to broadcast a radio station here on Mars. Come to think of it, there are no facilities to make a newspaper either... let's just let that slide then."}
 	})
 
 	AddStory({

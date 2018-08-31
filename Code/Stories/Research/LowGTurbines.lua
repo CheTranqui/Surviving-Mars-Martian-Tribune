@@ -20,7 +20,7 @@ local function CheckStory()
 			AddStory({
 				key = Key2,
 				title = T{9013828, "Polymer Blades Means Poly-More Power"},
-				story = T{9013829, "     <MTLeader> has confirmed that researchers have come up with a way to change the blades on martian wind turbine to those of a polymer composition. The new blades have been found to be much more efficient and bringing power to the people, with up to 33% more production of electrical goodness.", MTLeader = LeaderName}
+				story = T{9013829, "     <MTLeader> has confirmed that researchers have come up with a way to change the blades on Martian wind turbine to those of a polymer composition. The new blades have been found to be much more efficient and bringing power to the people, with up to 33% more production of electrical goodness.", MTLeader = LeaderName}
 			})
 		end
 	end

@@ -19,7 +19,7 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013776, "Sponsor Funds Depleted"},
-				story = T{9013777, "     <MTSponsor> has confirmed for the Martian Tribune that the rapidly spreading rumor that they are now broke with no money left to spare in support of the Martian endeavor is, in fact, true.  It is up to us, the people of mars to support ourselves.  Hopefully our local administrators will work to remedy the situation and prove our worth to our sponsor once more.", MTSponsor = Sponsor}
+				story = T{9013777, "     <MTSponsor> has confirmed for the Martian Tribune that the rapidly spreading rumor that they are now broke with no money left to spare in support of the Martian endeavor is, in fact, true.  It is up to us, the people of Mars to support ourselves.  Hopefully our local administrators will work to remedy the situation and prove our worth to our sponsor once more.", MTSponsor = Sponsor}
 			})
 		elseif random_num == 2 then
 			AddStory({

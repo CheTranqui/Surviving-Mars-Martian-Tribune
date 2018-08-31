@@ -20,7 +20,7 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013847, "Starving Colonists Create Alternatives"},
-				story = T{9013848, "     Colonists are starving and have begun to pass around recipes calling for martian dust in an attempt to not starve. Recipes such as roast dust, and dustloaf are becoming more popular, but botonists are declaring that not only are they disgusting, but they also have zero nutritional value. Best to stay away from this series of quirky innovative recipes."}
+				story = T{9013848, "     Colonists are starving and have begun to pass around recipes calling for Martian dust in an attempt to not starve. Recipes such as roast dust, and dustloaf are becoming more popular, but botonists are declaring that not only are they disgusting, but they also have zero nutritional value. Best to stay away from this series of quirky innovative recipes."}
 			})
 		end
 	end
