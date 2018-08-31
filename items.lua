@@ -252,10 +252,6 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Drone/DroneShortage.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories_General_CaptureTheFlag",
-	'FileName', "Code/Stories/General/CaptureTheFlag.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "Stories_General_CookingFire",
 	'FileName', "Code/Stories/General/CookingFire.lua",
 }),
