@@ -37,25 +37,20 @@ local function CheckStory2()
 	local Published = MartianTribune.Published
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key2] and Published[Key1] then
+	if not Sent[Key2] and Published[Key1] and UICity.day >= (Published[Key1] + 5) then
 		local MartianTribuneMod = MartianTribuneMod
-		local FindStoryInListByKey = MartianTribuneMod.Functions.FindStoryInListByKey
-		local SocialArchive = MartianTribune.SocialArchive
-		local index, DomeDelay1Story = FindStoryInListByKey(SocialArchive, Key1)
-		if DomeDelay1Story and UICity.day >= (DomeDelay1Story.publishedDay + 5) then
-			local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
-			local Sponsor = MartianTribune.Sponsor
-			local Name = (IsValidColonist(DomeDelay1Story.colonist) and DomeDelay1Story.colonist.name)
-				or DomeDelay1Story.colonist_name
-				or T{9013714, "random earthling"}
+		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
+		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local Sponsor = MartianTribune.Sponsor
+		local Name = (IsValidColonist(DomeDelay1Story.colonist) and DomeDelay1Story.colonist.name)
+			or DomeDelay1Story.colonist_name
+			or T{9013714, "random earthling"}
 
-			AddStory({
-				key = Key2,
-				title = T{9013712, "Earthling Claims To Be Misunderstood"},
-				story = T{9013713, "     As proof that rumors travel faster than light, word of <MTEarthlingDelayName>'s attempt to halt mining operations has already reached <MTSponsor>'s ears on Earth.  While our sponsor yet to make any formal declarations, <MTEarthlingDelayName> has already gone on the record to declare that it was all a giant April Fool's Day joke.  Whether it is or not, it is not April, and this reporter is not amused.", MTEarthlingDelayName = Name, MTSponsor = Sponsor}
-			})
-		end
+		AddStory({
+			key = Key2,
+			title = T{9013712, "Earthling Claims To Be Misunderstood"},
+			story = T{9013713, "     As proof that rumors travel faster than light, word of <MTEarthlingDelayName>'s attempt to halt mining operations has already reached <MTSponsor>'s ears on Earth.  While our sponsor yet to make any formal declarations, <MTEarthlingDelayName> has already gone on the record to declare that it was all a giant April Fool's Day joke.  Whether it is or not, it is not April, and this reporter is not amused.", MTEarthlingDelayName = Name, MTSponsor = Sponsor}
+		})
 	end
 end
 

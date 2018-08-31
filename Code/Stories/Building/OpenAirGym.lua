@@ -28,20 +28,14 @@ local function CheckStory2()
 	local Published = MartianTribune.Published
 	local Sent = MartianTribune.Sent
 
-	if Published[Key1] and not Sent[Key2] then
-		local SocialArchive = MartianTribune.SocialArchive
-		local FindStoryInListByKey = MartianTribuneMod.Functions.FindStoryInListByKey
-		local index, OlympicBid1 = FindStoryInListByKey(SocialArchive, Key1)
-
-		if OlympicBid1 and UICity.day > (OlympicBid1.publishedDay + 16) then
-			local LeaderName = MartianTribune.LeaderName
-			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
-			AddStory({
-				key = Key2,
-				title = T{9013568, "The Martian Games"},
-				story = T{9013569, "     Following The Failed bid to host the olympics on Mars, <MTLeader> has decided to create our own games, incorporating Blackjack and Hoopers, among others. Games of Hoopers will start things off this coming Saturday in the open air gym. Also considered for the Martian Games are Dome Skiing, where contestants race down the outside of a dome on pallets, and Drone Jumping.", MTLeader = LeaderName}
-			})
-		end
+	if Published[Key1] and not Sent[Key2] and UICity.day > (Published[Key1] + 16) then
+		local LeaderName = MartianTribune.LeaderName
+		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		AddStory({
+			key = Key2,
+			title = T{9013568, "The Martian Games"},
+			story = T{9013569, "     Following The Failed bid to host the olympics on Mars, <MTLeader> has decided to create our own games, incorporating Blackjack and Hoopers, among others. Games of Hoopers will start things off this coming Saturday in the open air gym. Also considered for the Martian Games are Dome Skiing, where contestants race down the outside of a dome on pallets, and Drone Jumping.", MTLeader = LeaderName}
+		})
 	end
 end
 

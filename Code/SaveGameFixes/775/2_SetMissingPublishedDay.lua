@@ -28,7 +28,7 @@ MartianTribuneMod.SaveGameFixes[775].SetMissingPublishedDay = function(story, ol
 		end
 	end
 	if story.key then
-		MartianTribune.Published[story.key] = true
+		MartianTribune.Published[story.key] = story.publishedDay
 	end
 	return story
 end
