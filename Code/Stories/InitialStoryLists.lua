@@ -140,8 +140,8 @@ local function CheckChainStories()
 		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
 		AddStory({
 			key = VikingsKey2,
-			title = T{9013870, "Atlantis has been found!"},
-			story = T{9013871, "     The long lost city of Atlantis, thought to be nothing but rumor and legend, has been found, and it is where no-one expected to find it - around 15KM below the surface of Mars. The legend of the Lost City that sunk beneath the blue sea may well have been mistranslated from ancient Viking manuscripts, who meant to say it sunk beneath the dust of the red planet. In retrospect, that was an easy mistake to make."}
+			title = T{9013851, "Atlantis has been found!"},
+			story = T{9013852, "     The long lost city of Atlantis, thought to be nothing but rumor and legend, has been found, and it is where no-one expected to find it - around 15KM below the surface of Mars. The legend of the Lost City that sunk beneath the blue sea may well have been mistranslated from ancient Viking manuscripts, who meant to say it sunk beneath the dust of the red planet. In retrospect, that was an easy mistake to make."}
 		})
 	end
 end
