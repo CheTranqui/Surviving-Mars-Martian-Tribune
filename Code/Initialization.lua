@@ -168,7 +168,7 @@ MartianTribuneMod.Functions.GetRandomDroneName = function()
 	return T{9013810, "Drone #<num>", num=1}
 end
 
--- Find all the populated domes within the given list of domes (e.g. "domes without power").
+-- Find all the populated domes within the given list of domes.
 -- If no list is provided, it will use the list of domes in the colony.
 MartianTribuneMod.Functions.GetPopulatedDomes = function(domeList)
 	-- default to all domes if no list is provided

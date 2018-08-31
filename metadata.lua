@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'id', "lf1iELO",
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
-	'version', 775,
+	'version', 776,
 	'lua_revision', 233467,
 	'code', {
 		"Code/Initialization.lua",
@@ -16,6 +16,7 @@ return PlaceObj('ModDef', {
 		"Code/SaveGameFixes/775/4_FixDomeDelayColonist.lua",
 		"Code/SaveGameFixes/775/5_UpdateGlobals.lua",
 		"Code/SaveGameFixes/775/Upgrade.lua",
+		"Code/SaveGameFixes/776/Upgrade.lua",
 		"Code/MartianTribune.lua",
 		"Code/UI/Common.lua",
 		"Code/UI/Notification.lua",

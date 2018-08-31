@@ -32,6 +32,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/SaveGameFixes/775/Upgrade.lua"
 }),
 PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_776_Upgrade",
+	'FileName', "Code/SaveGameFixes/776/Upgrade.lua"
+}),
+PlaceObj('ModItemCode', {
 	'name', "MartianTribune",
 	'FileName', "Code/MartianTribune.lua",
 }),
