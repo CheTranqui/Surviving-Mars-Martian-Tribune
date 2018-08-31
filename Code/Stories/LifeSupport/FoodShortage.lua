@@ -23,7 +23,7 @@ local function CheckStory()
 		}, populatedDomes)
 
 		if #domesWithoutFood > 0 then
-			local Dome = table.random(domesWithoutFood)
+			local Dome = table.rand(domesWithoutFood)
 			local DomeName = IsValid(Dome) and Dome.name or T{9013838, "dome without food"}
 			local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
 			local random_num = Random(1, 2)
