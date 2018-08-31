@@ -38,22 +38,22 @@ local function CheckStory2()
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key2] and not Sent[Key3] then
+	if not Sent[Key2] and not Sent[Key3] and ColonistsHaveArrived then
 		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
 		local random_num = Random(1,2)
 
 		if random_num == 1 then
-			AddStory({
-				key = Key2,
-				title = T{9013834, "Reality Show from Mars a Huge Hit"},
-				story = T{9013835, "     A reality show based on the Mars has been a huge hit on Earth, causing a surge in applicants to come move to the red planet.  The show called \"Mount Olympus\" is made up of two 15 minute segments, both of which consist of a camera staring at the rust colored dust that sometimes rolls down the side of the galaxy's biggest mountain."}
-			})
-		else
 			local Sponsor = MartianTribune.Sponsor
 			AddStory({
+				key = Key2,
+				title = T{9013834, "Martian Tribune Asked To Be Part Of New Venture"},
+				story = T{9013835, "     <Sponsor> has recently launched a new TV show aimed at bringing drumming up more interest in new colonists coming to the red planet. The Martian Tribune was invited to participate in the show's news segment. Unfortunately, most of our reporters have a face for radio. If you're interested in becoming our very first Martian News Anchor, send in your resume by week's end.", Sponsor = Sponsor}
+			})
+		else
+			AddStory({
 				key = Key3,
-				title = T{9013836, "Martian Tribune Excluded From TV Venture"},
-				story = T{9013837, "     <MTSponsor> has recently launched a new venture aimed at bringing more colonists to the red planet, a PR stunt at best.  The Martian Tribune, despite being the red planets only newspaper, was not invited to partake in this show and as such will not report on it.", MTSponsor = Sponsor}
+				title = T{9013836, "Reality Show From Mars A Huge Hit"},
+				story = T{9013837, "     A reality show based on the red planet has been a huge hit on Earth, causing a surge in applicants looking to move to Mars. The show, called “Mount Olympus,” is made up of two 15 minute segments, each of which consist of a camera staring at the rust colored dust that sometimes rolls down the side of the galaxy's biggest mountain."}
 			})
 		end
 	end
