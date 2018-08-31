@@ -1,35 +1,39 @@
 local Key1 = "CookingFire"
 
-local function CheckStory()
+local function CheckStory(apartment)
 	local MartianTribune = MartianTribune
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Sent = MartianTribune.Sent
-	local PopulatedApartments = FilterObjects({
-		filter = function(apartment)
-			return apartment.colonists and #apartment.colonists > 0
-		end
-	}, ColonistsHaveArrived and UICity.labels.Apartments or empty_table)
 
 	if not Sent[Key1]
 		and ColonistsHaveArrived
-		and PopulatedApartments ~= nil
-		and #PopulatedApartments > 0
+		and IsValid(apartment)
+		and apartment.colonists
+		and #apartment.colonists > 0
 	then
 		local MartianTribuneMod = MartianTribuneMod
 		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
-		local Apartment = table.rand(PopulatedApartments)
-		local Colonist = table.rand(Apartment.colonists)
+		local Colonist = table.rand(apartment.colonists)
+		local DomeName = apartment.parent_dome.name
 		local Name = IsValidColonist(Colonist) and Colonist.name or T{9013670, "random colonist"}
 
 		AddStory({
 			key = Key1,
 			title = T{9013868, "Apartment Fire Tragedy Averted"},
-			story = T{9013869, "     A fire in <apartments> almost killed several colonists recently. <ColonistName> was lucky to escape when their apartment went up in flames after an unfortunate cooking accident. Reports say after calling emergency services, they were informed that fire stations have yet to be built and water supply is short. Emergency dispatch recommended the colonist put out the fire themselves using whatever they may, \"water, pee, whatever!\", which they did, averting the near disaster.", ColonistName = Name}
+			story = T{9013869, "     A fire in an apartment in <DomeName> almost killed several colonists recently. <ColonistName> was lucky to escape when their apartment went up in flames after an unfortunate cooking accident. Reports say that when <ColonistName> called emergency services, they were informed that fire stations have yet to be built and the water supply was short. Emergency dispatch recommended that they put out the fire themselves using whatever they may, \"water, pee, whatever!\", which they did, averting the near disaster.", ColonistName = Name, DomeName = DomeName}
 		})
 	end
 end
 
-function OnMsg.MartianTribuneCheckStories()
-	CheckStory()
+function OnMsg.MartianTribuneBuildingMalfunction(building)
+	if building:IsKindOf("Apartments") and building.colonists and #building.colonists > 0 then
+		CheckStory(building)
+	end
+end
+
+function OnMsg.MartianTribuneUnmaintainedBuildingBroken(building)
+	if building:IsKindOf("Apartments") and building.colonists and #building.colonists > 0 then
+		CheckStory(building)
+	end
 end

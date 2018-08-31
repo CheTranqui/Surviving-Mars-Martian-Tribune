@@ -23,7 +23,7 @@ local function CheckStory()
 		}, populatedDomes)
 
 		if #domesWithoutFood > 0 then
-			local Dome = table.random(domesWithoutFood)
+			local Dome = table.rand(domesWithoutFood)
 			local DomeName = IsValid(Dome) and Dome.name or T{9013838, "dome without food"}
 			local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
 			local random_num = Random(1, 2)
@@ -39,7 +39,7 @@ local function CheckStory()
 				AddStory({
 					key = Key1,
 					title = T{9013839, "Tighten Your Belts"},
-					story = T{9013840, "     <MTFoodDome> is on an unanticipated diet today as their food supply was recently destroyed as the harsh martian winds blew so much dust into it as to make it inedible and irrecoverably contaminated.  The <MTLeaderTitle> has promised that <MTFoodBotanist> is looking into the issue and food stores will be replenished shortly, but only time will tell.", MTFoodDome = DomeName, MTLeaderTitle = LeaderTitle, MTFoodBotanist = BotanistName}
+					story = T{9013840, "     <MTFoodDome> is on an unanticipated diet today as their food supply was recently destroyed as the harsh Martian winds blew so much dust into it as to make it inedible and irrecoverably contaminated.  The <MTLeaderTitle> has promised that <MTFoodBotanist> is looking into the issue and food stores will be replenished shortly, but only time will tell.", MTFoodDome = DomeName, MTLeaderTitle = LeaderTitle, MTFoodBotanist = BotanistName}
 				})
 			else
 				AddStory({

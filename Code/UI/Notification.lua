@@ -15,15 +15,15 @@ end
 -- Select a story from potential or free lists if one is available
 local function ChooseStory(archive, urgentList, potentialList, freeList)
 	local random_num, story
-	if #urgentList > 0 then
+	if urgentList and #urgentList > 0 then
 		random_num = Random(1, #urgentList)
 		story = SetStoryPublished(urgentList[random_num], archive)
 		table.remove(urgentList, random_num)
-	elseif #potentialList > 0 then
+	elseif potentialList and #potentialList > 0 then
 		random_num = Random(1, #potentialList)
 		story = SetStoryPublished(potentialList[random_num], archive)
 		table.remove(potentialList, random_num)
-	elseif #freeList > 0 then
+	elseif freeList and #freeList > 0 then
 		random_num = Random(1, #freeList)
 		story = SetStoryPublished(freeList[random_num], archive)
 		table.remove(freeList, random_num)

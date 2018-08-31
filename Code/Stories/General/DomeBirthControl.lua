@@ -21,6 +21,8 @@ local function CheckStory()
 			local random_num = Random(1,2)
 
 			if random_num == 1 then
+				local LeaderTitle = MartianTribune.LeaderTitle
+				local LeaderName = MartianTribune.LeaderName
 				AddStory({
 					key = Key1,
 					title = T{9013860, "<MTLeaderTitle> Declares One-Child Policy on Mars", MTLeaderTitle = LeaderTitle},

@@ -27,7 +27,7 @@ local function CheckStory1()
 		AddStory({
 			key = Key1,
 			title = T{9013635, "Live From Mars Renewed for Season 2"},
-			story = T{9013636, "     The hit martian reality TV show, Planet Mars, has been renewed for a second season. <MTCelebrityName> will be the host for the second season.  <MTSponsor> has offered their full support of the endeavor, while our new director has already declared their disgust with working in the Martian environment declaring \"Dust. It's coarse, and rough, and irritating, and it just gets everywhere. EVERYWHERE!\"", MTCelebrityName = Name, MTSponsor = Sponsor},
+			story = T{9013636, "     The hit Martian reality TV show, Planet Mars, has been renewed for a second season. <MTCelebrityName> will be the host for the second season.  <MTSponsor> has offered their full support of the endeavor, while our new director has already declared their disgust with working in the Martian environment declaring \"Dust. It's coarse, and rough, and irritating, and it just gets everywhere. EVERYWHERE!\"", MTCelebrityName = Name, MTSponsor = Sponsor},
 			colonist = IsValidColonist(Celebrity) and Celebrity or nil
 		})
 	end

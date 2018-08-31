@@ -1,5 +1,7 @@
 local Key1 = "PetRock"
 local Key2 = "MarsIPanRock"
+local IncludedTraits = { "Celebrity", "Martianborn" }
+local ExcludedTraits = { "Child" }
 
 local function CheckStory1()
 	local MartianTribune = MartianTribune
@@ -27,19 +29,27 @@ local function CheckStory2()
 	local Published = MartianTribune.Published
 	local Sent = MartianTribune.Sent
 
-	if Published[Key1] and not Sent[Key2] and CountColonistsWithTrait("Celebrity") > 0 then
+	if Published[Key1]
+		and not Sent[Key2]
+		and CountColonistsWithTrait(IncludedTraits[1]) > 0
+		and CountColonistsWithTrait(IncludedTraits[2])
+	then
 		local MartianTribuneMod = MartianTribuneMod
-		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
+		local GetColonistMatchingTraits = MartianTribuneMod.Functions.GetColonistMatchingTraits
 		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
-		local Colonist = GetColonistWithTrait("Celebrity")
-		local Name = IsValidColonist(Colonist) and Colonist.name or T{9013637, "random celebrity"}
+		local Colonist = GetColonistMatchingTraits(IncludedTraits, ExcludedTraits)
 
-		AddStory({
-			key = Key2,
-			title = T{9013845, "Martian Social Network Gains Traction"},
-			story = T{9013846, "     The Martian social network MarsIpan-Rock has been a huge hit, generating gobs of followers on both Mars and Earth. The site focuses heavily on photos of pet rocks, with the odd Martian showing their face to their pets' followers on occasion. <CelebrityName> , a pet rock enthusiast, has even garnered over 3.6 billion followers in awe of their pet rock Eurasia.  Mars, and its rocks, is clearly at the vanguard of changing the social landscape.", CelebrityName = Name}
-		})
+		-- Wait until we have a martianborn celebrity and they are no longer a child (Martian Celebrity story).
+		if IsValidColonist(Colonist) then
+			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+			local Name = Colonist.name or T{9013637, "random celebrity"}
+
+			AddStory({
+				key = Key2,
+				title = T{9013845, "Martian Social Network Gains Traction"},
+				story = T{9013846, "     The Martian social network MarsIpan-Rock has been a huge hit, generating gobs of followers on both Mars and Earth. The site focuses heavily on photos of pet rocks, with the odd Martian showing their face to their pets' followers on occasion. <CelebrityName>, a pet rock enthusiast, has even garnered over 3.6 billion followers in awe of their pet rock Eurasia.  Mars, and its rocks, are clearly at the vanguard of changing the social landscape.", CelebrityName = Name}
+			})
+		end
 	end
 end
 

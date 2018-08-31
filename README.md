@@ -1,6 +1,6 @@
 # Martian Tribune: Mod for Surviving Mars
 
-The Martian Tribune adds a newspaper popup every 3 days with stories based on what has been happening in the colony. It's described in detail at: https://www.youtube.com/watch?v=QJvOHWFPZ_Y
+The Martian Tribune adds a newspaper popup every 3 days with stories based on what has been happening in the colony. It's described in detail [in this Youtube video](https://www.youtube.com/watch?v=QJvOHWFPZ_Y)
 
 This mod can be downloaded from the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1376913896), [NexusMods](https://www.nexusmods.com/survivingmars/mods/85), or direct from [github](https://github.com/CheTranqui/Surviving-Mars-Martian-Tribune).
 
@@ -9,13 +9,14 @@ This mod can be downloaded from the [Steam Workshop](https://steamcommunity.com/
 It is possible for another mod to add stories to the queue for publishing in the Martian Tribune. The Martian Tribune provides functions to add/remove stories, to track whether a story has actually been published, and to retrieve the Sol on which it was published.  Please read below for the details on story creation and addition.
 
 ## Story Format
+
 Stories should be defined in the following format:
 
 ```lua
 {
-	key = "AUniqueKeyString",
-	title = T{1234567890, "Your story headline"},
-	story = T{1234567891, "     The content of your story, with optional <Replacement> data", Replacement = SomeVariable},
+    key = "AUniqueKeyString",
+    title = T{1234567890, "Your story headline"},
+    story = T{1234567891, "     The content of your story, with optional <Replacement> data", Replacement = SomeVariable},
 }
 ```
 
@@ -68,6 +69,7 @@ There are a series of functions available for removing a story from the selectio
 * `MartianTribuneMod.Functions.IsValidColonist(data)` - returns true if the data represents a colonist AND the colonist is not dead.
 * `MartianTribuneMod.Functions.GetColonistWithoutTrait(trait_id, colonistList)` - returns a random colonist from the provided list (or UICity.labels.Colonist if no colonistList is provided) who does not have the specified trait_id.
 * `MartianTribuneMod.Functions.GetColonistWithTrait(trait_id, colonistList)` - returns a random colonist from the provided list (or from UICity.labels.Colonist if no colonistList is provided) who does have the specified trait_id.
+* `MartianTribuneMod.Functions.GetColonistMatchingTraits(includeTraitList, excludeTraitList, colonistList)` - returns a random colonist from the provided list (or from UICity.labels.Colonist if no colonistList is provided) who has all of the traits in the provided the includeTraitList and none of the traits provided in the excludeTraitList. Can be used for instance to retrieve "a colonist who is both an engineer and a whiner and is not martianborn".
 * `MartianTribuneMod.Functions.GetRandomDroneName()` - returns the name field from a random drone, or "Drone #1" (as a translated string) if no drones exist.
 * `MartianTribuneMod.Functions.GetPopulatedDomes(domeList)` - returns the list of Domes that have Colonists from the domeList, or from UICity.labels.Dome if no domeList is provided.
 * `MartianTribuneMod.Functions.GetPopulatedDomesWithoutAir()` - returns the list of Domes that have Colonists and have a current Air shortage.
@@ -114,3 +116,6 @@ There are a few story globals that may be of use when creating stories to add to
     ```
 * `MartianTribuneLeaderDied` - Message fired when the Colony Leader dies.
 * `MartianTribuneInitializeStories` - Message fired on first load of the Martian Tribune mod in a game. This is primarily used to be able to populate the initial 'free' story lists.
+* `MartianTribuneBuildingMalfunction(building)` - Fired when a building has been set in the malfunctioned state when it hadn't been already due for maintenance. Can be used to find things like malfunctions caused by idiot workers, etc.
+* `MartianTribuneUnmaintainedBuildingBroken(building)` - Fired when a building has been set in the malfunctioned state when maintenance that was required was not done.
+=======

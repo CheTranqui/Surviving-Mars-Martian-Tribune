@@ -32,6 +32,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/SaveGameFixes/775/Upgrade.lua"
 }),
 PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_776_Upgrade",
+	'FileName', "Code/SaveGameFixes/776/Upgrade.lua"
+}),
+PlaceObj('ModItemCode', {
 	'name', "MartianTribune",
 	'FileName', "Code/MartianTribune.lua",
 }),
@@ -252,10 +256,6 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Drone/DroneShortage.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories_General_CaptureTheFlag",
-	'FileName', "Code/Stories/General/CaptureTheFlag.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "Stories_General_CookingFire",
 	'FileName', "Code/Stories/General/CookingFire.lua",
 }),
@@ -322,10 +322,6 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_LifeSupport_AirSupply",
 	'FileName', "Code/Stories/LifeSupport/AirSupply.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories_LifeSupport_CableFault",
-	'FileName', "Code/Stories/LifeSupport/CableFault.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_LifeSupport_FoodShortage",

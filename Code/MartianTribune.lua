@@ -201,6 +201,32 @@ local function SetNewLeader()
 	end
 end
 
+-- Create custom messages for building breakdowns.
+-- Hook into the SetMalfunction call to send a custom messages for building breakdowns that can be
+-- used to identify things like idiot-caused breakages, lack of maintenance, etc.
+local originalSetMalfunction = RequiresMaintenance.SetMalfunction
+function RequiresMaintenance:SetMalfunction(...)
+	-- Note: The original RequiresMaintenance:SetMalfunction function states that if
+	-- self.maintenance_phase == false this is a direct call to break this building.
+	-- So check that
+	--   a) The building is one that needs maintenance (won't be broken if not)
+	--   b) self.maintenance_phase == false (is a direct call to break this item)
+	-- If both conditions are met, this is a breakdown. Otherwise it is a lack of maintenance.
+	local DoesRequireMaintenance = self:DoesRequireMaintenance()
+	local Malfunction = DoesRequireMaintenance and self.maintenance_phase == false
+
+	-- Call the original function to actually *set* the maintenance requirements (we
+	-- don't want to lose the original functionality)
+	originalSetMalfunction(self, ...)
+
+	-- Now fire the messages depending on whether this is a breakdown or a lack of maintenance
+	if Malfunction then
+		Msg("MartianTribuneBuildingMalfunction", self)
+	elseif DoesRequireMaintenance then
+		Msg("MartianTribuneUnmaintainedBuildingBroken", self)
+	end
+end
+
 -- Section 6:  OnMsg functions
 function OnMsg.MartianTribuneLeaderDied()
 	MartianTribune.Count.LeaderDeadSol = UICity.day

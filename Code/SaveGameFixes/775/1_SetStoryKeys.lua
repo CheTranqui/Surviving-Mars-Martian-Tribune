@@ -16,7 +16,7 @@ local StoryKeysByTitle = {
 	[_InternalTranslate(T{9013712, "Earthling Claims To Be Misunderstood"})] = "DomeDelay2",
 	[_InternalTranslate(T{9013715, "Teenager Takes Drone for a Joyride"})] = "DroneHack1",
 	[_InternalTranslate(T{9013719, "New Sport Established On Mars"})] = "DroneHack2",
-	[_InternalTranslate(T{9013721, "New Martian Law Enforced"})] = "DroneHack3",
+	[_InternalTranslate(T{9013721, "New Martian Law Enforced"})] = "DroneHack4",
 	-- Other stories
 	[_InternalTranslate(T{9013533, "Fuel of the Future"})] = "LowGHydroTech1",
 	[_InternalTranslate(T{9013535, "Drones Imbued With the Secrets of Hydrosynthesis"})] = "LowGHydroTech2",

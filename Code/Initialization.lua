@@ -138,6 +138,27 @@ MartianTribuneMod.Functions.GetColonistWithTrait = function(trait, colonistList)
 	return nil
 end
 
+-- Find a random colonist who does/does not have multiple specific traits.
+MartianTribuneMod.Functions.GetColonistMatchingTraits = function(includeTraitList, excludeTraitList, colonistList)
+	local colonists = MapFilter(
+		colonistList or UICity.labels.Colonist or empty_table,
+		function(colonist)
+			local matches = IsValidColonist(colonist) and colonist.traits
+			for i = 1, #(includeTraitList or empty_table) do
+				matches = matches and colonist.traits[includeTraitList[i]]
+			end
+			for i = 1, #(excludeTraitList or empty_table) do
+				matches = matches and not colonist.traits[excludeTraitList[i]]
+			end
+			return matches
+		end
+	)
+	if colonists and #colonists > 0 then
+		return table.rand(colonists)
+	end
+	return nil
+end
+
 -- Find the name of a random drone
 MartianTribuneMod.Functions.GetRandomDroneName = function()
 	local Drones = MapGet("map", "Drone")
@@ -147,7 +168,7 @@ MartianTribuneMod.Functions.GetRandomDroneName = function()
 	return T{9013810, "Drone #<num>", num=1}
 end
 
--- Find all the populated domes within the given list of domes (e.g. "domes without power").
+-- Find all the populated domes within the given list of domes.
 -- If no list is provided, it will use the list of domes in the colony.
 MartianTribuneMod.Functions.GetPopulatedDomes = function(domeList)
 	-- default to all domes if no list is provided
