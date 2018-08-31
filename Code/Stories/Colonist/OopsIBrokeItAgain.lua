@@ -21,41 +21,19 @@ local function CheckStory(workplace, idiot)
 	end
 end
 
--- Hook into the SetMalfunction call to send a custom message for a workplace breakdown
--- that can be used to identify when an Idiot has caused a malfunction.
-local originalSetMalfunction = RequiresMaintenance.SetMalfunction
-function RequiresMaintenance:SetMalfunction(...)
-	-- Note: The original RequiresMaintenance:SetMalfunction function states that if
-	-- self.maintenance_phase == false this is a direct call to break this building.
-	-- So check that
-	--   a) The building is one that needs maintenance (won't be broken if not)
-	--   b) self.maintenance_phase == false (is a direct call to break this item)
-	--   c) This item is a Workplace
-	-- If all 3 conditions are met prior to running the original function, this is likely
-	-- to be a breakdown due to an Idiot worker.
-	local MayBeIdiotBreakdown = self:DoesRequireMaintenance() and self.maintenance_phase == false and self:IsKindOf("Workplace")
-
-	-- Call the original function to actually *set* the maintenance requirements (we
-	-- don't want to lose the original functionality)
-	originalSetMalfunction(self, ...)
-
-	-- Now check the workplace for an Idiot worker, and if found send a message we can
-	-- listen for stating that an idiot broke the building.
-	if MayBeIdiotBreakdown then
+function OnMsg.MartianTribuneBuildingMalfunction(building)
+	if building:IsKindOf("Workplace") then
 		local MartianTribuneMod = MartianTribuneMod
 		local GetWorkers = MartianTribuneMod.Functions.GetWorkers
-		local Workers = GetWorkers(self)
+		local Workers = GetWorkers(building)
 		if Workers ~= nil and #Workers > 0 then
 			local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
+			local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 			local IdiotWorker = GetColonistWithTrait("Idiot", Workers)
-			if IsValid(IdiotWorker) then
+			if IsValidColonist(IdiotWorker) then
 				-- Treat this as a breakdown at workplace 'self' caused by IdiotWorker.
-				Msg("MartianTribuneIdiotBreakdown", self, IdiotWorker)
+				CheckStory(building, IdiotWorker)
 			end
 		end
 	end
-end
-
-function OnMsg.MartianTribuneIdiotBreakdown(workplace, idiot)
-	CheckStory(workplace, idiot)
 end

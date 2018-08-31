@@ -111,3 +111,5 @@ There are a few story globals that may be of use when creating stories to add to
     ```
 * `MartianTribuneLeaderDied` - Message fired when the Colony Leader dies.
 * `MartianTribuneInitializeStories` - Message fired on first load of the Martian Tribune mod in a game. This is primarily used to be able to populate the initial 'free' story lists.
+* `MartianTribuneBuildingMalfunction(building)` - Fired when a building has been set in the malfunctioned state when it hadn't been already due for maintenance. Can be used to find things like malfunctions caused by idiot workers, etc.
+* `MartianTribuneUnmaintainedBuildingBroken(building)` - Fired when a building has been set in the malfunctioned state when maintenance that was required was not done.
