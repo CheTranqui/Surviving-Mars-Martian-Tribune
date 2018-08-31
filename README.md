@@ -65,6 +65,7 @@ There are a series of functions available for removing a story from the selectio
 
 ### Utility functions
 
+* `MartianTribuneMod.Functions.AddLeaderTitleForNewSponsor(sponsorName, title)` - create a custom leader title for a new Sponsor. The value of sponsorName should be the value of `GetMissionSponsor().name`. The value of title should be the translated display string to show for the Colony Leader's title.
 * `MartianTribuneMod.Functions.FindStoryInListByKey(list, story.key)` - find the story inside the given list by its story key.
 * `MartianTribuneMod.Functions.IsValidColonist(data)` - returns true if the data represents a colonist AND the colonist is not dead.
 * `MartianTribuneMod.Functions.GetColonistWithoutTrait(trait_id, colonistList)` - returns a random colonist from the provided list (or UICity.labels.Colonist if no colonistList is provided) who does not have the specified trait_id.

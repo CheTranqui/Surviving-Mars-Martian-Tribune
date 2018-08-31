@@ -40,6 +40,17 @@ local function SetupSaveGameData()
 			and oldData and not oldData.g_MTTopArchive
 		then
 			MartianTribune.ColonistsHaveArrived = true
+			-- If we still have founders, try to reverse-engineer how many we likely started with.
+			local founders = CountColonistsWithTrait("Founder")
+			MartianTribune.Count.NumFounders =
+				founders > 42 and 52 -- both passenger expansions and the +20 breakthrough tech
+				or founders > 32 and 42 -- one passenger expansion and the breakthrough tech
+				or founders > 22 and 32 -- either the breakthrough tech or both passenger expansions
+				or founders > 12 and 22 -- one passenger expansion
+				or 12 -- normal
+			if founders == 0 then
+				MartianTribune.Count.FoundersDeadSol = UICity.day
+			end
 			-- Make sure a "new leader" message gets sent for the first leader
 			MartianTribune.Count.LeaderDeadSol = UICity.day - 4
 		end
@@ -62,6 +73,7 @@ local function SetLeaderTitle()
 	local MartianTribune = MartianTribune
 	if not MartianTribune.LeaderTitle then
 		local SponsorName = MartianTribune.SponsorName
+		local CustomTitles = MartianTribuneMod.Titles
 		local Titles = {
 			IMM = T{9013500, "CEO"},
 			BlueSun = T{9013501, "CFO"},
@@ -76,7 +88,9 @@ local function SetLeaderTitle()
 			Trinova = T{9013507, "COO"}
 		}
 
-		if SponsorName == "IMM"
+		if CustomTitles[SponsorName] ~= nil then
+			MartianTribune.LeaderTitle = CustomTitles[SponsorName]
+		elseif SponsorName == "IMM"
 			or SponsorName == "BlueSun"
 			or SponsorName == "SpaceY"
 			or SponsorName == "paradox"
