@@ -14,14 +14,14 @@ local function CheckStory()
 		if random_num == 1 then
 			AddStory({
 				key = Key1,
-				title = T{9013830, "Probes Probing Deeper than they ever Probed Before"},
-				story = T{9013831, "     Probes brought from Earth now have the added bonus of being able to see deep into the surface, possibly revealing previously unseen resources. The probes pioneered by <MTSponsor> subsidiary \"A New Awesome Life\" have also become cheaper to build due to streamlining of the production process.", MTSponsor = Sponsor}
+				title = T{9013830, "Probes Probing Deeper Than They Ever Probed Before"},
+				story = T{9013831, "     Probes brought from Earth now have the added bonus of being able to see even deeper into the Martian surface, possibly revealing previously undiscovered resources. The probes, pioneered by a <Sponsor> subsidiary, have also miniaturized the design reducing both price and production time.", Sponsor = Sponsor}
 			})
 		else
 			AddStory({
 				key = Key2,
-				title = T{9013832, "Look Up, Look Down"},
-				story = T{9013833, "     After looking up from Earth to the great beyond of Mars, finally we have the technology to look down into the deep crusts of the red planet. New probes ordered by <MTSponsor> can now scan significantly deeper, and will reveal larger deposits of metal, water and rare metals.", MTSponsor = Sponsor}
+				title = T{9013832, "Beauty is More Than Surface Deep"},
+				story = T{9013833, "     The Deep Sea Division of Research Corp, a subsidiary of <Sponsor>, has developed a new imaging technology capable of looking down into the deeper crusts of the red planet. New probes have now been made available by <Sponsor> to our burgeoning colony that can now scan significantly deeper, and potentially reveal more, and larger, metal and water deposits.", Sponsor = Sponsor}
 			})
 		end
 	end
