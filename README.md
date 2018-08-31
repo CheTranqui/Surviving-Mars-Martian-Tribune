@@ -8,7 +8,7 @@ This mod can be downloaded from the [Steam Workshop](https://steamcommunity.com/
 
 It is possible for another mod to add stories to the queue for publishing in the Martian Tribune. The Martian Tribune provides functions to add/remove stories, to track whether a story has actually been published, and to retrieve the Sol on which it was published.  Please read below for the details on story creation and addition.
 
-## Please limit the number of stories that you add to 3 or less in order to avoid bloat and maintain integrity of the Tribune's original purpose.
+# Please limit the number of stories that you add to 3 or less in order to avoid bloat and maintain integrity of the Tribune's original purpose.
 
 ## Story Format
 
