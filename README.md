@@ -6,7 +6,7 @@ This mod can be downloaded from the [Steam Workshop](https://steamcommunity.com/
 
 ## Interaction from other mods
 
-It is possible for another mod to add stories to the queue for publishing in the Martian Tribune. The Martian Tribune provides functions to add/remove stories, to track whether a story has actually been published, and to retrieve the Sol on which it was published.
+It is possible for another mod to add stories to the queue for publishing in the Martian Tribune. The Martian Tribune provides functions to add/remove stories, to track whether a story has actually been published, and to retrieve the Sol on which it was published.  Please read below for the details on story creation and addition.
 
 ## Story Format
 Stories should be defined in the following format:
@@ -22,6 +22,10 @@ Stories should be defined in the following format:
 Optionally, a `colonist` field with an actual colonist can also be provided which will cause the colonist to be pinned to the user's bar when the story gets published. Please use that sparingly, as we don't want users to find it a nuisance rather than something to enhance game immersion.
 
 The story content usually has 5 spaces at the beginning. You will need to provide/load your own translation definitions for any story you add into the story queues.
+
+For optimal display, please keep your story within the following limitations:
+Title:  45 characters
+Story:  75 words or less (ideally more like 45)
 
 ## Queues
 
