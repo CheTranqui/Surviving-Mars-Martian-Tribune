@@ -6,4 +6,5 @@
 # e.g.
 #    git archive --format zip -o C:\Users\Username\MartianTribune_1.0.3.zip master
 *.xlsx export-ignore
+Martian?Tribune?Preview?Picture.png export-ignore
 .gitattributes export-ignore
