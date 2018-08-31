@@ -23,7 +23,7 @@ local function CheckStory1()
 		elseif random_num == 2 then
 			AddStory({
 				key = Key2,
-				title = T{9013740, "<MTLeader> Breathes New Life Into Colony", MTLeader = MTLeaderName},
+				title = T{9013740, "<MTLeader> Breathes New Life Into Colony", MTLeader = LeaderName},
 				story = T{9013741, "     A new <MTLeaderTitle> has been chosen!  It is time to rejoice, for my fellow Martians, the future is bright!  <MTLeader> steps in as our new <MTLeaderTitle> today and we could not be in better hands.  With <MTLeader>'s past work here on Mars, we can expect big plans to continue to balance out the workload and supply chain even further, as well as to care for the aging and nurture the young.  Today, the Martian Tribune declares: the future is bright.  It is time to celebrate!", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName}
 			})
 		elseif random_num == 3 then
