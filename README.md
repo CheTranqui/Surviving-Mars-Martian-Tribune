@@ -24,7 +24,9 @@ Optionally, a `colonist` field with an actual colonist can also be provided whic
 The story content usually has 5 spaces at the beginning. You will need to provide/load your own translation definitions for any story you add into the story queues.
 
 For optimal display, please keep your story within the following limitations:
+
 Title:  45 characters
+
 Story:  75 words or less (ideally more like 45)
 
 ## Queues
