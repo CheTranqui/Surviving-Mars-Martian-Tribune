@@ -13,14 +13,14 @@ local function CheckStory()
 			AddStory({
 				key = Key1,
 				title = T{9013826, "Martian Gravity Allows Heavier Wind Turbines"},
-				story = T{9013827, "     With gravity on Mars being approximately 1/3 that of Earth, it is possible to construct wind turbines with heavier blades, thus allowing them to spin for longer after the pitiful Martian wind spins them for us. Adding blocks of polymers to the construction of the blades for wind turbines has allowed extra momentum to bring more \"spinnyness\", resulting in more power to the network."}
+				story = T{9013827, "     As gravity on Mars is just a third of that on Earth, it has been deemed worthwhile to construct wind turbines with a distinct, beefier design so that they might take greater advantage of the Martian winds. Let's get that polymer flowing so we can enjoy even more of that dizzyingly beautiful spin-farm!"}
 			})
 		else
 			local LeaderName = MartianTribune.LeaderName
 			AddStory({
 				key = Key2,
 				title = T{9013828, "Polymer Blades Means Poly-More Power"},
-				story = T{9013829, "     <MTLeader> has confirmed that researchers have come up with a way to change the blades on Martian wind turbine to those of a polymer composition. The new blades have been found to be much more efficient and bringing power to the people, with up to 33% more production of electrical goodness.", MTLeader = LeaderName}
+				story = T{9013829, "     <MTLeader> has followed through with the promised research into more effective power generation as scientists have found a way to upgrade the blades on the standard Martian wind turbine to effectively utilize a polymer composition. The new blades have proven to be much more efficient at bringing power to the people, with up to 33% more electrical goodness.", MTLeader = LeaderName}
 			})
 		end
 	end
