@@ -78,9 +78,10 @@ local function SetLeaderTitle()
 		local SponsorName = MartianTribune.SponsorName
 		local CustomTitles = MartianTribuneMod.Titles
 		local Titles = {
+			NASA = T{9013502, "President"},
 			IMM = T{9013500, "CEO"},
 			BlueSun = T{9013501, "CFO"},
-			CSNA = T{9013502, "President"},
+			CNSA = T{9013502, "President"},
 			ISRO = T{9013503, "Prime Minister"},
 			ESA = T{9013502, "President"},
 			SpaceY = T{9013504, "Chairman"},
