@@ -40,13 +40,16 @@ local function SetupSaveGameData()
 			and oldData and not oldData.g_MTTopArchive
 		then
 			MartianTribune.ColonistsHaveArrived = true
+			local MissionSponsor = GetMissionSponsor()
 			-- If we still have founders, try to reverse-engineer how many we likely started with.
 			local founders = CountColonistsWithTrait("Founder")
 			MartianTribune.Count.NumFounders =
-				founders > 42 and 52 -- both passenger expansions and the +20 breakthrough tech
+				founders > 52 and 62 -- China plus both passenger expansions and the +20 breakthrough tech
+				or founders > 42 and 52 -- both passenger expansions and the +20 breakthrough tech
 				or founders > 32 and 42 -- one passenger expansion and the breakthrough tech
 				or founders > 22 and 32 -- either the breakthrough tech or both passenger expansions
 				or founders > 12 and 22 -- one passenger expansion
+				or MissionSponsor.name == "CNSA" and 22 -- China has an extra 10 passengers by default
 				or 12 -- normal
 			if founders == 0 then
 				MartianTribune.Count.FoundersDeadSol = UICity.day
