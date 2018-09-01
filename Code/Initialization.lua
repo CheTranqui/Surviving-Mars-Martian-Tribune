@@ -25,7 +25,8 @@ MartianTribuneMod = {
 	Functions = { name = "Martian Tribune Common Functions" },
 	Name = { name = "Common Colonist Fallback Name strings" },
 	News = { name = "Shared popup Fake News items" },
-	SaveGameFixes = { name = "Save Game Data Migrations" }
+	SaveGameFixes = { name = "Save Game Data Migrations" },
+	Titles = { name = "Custom Sponsor Leadership Titles" }
 }
 
 -- 3. COMMON FUNCTION DEFINITIONS
@@ -33,6 +34,11 @@ MartianTribuneMod = {
 -- Compare two translatable strings (e.g. story titles)
 MartianTribuneMod.Functions.CompareTranslationStrings = function(string1, string2)
 	return _InternalTranslate(string1) == _InternalTranslate(string2)
+end
+
+-- Add custom title for sponsor
+MartianTribuneMod.Functions.AddLeaderTitleForSponsor = function(sponsorName, title)
+	MartianTribuneMod.Titles[sponsorName] = title
 end
 
 -- Find a story in a list

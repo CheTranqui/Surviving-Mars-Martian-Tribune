@@ -1,3 +1,12 @@
+local function SetPublishedToDay(archive)
+	for i = 1, #(archive or empty_list) do
+		local story = archive[i]
+		if story.key then
+			MartianTribune.Published[story.key] = story.publishedDay
+		end
+	end
+end
+
 -- This is more for our existing stories that may have been running on 775 prior to inserting the Drag Race
 -- story into the DroneHack chain.
 MartianTribuneMod.SaveGameFixes[776].Upgrade = function(oldData)
@@ -27,6 +36,7 @@ MartianTribuneMod.SaveGameFixes[776].Upgrade = function(oldData)
 			DroneHack3Story.key = DroneHack3NewKey
 		end
 
+		-- Make sure the Urgent stories categories have been created.
 		if not MartianTribune.TopUrgentStories then
 			MartianTribune.TopUrgentStories = { name = "Top Urgent Stories" }
 		end
@@ -36,6 +46,10 @@ MartianTribuneMod.SaveGameFixes[776].Upgrade = function(oldData)
 		if not MartianTribune.SocialUrgentStories then
 			MartianTribune.SocialUrgentStories = { name = "Social Urgent Stories" }
 		end
+
+		SetPublishedToDay(MartianTribune.TopArchive)
+		SetPublishedToDay(MartianTribune.EngArchive)
+		SetPublishedToDay(MartianTribune.SocialArchive)
 		
 		MartianTribune.VersionNumber = 776
 	end

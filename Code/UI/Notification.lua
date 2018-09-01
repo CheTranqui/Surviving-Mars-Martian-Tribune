@@ -7,7 +7,7 @@ local function SetStoryPublished(story, archive)
 	if IsValidColonist(story.colonist) and not story.colonist.is_pinned then
 		story.colonist:TogglePin()
 	end
-	MartianTribune.Published[story.key] = true
+	MartianTribune.Published[story.key] = UICity.day
 	archive[#archive + 1] = story
 	return story
 end
@@ -16,9 +16,9 @@ end
 local function ChooseStory(archive, urgentList, potentialList, freeList)
 	local random_num, story
 	if urgentList and #urgentList > 0 then
-		random_num = Random(1, #urgentList)
-		story = SetStoryPublished(urgentList[random_num], archive)
-		table.remove(urgentList, random_num)
+		-- publish urgent stories in order of generation
+		story = SetStoryPublished(urgentList[1], archive)
+		table.remove(urgentList, 1)
 	elseif potentialList and #potentialList > 0 then
 		random_num = Random(1, #potentialList)
 		story = SetStoryPublished(potentialList[random_num], archive)

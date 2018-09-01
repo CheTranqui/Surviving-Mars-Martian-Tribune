@@ -67,6 +67,7 @@ There are a series of functions available for removing a story from the selectio
 
 ### Utility functions
 
+* `MartianTribuneMod.Functions.AddLeaderTitleForNewSponsor(sponsorName, title)` - create a custom leader title for a new Sponsor. The value of sponsorName should be the value of `GetMissionSponsor().name`. The value of title should be the translated display string to show for the Colony Leader's title.
 * `MartianTribuneMod.Functions.FindStoryInListByKey(list, story.key)` - find the story inside the given list by its story key.
 * `MartianTribuneMod.Functions.IsValidColonist(data)` - returns true if the data represents a colonist AND the colonist is not dead.
 * `MartianTribuneMod.Functions.GetColonistWithoutTrait(trait_id, colonistList)` - returns a random colonist from the provided list (or UICity.labels.Colonist if no colonistList is provided) who does not have the specified trait_id.
@@ -87,23 +88,16 @@ There are a few story globals that may be of use when creating stories to add to
 * `MartianTribune.LeaderTitle` - translated title for the Colony Leader, e.g. "Oracle" for the Church of the New Ark sponsor.
 * `MartianTribune.LeaderName` - Name of the colonist who is the current colony leader.
 * `MartianTribune.LeaderColonist` - Colonist who is the current colony leader.
-* `MartianTribune.Published` - a list in the form `{[story.key] = true}` for all Published stories. This can be used to test whether a prior story has actually been published or not, e.g.
+* `MartianTribune.Published` - a list in the form `{[story.key] = (day of publication)}` for all Published stories. This can be used to test whether a prior story has actually been published or not, and to retrieve when that story was published e.g.
     ```lua
     local Published = MartianTribune.Published
-    if Published[StoryKey] then
-        -- Do something that should only be done after a prior story was published.
+    if Published[StoryKey] and UICity.day >= (Published[StoryKey] + 5) then
+        -- Do something that should only be done 5 days after a prior story was published.
     end
     ```
 * `MartianTribune.Sent` - a list of the keys for all stories that have been added to the queues at any time, in the same format as the MartianTribune.Published list. Stories with keys in the Sent list may not have been published, in which case they're either in the queue to be published, or they were subsequently removed from the queue.
 * `MartianTribune.Removed` - a list of the keys for all stories that have been removed from the queues at any time, in the same format as the MartianTribune.Published list.
-* `MartianTribune.TopArchive` - the list of published "Top" stories. You may need this to retrieve the publishedDay from a story, for example:
-    ```lua
-    local TopArchive = MartianTribune.TopArchive
-    local story = MartianTribuneMod.Functions.FindStoryInListByKey(TopArchive, "AUniqueKeyString")
-    if story ~= nil and UICity.day >= (story.publishedDay + 5) then
-        -- Trigger something 5 days after the prior story was published.
-    end
-    ```
+* `MartianTribune.TopArchive` - the list of published "Top" stories.
 * `MartianTribune.EngArchive` - the list of published "Engineering" stories.
 * `MartianTribune.SocialArchive` - the list of published "Social" stories.
 * `MartianTribune.ColonistsHaveArrived` - set to true when colonists first arrive on Mars.
