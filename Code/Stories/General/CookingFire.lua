@@ -13,7 +13,7 @@ local function CheckStory(apartment)
 	then
 		local MartianTribuneMod = MartianTribuneMod
 		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		local Colonist = table.rand(apartment.colonists)
 		local DomeName = apartment.parent_dome.name
 		local Name = IsValidColonist(Colonist) and Colonist.name or T{9013670, "random colonist"}

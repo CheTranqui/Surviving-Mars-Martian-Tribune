@@ -5,7 +5,7 @@ local function CheckStory()
 	local Sent = MartianTribune.Sent
 
 	if not Sent[Key1] and UICity.tech_status[TechId].researched ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013638, "What Goes Around Comes Around"},

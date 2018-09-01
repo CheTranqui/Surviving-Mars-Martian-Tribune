@@ -50,7 +50,7 @@ local function CheckStory()
 		and ColonistsHaveArrived
 		and CountColonistsWithTrait("Child") > 0
 	then
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
 
 		AddStory({
 			key = Key4,

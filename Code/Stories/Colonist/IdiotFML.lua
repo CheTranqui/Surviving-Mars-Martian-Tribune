@@ -8,7 +8,7 @@ local function CheckStory()
 	if not Sent[Key1] and ColonistsHaveArrived and CountColonistsWithTrait("Idiot") > 0 then
 		local MartianTribuneMod = MartianTribuneMod
 		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 		local Sponsor = MartianTribune.Sponsor
 		local IdiotColonistFallbackName = MartianTribuneMod.Name.IdiotColonist

@@ -10,7 +10,7 @@ local function CheckStory()
 		and #UICity.labels.Tunnel > 0
 	then
 		local MartianTribuneMod = MartianTribuneMod
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013857, "The Guangzhou's Got Nothing On Mars!"},

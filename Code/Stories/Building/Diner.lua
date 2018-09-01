@@ -35,7 +35,7 @@ local function CheckStory2()
 		local Colonist = GetColonistWithTrait(TraitId)
 	
 		if IsValidColonist(Colonist) and Colonist.dome and Colonist.dome.labels.Diner ~= nil then
-			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+			local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 			local VeganColonistFallbackName = MartianTribuneMod.Name.VeganColonist
 			local ColonistName = Colonist.name or VeganColonistFallbackName
 			local DomeName = Colonist.dome.name or T{9013701, "dome with vegan and diner"}

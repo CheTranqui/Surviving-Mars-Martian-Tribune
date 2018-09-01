@@ -5,7 +5,7 @@ local function CheckStory()
 	local Sent = MartianTribune.Sent
 	
 	if not Sent[Key1] and UICity.tech_status[TechId].researched ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013550, "Painting Water Vaporators"},

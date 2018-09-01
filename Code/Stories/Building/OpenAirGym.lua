@@ -8,7 +8,7 @@ local function CheckStory1()
 	local GymList = UICity.labels.OpenAirGym or empty_table
 
 	if not Sent[Key1] and ColonistsHaveArrived and #GymList > 0 then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		local Sponsor = MartianTribune.Sponsor
 		local Gym = table.rand(GymList)
 		local OlympicBidGymDome =
@@ -30,7 +30,7 @@ local function CheckStory2()
 
 	if Published[Key1] and not Sent[Key2] and UICity.day > (Published[Key1] + 16) then
 		local LeaderName = MartianTribune.LeaderName
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		AddStory({
 			key = Key2,
 			title = T{9013568, "The Martian Games"},

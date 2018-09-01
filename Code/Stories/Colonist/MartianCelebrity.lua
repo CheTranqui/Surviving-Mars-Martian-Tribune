@@ -7,7 +7,7 @@ local function CheckStory(colonist)
 	local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 	
 	if not Sent[Key1] and IsValid(colonist) and colonist.traits[TraitId] then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		local Name = (colonist and colonist.name) or T{9013682, "martian celebrity"}
 
 		AddStory({

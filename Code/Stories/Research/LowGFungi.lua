@@ -12,13 +12,13 @@ local function CheckStory()
 	and not Sent[Key1]
 	and not Sent[Key2]
 	then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local random_num = Random(1,2)
 		if random_num == 1 then
 			AddStory({
 				key = Key1,
 				title = T{9013560, "People With Mushroom Allergies Beware"},
-				story = T{9013561, "     We have recently discovered the secret to growing mushrooms on Mars. It wasn't really too complicated as Mushrooms can grow just about anywhere, but now we can farm them. If you have a mushroom allergy, we recommend taking one of the next shuttles to Earth, as a new Martian staple has been added to the menu."}
+				story = T{9013561, "     We have recently discovered the secret to growing mushrooms on Mars. It wasn't really too complicated as mushrooms can grow just about anywhere, but now we can farm them. If you have a mushroom allergy, we recommend taking one of the next shuttles to Earth, as a new Martian staple has been added to the menu."}
 			})
 		else
 			AddStory({

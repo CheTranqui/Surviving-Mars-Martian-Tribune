@@ -4,7 +4,7 @@ local Key1 = "ConcreteLove"
 local function CheckStory()
 	local Sent = MartianTribune.Sent
 	if not Sent[Key1] and MapCount("map", BuildingClass) > 1 then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013614, "Concrete Extractor Loves Its Job"},

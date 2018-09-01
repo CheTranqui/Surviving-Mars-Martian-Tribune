@@ -22,7 +22,7 @@ local function CheckStory2()
 	local Sent = MartianTribune.Sent
 
 	if Published[Key1] and not Sent[Key2] and UICity.day >= (Published[Key1] + 3) then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		AddStory({
 			key = Key2,
 			title = T{9013620, "Pew Pew Pew!"},

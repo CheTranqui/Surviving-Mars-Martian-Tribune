@@ -21,7 +21,7 @@ local function CheckStory(colonist)
 			and consumed > 0
 			and (data.Food / consumed) >= const.MinDaysFoodSupplyBeforeNotification
 		then
-			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+			local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 			local Name = colonist.name
 
 			AddStory({

@@ -7,7 +7,7 @@ local function CheckStory()
 	local Arcologies = UICity.labels.Arcology
 	
     if not Sent[Key1] and ColonistsHaveArrived and Arcologies ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local Arcology = table.rand(Arcologies)
 		local ArcologyDomeName =
 			(IsValid(Arcology) and Arcology.parent_dome.name)

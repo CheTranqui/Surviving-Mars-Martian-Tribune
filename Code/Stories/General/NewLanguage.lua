@@ -6,7 +6,7 @@ local function CheckStory()
 	local Sent = MartianTribune.Sent
 
 	if not Sent[Key1] and ColonistsHaveArrived and UICity.day > 125 then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 
 		AddStory({
 			key = Key1,

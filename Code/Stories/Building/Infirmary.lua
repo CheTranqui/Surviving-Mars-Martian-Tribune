@@ -6,7 +6,7 @@ local function CheckStory()
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 
 	if not Sent[Key1] and ColonistsHaveArrived and UICity.labels.Infirmary ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013640, "Domelenol Now Available!"},

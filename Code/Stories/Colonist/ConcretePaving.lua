@@ -7,7 +7,7 @@ local function CheckStory()
 	local UICity = UICity
 
 	if not Sent[Key1] and ColonistsHaveArrived and UICity.labels.RegolithExtractor ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		-- local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 		local Colonist = table.rand(UICity.labels.Colonist)
 		local Name = (Colonist and Colonist.name) or T{9013698, "random person"}

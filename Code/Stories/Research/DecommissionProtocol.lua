@@ -11,7 +11,7 @@ local function CheckStory()
 	and not Sent[Key1]
 	and not Sent[Key2]
 	then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local random_num = Random(1,2)
 		if random_num == 1 then
 			AddStory({

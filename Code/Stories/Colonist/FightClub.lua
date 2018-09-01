@@ -25,11 +25,11 @@ local function CheckStory2()
 	local Sent = MartianTribune.Sent
 
 	if Published[Key1] and not Sent[Key2] and UICity.day > (Published[Key1] + 9) then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		AddStory({
 			key = Key2,
 			title = T{9013578, "Fight Club Story Retraction"},
-			story = T{9013579, "     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story \"They're fighting, stop fighting\".  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned \"club\"."}
+			story = T{9013579, "     The Martian Tribune would like to apologise for any upset caused in publishing details of the rumored club referenced in the story \"They're fighting, Stop Fighting\".  In consultation with local security, an attorney on retainer, and an unnamed source, we have come to the conclusion that it would be better were we not to talk about the aforementioned \"club\"."}
 		})
 	end
 end

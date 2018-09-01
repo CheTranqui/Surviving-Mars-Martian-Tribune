@@ -6,7 +6,7 @@ local function CheckStory()
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 
 	if not Sent[Key1] and ColonistsHaveArrived then
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013554, "It's a bird!  It's a plane! It's..."},

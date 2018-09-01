@@ -3,7 +3,7 @@ local Key1 = "MarathonExplorer"
 local function CheckStory()
 	local Sent = MartianTribune.Sent
 	if not Sent[Key1] and UICity.day > 35 and UICity.labels.ExplorerRover ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
 		AddStory({
 			key = Key1,
 			title = T{9013587, "A Martian Marathon"},

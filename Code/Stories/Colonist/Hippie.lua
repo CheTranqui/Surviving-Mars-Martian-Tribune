@@ -8,7 +8,7 @@ local function CheckStory()
 
 	if not Sent[Key1] and ColonistsHaveArrived and CountColonistsWithTrait(TraitId) > 0 then
 		local MartianTribuneMod = MartianTribuneMod
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
 		-- local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 

@@ -13,7 +13,7 @@ local function CheckStory(dome)
 		and #dome.labels.Colonist > 0
 		and #UICity.labels.Colonist <= 60
 	then
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
 
 		AddStory({
 			key = Key1,

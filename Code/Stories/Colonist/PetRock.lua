@@ -11,7 +11,7 @@ local function CheckStory1()
 	if not Sent[Key1] and ColonistsHaveArrived then
 		local MartianTribuneMod = MartianTribuneMod
 		-- local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		local Colonist = table.rand(UICity.labels.Colonist)
 		local Name = (Colonist and Colonist.name) or T{9013732, "Pet Rock Owner"}
 

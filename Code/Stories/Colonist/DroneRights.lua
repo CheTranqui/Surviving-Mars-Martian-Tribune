@@ -14,7 +14,7 @@ local function CheckStory()
 		local IdiotColonistFallbackName = MartianTribuneMod.Name.IdiotColonist
 		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
 		-- local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
 		local Colonist = GetColonistWithTrait(TraitId)
 		local Name = (Colonist and Colonist.name) or IdiotColonistFallbackName
 

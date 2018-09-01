@@ -11,7 +11,7 @@ local function CheckStory1()
 
 		if DomeBuiltDay and UICity.day >= (DomeBuiltDay + 10) then
 			local MartianTribuneMod = MartianTribuneMod
-			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+			local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 			local GetColonistWithoutTrait = MartianTribuneMod.Functions.GetColonistWithoutTrait
 			local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 			local Colonist = GetColonistWithoutTrait("Martianborn")

@@ -18,7 +18,7 @@ local function CheckStory()
 		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
 		local GuruColonist = GetColonistWithTrait(TraitId)
 		if GetGuruGarden(GuruColonist) then
-			local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+			local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
 			local Name = GuruColonist.name or T{9013584, "random guru"}
 			AddStory({
 				key = Key1,

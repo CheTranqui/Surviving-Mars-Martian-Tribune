@@ -7,7 +7,7 @@ local function CheckStory()
 
 	if not Sent[Key1] and not Removed[Key1] and MapCount("map", "Drone") > 2 then
 		local MartianTribuneMod = MartianTribuneMod
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
 		local GetRandomDroneName = MartianTribuneMod.Functions.GetRandomDroneName
 		local Drone1 = GetRandomDroneName()
 		local Drone2 = GetRandomDroneName()
