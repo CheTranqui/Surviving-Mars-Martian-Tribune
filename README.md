@@ -104,6 +104,7 @@ There are a few story globals that may be of use when creating stories to add to
 
 ## Custom Messages
 
+* `MartianTribuneModLoaded` - Message fired after loading the mod (but before loading the save game data) that other mods can listen for and use to enable interactions with Martian Tribune (e.g. to set Sponsor Leader Title, or to know whether they can use the AddStory functions, etc).
 * `MartianTribuneCheckStories` - Martian Tribune fires a daily message for checking whether stories should be added to the queues. If you have a story that should trigger then, you can listen to the message:
     ```lua
     function OnMsg.MartianTribuneCheckStories()
