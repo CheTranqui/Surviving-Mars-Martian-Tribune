@@ -365,3 +365,9 @@ function OnMsg.NewDay()
 		MartianTribune.Count.LastPublished = UICity.day
 	end
 end
+
+-- Fire a message that other mods can listen for to identify that the Martian Tribune
+-- Mod has been loaded and thus its functions are available.
+function OnMsg.ModsLoaded()
+	Msg("MartianTribuneModLoaded")
+end
