@@ -176,6 +176,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories/Colonist/MartianFashion.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories/Colonist/MovingDomes",
+	'FileName', "Code/Stories/Colonist/MovingDomes.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories/Colonist/NewLeader",
 	'FileName', "Code/Stories/Colonist/NewLeader.lua",
 }),
@@ -258,10 +262,6 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories/General/MartianMusic",
 	'FileName', "Code/Stories/General/MartianMusic.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/MovingDomes",
-	'FileName', "Code/Stories/General/MovingDomes.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories/General/NewLanguage",
