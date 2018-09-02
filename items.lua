@@ -1,419 +1,419 @@
 return {
 PlaceObj('ModItemCode', {
+	'name', "1_SetStoryKeys",
+	'FileName', "Code/1_SetStoryKeys.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "2_SetMissingPublishedDay",
+	'FileName', "Code/2_SetMissingPublishedDay.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "3_FixStoryChains",
+	'FileName', "Code/3_FixStoryChains.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "4_FixDomeDelayColonist",
+	'FileName', "Code/4_FixDomeDelayColonist.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "5_UpdateGlobals",
+	'FileName', "Code/5_UpdateGlobals.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "AdaptedProbes",
+	'FileName', "Code/AdaptedProbes.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "AdultFilm",
+	'FileName', "Code/AdultFilm.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "AirSupply",
+	'FileName', "Code/AirSupply.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Arcology",
+	'FileName', "Code/Arcology.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Common",
+	'FileName', "Code/Common.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "CompactPassengerModule",
+	'FileName', "Code/CompactPassengerModule.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "ConcreteLove",
+	'FileName', "Code/ConcreteLove.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "ConcretePaving",
+	'FileName', "Code/ConcretePaving.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "CookingFire",
+	'FileName', "Code/CookingFire.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DecommissionProtocol",
+	'FileName', "Code/DecommissionProtocol.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DeepScanning",
+	'FileName', "Code/DeepScanning.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Diner",
+	'FileName', "Code/Diner.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Dome",
+	'FileName', "Code/Dome.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DomeBirthControl",
+	'FileName', "Code/DomeBirthControl.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DomeOval",
+	'FileName', "Code/DomeOval.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DroneBreakdown",
+	'FileName', "Code/DroneBreakdown.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DroneGoesViral",
+	'FileName', "Code/DroneGoesViral.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DroneHack",
+	'FileName', "Code/DroneHack.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DroneRights",
+	'FileName', "Code/DroneRights.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "DroneShortage",
+	'FileName', "Code/DroneShortage.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "EarthMarsInitiative",
+	'FileName', "Code/EarthMarsInitiative.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "EarthTourism",
+	'FileName', "Code/EarthTourism.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "EarthlingDomeDelay",
+	'FileName', "Code/EarthlingDomeDelay.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "EarthsickColonist",
+	'FileName', "Code/EarthsickColonist.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "ElPresidente",
+	'FileName', "Code/ElPresidente.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "ElonMusk",
+	'FileName', "Code/ElonMusk.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "EngArchive",
+	'FileName', "Code/EngArchive.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "EngPage",
+	'FileName', "Code/EngPage.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Equality",
+	'FileName', "Code/Equality.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FightClub",
+	'FileName', "Code/FightClub.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Finances",
+	'FileName', "Code/Finances.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FirstFounderDied",
+	'FileName', "Code/FirstFounderDied.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FirstMartianbornDied",
+	'FileName', "Code/FirstMartianbornDied.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FoodShortage",
+	'FileName', "Code/FoodShortage.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FoundersFirstWords",
+	'FileName', "Code/FoundersFirstWords.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FoundersLegacy",
+	'FileName', "Code/FoundersLegacy.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FrontPage",
+	'FileName', "Code/FrontPage.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FuelCompression",
+	'FileName', "Code/FuelCompression.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "FutureExpansion",
+	'FileName', "Code/FutureExpansion.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "GuruGarden",
+	'FileName', "Code/GuruGarden.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "HappyBirthday",
+	'FileName', "Code/HappyBirthday.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Hippie",
+	'FileName', "Code/Hippie.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "HygroscopicVaporators",
+	'FileName', "Code/HygroscopicVaporators.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "IdiotFML",
+	'FileName', "Code/IdiotFML.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Infirmary",
+	'FileName', "Code/Infirmary.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "InitialStoryLists",
+	'FileName', "Code/InitialStoryLists.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Initialization",
 	'FileName', "Code/Initialization.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "LeaderDied",
+	'FileName', "Code/LeaderDied.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "LiveFromMars",
+	'FileName', "Code/LiveFromMars.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "LowGFungi",
+	'FileName', "Code/LowGFungi.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "LowGHydrosynthsis",
+	'FileName', "Code/LowGHydrosynthsis.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "LowGTurbines",
+	'FileName', "Code/LowGTurbines.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MDSLaser",
+	'FileName', "Code/MDSLaser.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MagneticFiltering",
+	'FileName', "Code/MagneticFiltering.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MarathonExplorer",
+	'FileName', "Code/MarathonExplorer.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MarsDay",
+	'FileName', "Code/MarsDay.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MartianCelebrity",
+	'FileName', "Code/MartianCelebrity.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MartianFaith",
+	'FileName', "Code/MartianFaith.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MartianFashion",
+	'FileName', "Code/MartianFashion.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "MartianMusic",
+	'FileName', "Code/MartianMusic.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "MartianTribune",
 	'FileName', "Code/MartianTribune.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/MartianTribuneSaveGameFixes",
-	'FileName', "Code/SaveGameFixes/MartianTribuneSaveGameFixes.lua",
+	'name', "MartianTribuneSaveGameFixes",
+	'FileName', "Code/MartianTribuneSaveGameFixes.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/775/1_SetStoryKeys",
-	'FileName', "Code/SaveGameFixes/775/1_SetStoryKeys.lua",
+	'name', "MartianUniversity",
+	'FileName', "Code/MartianUniversity.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/775/2_SetMissingPublishedDay",
-	'FileName', "Code/SaveGameFixes/775/2_SetMissingPublishedDay.lua",
+	'name', "MovingDomes",
+	'FileName', "Code/MovingDomes.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/775/3_FixStoryChains",
-	'FileName', "Code/SaveGameFixes/775/3_FixStoryChains.lua",
+	'name', "Moxie",
+	'FileName', "Code/Moxie.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/775/4_FixDomeDelayColonist",
-	'FileName', "Code/SaveGameFixes/775/4_FixDomeDelayColonist.lua",
+	'name', "NewLanguage",
+	'FileName', "Code/NewLanguage.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/775/5_UpdateGlobals",
-	'FileName', "Code/SaveGameFixes/775/5_UpdateGlobals.lua",
+	'name', "NewLeader",
+	'FileName', "Code/NewLeader.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/775/Upgrade",
-	'FileName', "Code/SaveGameFixes/775/Upgrade.lua",
+	'name', "NoFood",
+	'FileName', "Code/NoFood.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "SaveGameFixes/776/Upgrade",
-	'FileName', "Code/SaveGameFixes/776/Upgrade.lua",
+	'name', "NoPowerRave",
+	'FileName', "Code/NoPowerRave.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Arcology",
-	'FileName', "Code/Stories/Building/Arcology.lua",
+	'name', "Notification",
+	'FileName', "Code/Notification.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/ConcreteLove",
-	'FileName', "Code/Stories/Building/ConcreteLove.lua",
+	'name', "OopsIBrokeItAgain",
+	'FileName', "Code/OopsIBrokeItAgain.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Diner",
-	'FileName', "Code/Stories/Building/Diner.lua",
+	'name', "OpenAirGym",
+	'FileName', "Code/OpenAirGym.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Dome",
-	'FileName', "Code/Stories/Building/Dome.lua",
+	'name', "Passport",
+	'FileName', "Code/Passport.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/DomeOval",
-	'FileName', "Code/Stories/Building/DomeOval.lua",
+	'name', "PetRock",
+	'FileName', "Code/PetRock.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Infirmary",
-	'FileName', "Code/Stories/Building/Infirmary.lua",
+	'name', "PowerSupply",
+	'FileName', "Code/PowerSupply.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/MDSLaser",
-	'FileName', "Code/Stories/Building/MDSLaser.lua",
+	'name', "PreciousMetalsExtractor",
+	'FileName', "Code/PreciousMetalsExtractor.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/MartianUniversity",
-	'FileName', "Code/Stories/Building/MartianUniversity.lua",
+	'name', "ProductivityTraining",
+	'FileName', "Code/ProductivityTraining.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Moxie",
-	'FileName', "Code/Stories/Building/Moxie.lua",
+	'name', "ReligiousArtifact",
+	'FileName', "Code/ReligiousArtifact.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/OpenAirGym",
-	'FileName', "Code/Stories/Building/OpenAirGym.lua",
+	'name', "Rockets",
+	'FileName', "Code/Rockets.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/PreciousMetalsExtractor",
-	'FileName', "Code/Stories/Building/PreciousMetalsExtractor.lua",
+	'name', "Shortages",
+	'FileName', "Code/Shortages.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/ShuttleHub",
-	'FileName', "Code/Stories/Building/ShuttleHub.lua",
+	'name', "ShuttleHub",
+	'FileName', "Code/ShuttleHub.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Spacebar",
-	'FileName', "Code/Stories/Building/Spacebar.lua",
+	'name', "SocialArchive",
+	'FileName', "Code/SocialArchive.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Building/Tunnel",
-	'FileName', "Code/Stories/Building/Tunnel.lua",
+	'name', "SocialPage",
+	'FileName', "Code/SocialPage.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/AdultFilm",
-	'FileName', "Code/Stories/Colonist/AdultFilm.lua",
+	'name', "SoilAdaptation",
+	'FileName', "Code/SoilAdaptation.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/ConcretePaving",
-	'FileName', "Code/Stories/Colonist/ConcretePaving.lua",
+	'name', "SoylentGreen",
+	'FileName', "Code/SoylentGreen.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/DroneHack",
-	'FileName', "Code/Stories/Colonist/DroneHack.lua",
+	'name', "Spacebar",
+	'FileName', "Code/Spacebar.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/DroneRights",
-	'FileName', "Code/Stories/Colonist/DroneRights.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/EarthTourism",
-	'FileName', "Code/Stories/Colonist/EarthTourism.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/EarthlingDomeDelay",
-	'FileName', "Code/Stories/Colonist/EarthlingDomeDelay.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/EarthsickColonist",
-	'FileName', "Code/Stories/Colonist/EarthsickColonist.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/FightClub",
-	'FileName', "Code/Stories/Colonist/FightClub.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/FirstFounderDied",
-	'FileName', "Code/Stories/Colonist/FirstFounderDied.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/FirstMartianbornDied",
-	'FileName', "Code/Stories/Colonist/FirstMartianbornDied.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/FoundersFirstWords",
-	'FileName', "Code/Stories/Colonist/FoundersFirstWords.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/FoundersLegacy",
-	'FileName', "Code/Stories/Colonist/FoundersLegacy.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/FutureExpansion",
-	'FileName', "Code/Stories/Colonist/FutureExpansion.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/GuruGarden",
-	'FileName', "Code/Stories/Colonist/GuruGarden.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/HappyBirthday",
-	'FileName', "Code/Stories/Colonist/HappyBirthday.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/Hippie",
-	'FileName', "Code/Stories/Colonist/Hippie.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/IdiotFML",
-	'FileName', "Code/Stories/Colonist/IdiotFML.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/LeaderDied",
-	'FileName', "Code/Stories/Colonist/LeaderDied.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/MartianCelebrity",
-	'FileName', "Code/Stories/Colonist/MartianCelebrity.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/MartianFashion",
-	'FileName', "Code/Stories/Colonist/MartianFashion.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/MovingDomes",
-	'FileName', "Code/Stories/Colonist/MovingDomes.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/NewLeader",
-	'FileName', "Code/Stories/Colonist/NewLeader.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/OopsIBrokeItAgain",
-	'FileName', "Code/Stories/Colonist/OopsIBrokeItAgain.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/PetRock",
-	'FileName', "Code/Stories/Colonist/PetRock.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/ReligiousArtifact",
-	'FileName', "Code/Stories/Colonist/ReligiousArtifact.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/StarvingColonist",
-	'FileName', "Code/Stories/Colonist/StarvingColonist.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/Vegan",
-	'FileName', "Code/Stories/Colonist/Vegan.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/VirtueOverVices",
-	'FileName', "Code/Stories/Colonist/VirtueOverVices.lua",
+	'name', "StarvingColonist",
+	'FileName', "Code/StarvingColonist.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories/Colonist/Whiner",
-	'FileName', "Code/Stories/Colonist/Whiner.lua",
+	'FileName', "Code/Stories_Colonist_Whiner.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Drone/DroneBreakdown",
-	'FileName', "Code/Stories/Drone/DroneBreakdown.lua",
+	'name', "SubsurfaceHeating",
+	'FileName', "Code/SubsurfaceHeating.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Drone/DroneGoesViral",
-	'FileName', "Code/Stories/Drone/DroneGoesViral.lua",
+	'name', "TopArchive",
+	'FileName', "Code/TopArchive.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Drone/DroneShortage",
-	'FileName', "Code/Stories/Drone/DroneShortage.lua",
+	'name', "Tunnel",
+	'FileName', "Code/Tunnel.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/CookingFire",
-	'FileName', "Code/Stories/General/CookingFire.lua",
+	'name', "Upgrade",
+	'FileName', "Code/Upgrade.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/DomeBirthControl",
-	'FileName', "Code/Stories/General/DomeBirthControl.lua",
+	'name', "Upgrade775to776",
+	'FileName', "Code/Upgrade775to776.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/ElPresidente",
-	'FileName', "Code/Stories/General/ElPresidente.lua",
+	'name', "Vegan",
+	'FileName', "Code/Vegan.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/ElonMusk",
-	'FileName', "Code/Stories/General/ElonMusk.lua",
+	'name', "Vigilante",
+	'FileName', "Code/Vigilante.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/Equality",
-	'FileName', "Code/Stories/General/Equality.lua",
+	'name', "VirtueOverVices",
+	'FileName', "Code/VirtueOverVices.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/Finances",
-	'FileName', "Code/Stories/General/Finances.lua",
+	'name', "WaterReclamation",
+	'FileName', "Code/WaterReclamation.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/MarathonExplorer",
-	'FileName', "Code/Stories/General/MarathonExplorer.lua",
+	'name', "WaterSupply",
+	'FileName', "Code/WaterSupply.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/General/MarsDay",
-	'FileName', "Code/Stories/General/MarsDay.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/MartianFaith",
-	'FileName', "Code/Stories/General/MartianFaith.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/MartianMusic",
-	'FileName', "Code/Stories/General/MartianMusic.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/NewLanguage",
-	'FileName', "Code/Stories/General/NewLanguage.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/Passport",
-	'FileName', "Code/Stories/General/Passport.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/Rockets",
-	'FileName', "Code/Stories/General/Rockets.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/Vigilante",
-	'FileName', "Code/Stories/General/Vigilante.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/General/Weekends",
-	'FileName', "Code/Stories/General/Weekends.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/InitialStoryLists",
-	'FileName', "Code/Stories/InitialStoryLists.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/AirSupply",
-	'FileName', "Code/Stories/LifeSupport/AirSupply.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/FoodShortage",
-	'FileName', "Code/Stories/LifeSupport/FoodShortage.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/NoFood",
-	'FileName', "Code/Stories/LifeSupport/NoFood.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/NoPowerRave",
-	'FileName', "Code/Stories/LifeSupport/NoPowerRave.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/PowerSupply",
-	'FileName', "Code/Stories/LifeSupport/PowerSupply.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/Shortages",
-	'FileName', "Code/Stories/LifeSupport/Shortages.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/LifeSupport/WaterSupply",
-	'FileName', "Code/Stories/LifeSupport/WaterSupply.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/AdaptedProbes",
-	'FileName', "Code/Stories/Research/AdaptedProbes.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/CompactPassengerModule",
-	'FileName', "Code/Stories/Research/CompactPassengerModule.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/DecommissionProtocol",
-	'FileName', "Code/Stories/Research/DecommissionProtocol.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/DeepScanning",
-	'FileName', "Code/Stories/Research/DeepScanning.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/EarthMarsInitiative",
-	'FileName', "Code/Stories/Research/EarthMarsInitiative.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/FuelCompression",
-	'FileName', "Code/Stories/Research/FuelCompression.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/HygroscopicVaporators",
-	'FileName', "Code/Stories/Research/HygroscopicVaporators.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/LiveFromMars",
-	'FileName', "Code/Stories/Research/LiveFromMars.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/LowGFungi",
-	'FileName', "Code/Stories/Research/LowGFungi.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/LowGHydrosynthsis",
-	'FileName', "Code/Stories/Research/LowGHydrosynthsis.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/LowGTurbines",
-	'FileName', "Code/Stories/Research/LowGTurbines.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/MagneticFiltering",
-	'FileName', "Code/Stories/Research/MagneticFiltering.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/ProductivityTraining",
-	'FileName', "Code/Stories/Research/ProductivityTraining.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/SoilAdaptation",
-	'FileName', "Code/Stories/Research/SoilAdaptation.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/SoylentGreen",
-	'FileName', "Code/Stories/Research/SoylentGreen.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/SubsurfaceHeating",
-	'FileName', "Code/Stories/Research/SubsurfaceHeating.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Stories/Research/WaterReclamation",
-	'FileName', "Code/Stories/Research/WaterReclamation.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/Common",
-	'FileName', "Code/UI/Common.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/EngArchive",
-	'FileName', "Code/UI/EngArchive.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/EngPage",
-	'FileName', "Code/UI/EngPage.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/FrontPage",
-	'FileName', "Code/UI/FrontPage.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/Notification",
-	'FileName', "Code/UI/Notification.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/SocialArchive",
-	'FileName', "Code/UI/SocialArchive.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/SocialPage",
-	'FileName', "Code/UI/SocialPage.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "UI/TopArchive",
-	'FileName', "Code/UI/TopArchive.lua",
+	'name', "Weekends",
+	'FileName', "Code/Weekends.lua",
 }),
 PlaceObj('ModItemLocTable', {
 	'comment', "English Translation",
