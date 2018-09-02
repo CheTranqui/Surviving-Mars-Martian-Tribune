@@ -1,23 +1,15 @@
 return {
 PlaceObj('ModItemCode', {
-	'name', "1_SetStoryKeys",
-	'FileName', "Code/1_SetStoryKeys.lua",
+	'name', "1_Initialization",
+	'FileName', "Code/1_Initialization.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "2_SetMissingPublishedDay",
-	'FileName', "Code/2_SetMissingPublishedDay.lua",
+	'name', "2_MartianTribuneSaveGameFixes",
+	'FileName', "Code/2_MartianTribuneSaveGameFixes.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "3_FixStoryChains",
-	'FileName', "Code/3_FixStoryChains.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "4_FixDomeDelayColonist",
-	'FileName', "Code/4_FixDomeDelayColonist.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "5_UpdateGlobals",
-	'FileName', "Code/5_UpdateGlobals.lua",
+	'name', "3_MartianTribune",
+	'FileName', "Code/3_MartianTribune.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "AdaptedProbes",
@@ -204,10 +196,6 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/InitialStoryLists.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Initialization",
-	'FileName', "Code/Initialization.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "LeaderDied",
 	'FileName', "Code/LeaderDied.lua",
 }),
@@ -258,14 +246,6 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "MartianMusic",
 	'FileName', "Code/MartianMusic.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "MartianTribune",
-	'FileName', "Code/MartianTribune.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "MartianTribuneSaveGameFixes",
-	'FileName', "Code/MartianTribuneSaveGameFixes.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "MartianUniversity",
@@ -336,6 +316,34 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Rockets.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_775_FixStoryChains",
+	'FileName', "Code/SaveGameFixes_775_FixStoryChains.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_775_FixDomeDelayColonist",
+	'FileName', "Code/SaveGameFixes_775_FixDomeDelayColonist.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_775_SetMissingPublishedDay",
+	'FileName', "Code/SaveGameFixes_775_SetMissingPublishedDay.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_775_SetStoryKeys",
+	'FileName', "Code/SaveGameFixes_775_SetStoryKeys.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_775_UpdateGlobals",
+	'FileName', "Code/SaveGameFixes_775_UpdateGlobals.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_775_Upgrade",
+	'FileName', "Code/SaveGameFixes_775_Upgrade.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_776_Upgrade",
+	'FileName', "Code/SaveGameFixes_776_Upgrade.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Shortages",
 	'FileName', "Code/Shortages.lua",
 }),
@@ -382,14 +390,6 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Tunnel",
 	'FileName', "Code/Tunnel.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Upgrade",
-	'FileName', "Code/Upgrade.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "Upgrade775to776",
-	'FileName', "Code/Upgrade775to776.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Vegan",
