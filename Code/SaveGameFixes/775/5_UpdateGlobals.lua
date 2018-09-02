@@ -139,7 +139,7 @@ MartianTribuneMod.SaveGameFixes[775].TransferInitialGlobals = function(oldData)
 	MartianTribune.ColonistsHaveArrived = UICity.labels.Colonist and #UICity.labels.Colonist > 0
 	-- Story counts (e.g. days since air issue, num domes, etc)
 	MartianTribune.Count.DomeBuiltDay = oldData.MTDomeDelayDays and UICity.day - oldData.MTDomeDelayDays or UICity.day
-	MartianTribune.Count.FoundersDeadSol = oldData.MTFoundersDeadSol or CountColonistsWithTrait("Founder") == 0 and UICity.day or nil
+	MartianTribune.Count.FoundersDeadSol = oldData.MTFoundersDeadSol or nil
 	MartianTribune.Count.LastAirIssue = oldData.MTCurrentAirIssue or nil
 	MartianTribune.Count.LastIncidentDay = oldData.MTThisIncidentDay or nil
 	MartianTribune.Count.LastPowerIssue = oldData.MTCurrentPowerIssue or nil

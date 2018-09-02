@@ -323,6 +323,10 @@ function OnMsg.LoadGame()
 	elseif MartianTribune.ColonistsHaveArrived then
 		MartianTribune.LeaderColonist = nil
 		SetNewLeader()
+
+		if not MartianTribune.Count.FoundersDeadSol and CountColonistsWithTrait("Founder") == 0 then
+			MartianTribune.Count.FoundersDeadSol = UICity.day
+		end
 	end
 
 	-- If this is the first time this mod is used with the loaded game, the story tables will
