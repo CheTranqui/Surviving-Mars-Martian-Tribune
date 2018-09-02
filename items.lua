@@ -4,12 +4,12 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/1_Initialization.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "2_MartianTribuneSaveGameFixes",
-	'FileName', "Code/2_MartianTribuneSaveGameFixes.lua",
+	'name', "2_MartianTribune",
+	'FileName', "Code/2_MartianTribune.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "3_MartianTribune",
-	'FileName', "Code/3_MartianTribune.lua",
+	'name', "3_MartianTribuneSaveGameFixes",
+	'FileName', "Code/3_MartianTribuneSaveGameFixes.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "AdaptedProbes",
@@ -376,8 +376,8 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/StarvingColonist.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Stories/Colonist/Whiner",
-	'FileName', "Code/Stories_Colonist_Whiner.lua",
+	'name', "Whiner",
+	'FileName', "Code/Whiner.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "SubsurfaceHeating",

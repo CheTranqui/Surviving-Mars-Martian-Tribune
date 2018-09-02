@@ -56,7 +56,7 @@ end
 
 -- This is the Notification for a new release
 local function ShowNotification()
-	local mod_dir = Mods["lf1iELO"]:GetModRootPath()
+	local mod_dir = MartianTribuneMod.mod_dir
 	local Sol = UICity.day
 	AddCustomOnScreenNotification("MartianTribune",
 		T{9014487, "The Martian Tribune"},
