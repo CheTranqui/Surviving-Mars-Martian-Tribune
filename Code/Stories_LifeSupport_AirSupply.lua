@@ -16,7 +16,7 @@ local function CheckStory()
 
 			if AirHoursRemaining < 12 then
 				local Sent = MartianTribune.Sent
-				local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+				local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
 				MartianTribune.Count.LastAirIssue = UICity.day
 
 				local random_num =
@@ -26,13 +26,13 @@ local function CheckStory()
 
 
 				if random_num == 1 then
-					AddStory({
+					AddEngStory({
 						key = Key1,
 						title = T{9013603, "Oxygen Short: Time To Lay Low"},
 						story = T{9013604, "     Oxygen production is a bit under current demand for the time being.  It's best to lie low for a few days!  Save that exercise until details have been sorted, more Moxies constructed, and for the drones to complete any necessary maintenance."}
 					})
 				elseif random_num == 2 then
-					AddStory({
+					AddEngStory({
 						key = Key2,
 						title = T{9013605, "Oxygen Production Goals Unmet"},
 						story = T{9013606, "     If you find yourself with chest pains in these next few days, it might be better to consult with your local engineer than your local doctor!  Our current oxygen production is just short of demand.  Expect the atmosphere to be a bit thin in the coming days and prepare for the worst."}

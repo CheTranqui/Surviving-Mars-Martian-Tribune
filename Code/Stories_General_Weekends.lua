@@ -10,9 +10,9 @@ local function CheckStory()
 		and #UICity.labels.Colonist > 300
 		and MapCount("map", "School") > 1
 	then
-		local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
+		local AddSocialStory = MartianTribuneMod.Functions.AddSocialFreeStory
 
-		AddStory({
+		AddSocialStory({
 			key = Key1,
 			title = T{9013855, "Children Struggling to Understand Concept of Weekends"},
 			story = T{9013856, "     Teachers on Mars have reported that Martianborn children struggle to comprehend the concept of a weekend. A weekend is an Earth Tradition, where for two sols (called 'days' on Earth) many citizens will cease working and relax for a time instead. \"But how does the colony survive then?\" ask the children. Next week's cultural lesson revolves around capitals and life in a metropolis."}

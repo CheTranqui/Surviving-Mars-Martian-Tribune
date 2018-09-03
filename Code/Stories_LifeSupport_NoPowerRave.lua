@@ -13,9 +13,9 @@ local function CheckStory(dome)
 		and #dome.labels.Colonist > 0
 		and #UICity.labels.Colonist <= 60
 	then
-		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
+		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 
-		AddStory({
+		AddTopStory({
 			key = Key1,
 			title = T{9013864, "Lack of Power Leads to Awesome Rave"},
 			story = T{9013865, "     The colony's recent power problems have lead to an intriguing turn of events. Upon noticing the flickering lights throughout the dome, many colonists mistook the music played by several more artistically inclined domemates as a dome-wide rave, which in turn lead to a giant street party. The evening was such a great time for the community that local officials have decided to make this an annual event to commemorate this moment."}

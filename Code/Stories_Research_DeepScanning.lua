@@ -14,8 +14,8 @@ local function CheckStory1()
 		and UICity.tech_status[TechId].researched == nil
 		and UICity.day > 75
 	then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
-		AddStory({
+		local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		AddEngStory({
 			key = Key1,
 			title = T{9013622, "Barely Scratching The Surface"},
 			story = T{9013623, "     With each day that passes we are learning more and more about the new world around us, but this doesn't mean that we've learned a single iota about the land next to us.  Our surface deposits are great, but when are we going to probe beyond the surface?  These piddly deposits will only serve our needs in the short term.  In the long term, we need to bore.  We need to go deep."}
@@ -37,9 +37,9 @@ local function CheckStory2()
 	then
 		local LeaderName = MartianTribune.LeaderName
 		local LeaderTitle = MartianTribune.LeaderTitle
-		local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+		local AddTopStory = MartianTribuneMod.Functions.AddTopPotentialStory
 
-		AddStory({
+		AddTopStory({
 			key = Key2,
 			title = T{9013774, "Hack the planet!"},
 			story = T{9013775, "    Our primary manifesto as a society is to populate the Red Planet.  Someone should remind <MTLeaderTitle> <MTLeader> about that.  They seem to think that scanning the surface and finding suitable resources and dome locations serves no particular purpose.  Have you seen our metals supply lately?  This water isn't going to last forever, you know.  We need more Sensor Towers.  When will we learn from the past?  The time is now!  This planet is ours for the taking, but only if we know what's out there!", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName}

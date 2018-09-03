@@ -25,7 +25,7 @@ local function CheckStory()
 		if #domesWithoutFood > 0 then
 			local Dome = table.rand(domesWithoutFood)
 			local DomeName = IsValid(Dome) and Dome.name or T{9013838, "dome without food"}
-			local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+			local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
 			local random_num = Random(1, 2)
 
 			if random_num == 1 then
@@ -36,13 +36,13 @@ local function CheckStory()
 				local BotanistName = IsValidColonist(Botanist) and Botanist.name
 					or T{9013688, "random botanist"}
 
-				AddStory({
+				AddEngStory({
 					key = Key1,
 					title = T{9013839, "Tighten Your Belts"},
 					story = T{9013840, "     <MTFoodDome> is on an unanticipated diet today as their food supply was recently destroyed as the harsh Martian winds blew so much dust into it as to make it inedible and irrecoverably contaminated.  The <MTLeaderTitle> has promised that <MTFoodBotanist> is looking into the issue and food stores will be replenished shortly, but only time will tell.", MTFoodDome = DomeName, MTLeaderTitle = LeaderTitle, MTFoodBotanist = BotanistName}
 				})
 			else
-				AddStory({
+				AddEngStory({
 					key = Key2,
 					title = T{9013841, "Colonists Starving in <MTFoodDome>", MTFoodDome = DomeName},
 					story = T{9013842, "     Starvation has set in on an already beleaguered <MTFoodDome>.  Please send any stores you have set aside to us, if you have them, and we will be sure to redistribute them ASAP.", MTFoodDome = DomeName}

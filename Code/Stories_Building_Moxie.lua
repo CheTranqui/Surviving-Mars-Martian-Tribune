@@ -6,8 +6,8 @@ local function CheckStory()
 	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	
 	if not Sent[Key1] and UICity.labels.MOXIE ~= nil then
-		local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
-		AddStory({
+		local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
+		AddEngStory({
 			key = Key1,
 			title = T{9013610, "Moxie: Martian Magic"},
 			story = T{9013611, "     This morning marks a milestone in the Martian memoirs. Moxie, the magic Martian machine makes mini mistrals, managing to maximise 02 from the mainly CO2 medium of Mars. Magnificent."}

@@ -15,9 +15,9 @@ local function CheckStory()
 			and consumed > 0
 			and (data.Food / consumed) <= 1
 		then
-			local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+			local AddTopStory = MartianTribuneMod.Functions.AddTopPotentialStory
 
-			AddStory({
+			AddTopStory({
 				key = Key1,
 				title = T{9013847, "Starving Colonists Create Alternatives"},
 				story = T{9013848, "     Colonists are starving and have begun to pass around recipes calling for Martian dust in an attempt to not starve. Recipes such as roast dust, and dustloaf are becoming more popular, but botonists are declaring that not only are they disgusting, but they also have zero nutritional value. Best to stay away from this series of quirky innovative recipes."}

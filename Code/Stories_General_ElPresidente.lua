@@ -10,9 +10,9 @@ local function CheckStory()
 	if not Sent[Key1] and IsValidColonist(LeaderColonist) then
 		local LeaderName = MartianTribune.LeaderName
 		local LeaderTitle = MartianTribune.LeaderTitle
-		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
+		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 
-		AddStory({
+		AddTopStory({
 			key = Key1,
 			title = T{9013585, "El Presidente to Visit Mars"},
 			story = T{9013586, "     The self-proclaimed El Presidente of Cayo de Fortuna has decided on an official visit to Mars.  He comes with hopes of meeting with <MTLeaderTitle> <MTLeader> and brokering a potential trade deal.", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName}

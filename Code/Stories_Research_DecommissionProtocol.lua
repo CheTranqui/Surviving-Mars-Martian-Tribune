@@ -11,16 +11,16 @@ local function CheckStory()
 	and not Sent[Key1]
 	and not Sent[Key2]
 	then
-		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
+		local AddEngStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local random_num = Random(1,2)
 		if random_num == 1 then
-			AddStory({
+			AddEngStory({
 				key = Key1,
 				title = T{9013537, "Drones Reminded That Structure Shells Look Silly"},
 				story = T{9013538, "     Drones on Mars Have received a software upgrade that reminds them that leaving the shell of a former structure looks messy, unkept and serves no purpose, thus it is ok for them to remove the shell and make the surface look nice again.  We simply have to say \"please\", is all."}
 			})
 		else
-			AddStory({
+			AddEngStory({
 				key = Key2,
 				title = T{9013539, "Decommissioning Buildings Necessary for Colonial Advancement"},
 				story = T{9013540, "     <MTSponsor> has announced that some of the buildings made on Mars may need to not only be salvaged but entirely decommissioned and destroyed in order to pave the way for future construction. Drones have now been updated with the necessary tools to perform this function whenever instructed. Please be purposeful in making such requests.  All requests to decommission Spacebars will automatically be refused.", MTSponsor = Sponsor}

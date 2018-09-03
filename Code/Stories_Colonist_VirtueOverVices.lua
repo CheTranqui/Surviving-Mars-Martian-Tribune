@@ -18,9 +18,9 @@ local function CheckStory()
 		then
 			local LeaderName = MartianTribune.LeaderName
 			local LeaderTitle = MartianTribune.LeaderTitle
-			local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+			local AddTopStory = MartianTribuneMod.Functions.AddTopPotentialStory
 
-			AddStory({
+			AddTopStory({
 				key = Key1,
 				title = T{9013664, "Virtue Over Vices"},
 				story = T{9013665, "     The stresses of colonizing a new planet have clearly taken their toll on <MTLeaderTitle> <MTLeader> as the foolishness of last night's escapades will not be long forgotten.  <MTLeaderTitle>, learn to control your vices better before they take us all down with you!  If things don't change soon, it might be time to start looking for a new leader.", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName},

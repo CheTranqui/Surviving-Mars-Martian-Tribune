@@ -10,8 +10,8 @@ local function CheckStory()
 		and #UICity.labels.Tunnel > 0
 	then
 		local MartianTribuneMod = MartianTribuneMod
-		local AddStory = MartianTribuneMod.Functions.AddEngFreeStory
-		AddStory({
+		local AddEngStory = MartianTribuneMod.Functions.AddEngFreeStory
+		AddEngStory({
 			key = Key1,
 			title = T{9013857, "The Guangzhou's Got Nothing On Mars!"},
 			story = T{9013858, "     Earth's Guangzhou Metro might be the longest underground transit tunnel on Earth, but even the longest Earth tunnel has nothing on our Martian tunnels.  With all that iron and nickel in the soil, our newly built tunnel is truly a feat of Martian engineering left unrivaled in the solar system!"}

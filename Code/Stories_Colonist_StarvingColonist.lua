@@ -21,10 +21,10 @@ local function CheckStory(colonist)
 			and consumed > 0
 			and (data.Food / consumed) >= const.MinDaysFoodSupplyBeforeNotification
 		then
-			local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
+			local AddSocialStory = MartianTribuneMod.Functions.AddSocialFreeStory
 			local Name = colonist.name
 
-			AddStory({
+			AddSocialStory({
 				key = Key1,
 				title = T{9013849, "PSA: Survival Comes First"},
 				story = T{9013850, "As are all, we here at the Martian Tribune are working hard to make Mars our new home and tame the Red Planet.  With so many tasks vying for our attention, we know that Mars can be a very distracting and chaotic place to live. That said, food IS necessary to survive. Please, do not forget to pick up your rations every day. Those green boxes are not just for decoration!"}

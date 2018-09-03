@@ -12,8 +12,8 @@ local function CheckStory()
 		if DroneRatio < 12 then
 			local LeaderTitle = MartianTribune.LeaderTitle
 			local LeaderName = MartianTribune.LeaderName
-			local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
-			AddStory({
+			local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
+			AddEngStory({
 				key = Key1,
 				title = T{9013593, "A Clinic on Inefficiency"},
 				story = T{9013594, "     Attending a clinic is often a place to learn, unless you're <MTLeaderTitle> <MTLeader>.  Apparently it's expected that resources will move themselves and planning is just plain overrated.  <MTLeaderTitle>, we need more drones and we need them yesterday!  I only hope that everyone receives their food and other essential supplies in time.", MTLeaderTitle = LeaderTitle, MTLeader = LeaderName}

@@ -11,14 +11,14 @@ local function CheckStory1()
 
 		if DomeBuiltDay and UICity.day >= (DomeBuiltDay + 10) then
 			local MartianTribuneMod = MartianTribuneMod
-			local AddStory = MartianTribuneMod.Functions.AddSocialFreeStory
+			local AddSocialStory = MartianTribuneMod.Functions.AddSocialFreeStory
 			local GetColonistWithoutTrait = MartianTribuneMod.Functions.GetColonistWithoutTrait
 			local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 			local Colonist = GetColonistWithoutTrait("Martianborn")
 			local Name = (Colonist and Colonist.name) or T{9013714, "random earthling"}
 			local LeaderTitle = MartianTribune.LeaderTitle
 
-			AddStory({
+			AddSocialStory({
 				key = Key1,
 				title = T{9013710, "Earthling Causes Delay"},
 				story = T{9013711, "     If you've been wondering why no new domes have been built of late, look no further than <MTEarthlingDelayName>.  Apparently they're now taking signatures for a petition to halt all mining operations, claiming them to be \"raping and pillaging Mars of its natural resources.\"  The <MTLeaderTitle> has taken note of <MTEarthlingDelayName> and should be releasing a statement later this very sol.", MTEarthlingDelayName = Name, MTLeaderTitle = LeaderTitle},
@@ -40,13 +40,13 @@ local function CheckStory2()
 	if not Sent[Key2] and Published[Key1] and UICity.day >= (Published[Key1] + 5) then
 		local MartianTribuneMod = MartianTribuneMod
 		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		local AddSocialStory = MartianTribuneMod.Functions.AddSocialPotentialStory
 		local Sponsor = MartianTribune.Sponsor
 		local Name = (IsValidColonist(DomeDelay1Story.colonist) and DomeDelay1Story.colonist.name)
 			or DomeDelay1Story.colonist_name
 			or T{9013714, "random earthling"}
 
-		AddStory({
+		AddSocialStory({
 			key = Key2,
 			title = T{9013712, "Earthling Claims To Be Misunderstood"},
 			story = T{9013713, "     As proof that rumors travel faster than light, word of <MTEarthlingDelayName>'s attempt to halt mining operations has already reached <MTSponsor>'s ears on Earth.  While our sponsor yet to make any formal declarations, <MTEarthlingDelayName> has already gone on the record to declare that it was all a giant April Fool's Day joke.  Whether it is or not, it is not April, and this reporter is not amused.", MTEarthlingDelayName = Name, MTSponsor = Sponsor}

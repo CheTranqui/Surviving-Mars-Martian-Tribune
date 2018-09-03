@@ -19,10 +19,10 @@ local function CheckStory()
 		local Colonist = GetColonistMatchingTraits(IncludedTraits, ExcludedTraits)
 
 		if IsValidColonist(Colonist) then
-			local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+			local AddSocialStory = MartianTribuneMod.Functions.AddSocialPotentialStory
 			local Name = Colonist.name or T{9013870, "whiner colonist"}
 
-			AddStory({
+			AddSocialStory({
 				key = Key1,
 				title = T{9013871, "<WhinerColonist> Confused by Lack of Submarines", WhinerColonist = Name},
 				story = T{9013872, "     <WhinerColonist> has declared repeatedly that on Earth they were one of the best submarine operators in the entire fleet. They moved to Mars because we had a shortage of submarine operators. We are not sure how much water <WhinerColonist> thought was on Mars, but it is definitely not enough to warrant a submarine!  ...unless it's a really, really small one.", WhinerColonist = Name}

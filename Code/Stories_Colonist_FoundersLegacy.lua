@@ -35,9 +35,9 @@ local function CheckStory()
 			local FoundersLegacyDome = (Dome and Dome.name) or T{9013749, "every dome"}
 			local FoundersLegacyBuilding = GetFoundersLegacyBuilding(FoundersLegacyDome)
 			local NumFounders = MartianTribune.Count.NumFounders
-			local AddStory = MartianTribuneMod.Functions.AddTopPotentialStory
+			local AddTopStory = MartianTribuneMod.Functions.AddTopPotentialStory
 
-			AddStory({
+			AddTopStory({
 				key = Key1,
 				title = T{9013747, "The Founder's Legacy"},
 				story = T{9013748, "     There are only <MTFoundersCount> people who will ever be known as Founders.  These extraordinary men and women risked their lives to venture into the Final Frontier and gain a foothold on the Red Planet.  They toiled day and night, working non-stop to ensure constant and consistent air flow, water pressure, power generation, and more.  As we go about our sol we must remember to take a moment and honor those who came before us, those who made all that we see around us possible.  We will be celebrating Founder's Sol at noon tomorrow at the <MTFoundersLegacyBuilding> in <MTFoundersLegacyDome> where we will be taking <MTFoundersCount> minutes of silence in memory of these most excellent of individuals.", MTFoundersCount = NumFounders, MTFoundersLegacyBuilding = FoundersLegacyBuilding, MTFoundersLegacyDome = FoundersLegacyDome}

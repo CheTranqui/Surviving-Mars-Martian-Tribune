@@ -7,7 +7,7 @@ local function CheckStory()
 
 	if not Sent[Key1] and not Removed[Key1] and MapCount("map", "Drone") > 2 then
 		local MartianTribuneMod = MartianTribuneMod
-		local AddStory = MartianTribuneMod.Functions.AddTopFreeStory
+		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 		local GetRandomDroneName = MartianTribuneMod.Functions.GetRandomDroneName
 		local Drone1 = GetRandomDroneName()
 		local Drone2 = GetRandomDroneName()
@@ -15,7 +15,7 @@ local function CheckStory()
 		while Drone2 == Drone1 do
 			Drone2 = GetRandomDroneName()
 		end
-		AddStory({
+		AddTopStory({
 			key = Key1,
 			title = T{9013589, "<MTDrone1> Breakdown", MTDrone1 = Drone1},
 			story = T{9013590, "     <MTDrone1> suffered a minor fault to its front left wheel yesterday causing the drone to be unable to complete tasks for the sol. The lucky drone had friends, however, namely <MTDrone2> who noticed <MTDrone1> struggling and helped to repair their wheel before sol's end.", MTDrone1 = Drone1, MTDrone2 = Drone2}

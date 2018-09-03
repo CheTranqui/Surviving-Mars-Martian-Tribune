@@ -10,8 +10,8 @@ local function CheckStory()
 	and ColonistsHaveArrived
 	and UICity.labels.MartianUniversity ~= nil
 	then
-		local AddStory = MartianTribuneMod.Functions.AddSocialPotentialStory
-		AddStory({
+		local AddSocialStory = MartianTribuneMod.Functions.AddSocialPotentialStory
+		AddSocialStory({
 			key = Key1,
 			title = T{9013678, "MRU Opens Its Doors"},
 			story = T{9013679, "     After months of construction and planning the Martian Red University has opened its doors to Martians and colonists alike offering classes in Martian Botony, Martian Engineering, Martian Geology, Martian Medical Care, and Martian Science.  MRU is already being recognized as an accredited third level educational institute throughout the entire planet. Sign up now and become marginally less useless today!"}

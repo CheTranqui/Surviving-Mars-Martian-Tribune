@@ -18,7 +18,7 @@ local function CheckStory()
 
 			-- If stored resources run out within 12 hours
 			if PowerHoursRemaining < 12 then
-				local AddStory = MartianTribuneMod.Functions.AddEngPotentialStory
+				local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
 				local Sent = MartianTribune.Sent
 
 				MartianTribune.Count.LastPowerIssue = UICity.day
@@ -28,14 +28,14 @@ local function CheckStory()
 					or Random(1,2)
 
 				if random_num == 1 then
-					AddStory({
+					AddEngStory({
 						key = Key1,
 						title = T{9013595, "Word of the Day:  Power Conservation"},
 						story = T{9013596, "     Leadership has declared it a non-issue, but the flickering lights are not your imagination: our power infrastructure is failing us and no longer meets the burgeoning demands of our colony.  Please remember to turn off all lights and electronics when not in use.  Your neighbors will thank you for it."}
 					})
 				else
 					local LeaderTitle = MartianTribune.LeaderTitle
-					AddStory({
+					AddEngStory({
 						key = Key2,
 						title = T{9013597, "Power Grid Depleted"},
 						story = T{9013598, "     If it feels a little colder in your dome today than yesterday, that may be because our power grid is maxed and the <MTLeaderTitle> seems to be doing nothing about it.  Dress warmly, this isn't the first day the power's gone out and it likely won't be the last.", MTLeaderTitle = LeaderTitle}
