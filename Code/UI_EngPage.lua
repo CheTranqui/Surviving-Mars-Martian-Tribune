@@ -17,6 +17,7 @@ function OnMsg.MartianTribuneShowEngPage()
 			choice3 = T{9013518, "Return to Front Page"},
 			choice4 = T{9013514, "Close"},
 			image = mod_dir.."UI/Newspaper_Message_Image.tga",
+			start_minimized = false,
 		} -- params
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
