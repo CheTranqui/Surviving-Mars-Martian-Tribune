@@ -69,8 +69,8 @@ local function ShowNotification()
 		Subtitle = T{9014490, "Review News Archives"}
 		-- Change blurb for TopFPStory if all stories are "no news".
 		MartianTribune.TopFPStory = {
-			key = "NoNews",
-			title = T{9013764, "No news of interest at this point in time."},
+			key = MartianTribuneMod.News.NoNews.key,
+			title = MartianTribuneMod.News.NoNews.title,
 			story = T{9014491, "While there are yet so many amazing things happening here on Mars, we must still give our reporters time off on occasion. Keep your eyes open for new stories in the future, but for the time being our archives are open!"},
 		}
 	end
