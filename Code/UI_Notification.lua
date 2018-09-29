@@ -68,7 +68,11 @@ local function ShowNotification()
 		-- Change subtitle if all stories are "no news" to indicate that there isn't a new story to view
 		Subtitle = T{9014490, "Review News Archives"}
 		-- Change blurb for TopFPStory if all stories are "no news".
-		MartianTribune.TopFPStory = T{9014491, "While there are yet so many amazing things happening here on Mars, we must still give our reporters time off on occasion. Keep your eyes open for new stories in the future, but for the time being our archives are open!"}
+		MartianTribune.TopFPStory = {
+			key = "NoNews",
+			title = T{9013764, "No news of interest at this point in time."},
+			story = T{9014491, "While there are yet so many amazing things happening here on Mars, we must still give our reporters time off on occasion. Keep your eyes open for new stories in the future, but for the time being our archives are open!"},
+		}
 	end
 	AddCustomOnScreenNotification("MartianTribune",
 		T{9014487, "The Martian Tribune"},
