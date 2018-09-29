@@ -61,9 +61,9 @@ local function ShowNotification()
 	local mod_dir = MartianTribuneMod.mod_dir
 	local Sol = UICity.day
 	local Subtitle = T{9014488, "Sol <MTSol> AMC", MTSol=Sol}
-	if MartianTribune.TopFPStory == MartianTribuneMod.News.NoNews
-		 and MartianTribune.EngStory == MartianTribuneMod.News.NoNews
-		 and MartianTribune.SocialStory == MartianTribuneMod.News.NoNews
+	if MartianTribune.TopFPStory.key == MartianTribuneMod.News.NoNews.key
+		 and MartianTribune.EngStory.key == MartianTribuneMod.News.NoNews.key
+		 and MartianTribune.SocialStory.key == MartianTribuneMod.News.NoNews.key
 	then
 		-- Change subtitle if all stories are "no news" to indicate that there isn't a new story to view
 		Subtitle = T{9014490, "Review News Archives"}
