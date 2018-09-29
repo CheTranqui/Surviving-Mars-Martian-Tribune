@@ -56,11 +56,23 @@ end
 
 -- This is the Notification for a new release
 local function ShowNotification()
+	local MartianTribune = MartianTribune
+	local MartianTribuneMod = MartianTribuneMod
 	local mod_dir = MartianTribuneMod.mod_dir
 	local Sol = UICity.day
+	local Subtitle = T{9014488, "Sol <MTSol> AMC", MTSol=Sol}
+	if MartianTribune.TopFPStory == MartianTribuneMod.News.NoNews
+		 and MartianTribune.EngStory == MartianTribuneMod.News.NoNews
+		 and MartianTribune.SocialStory == MartianTribuneMod.News.NoNews
+	then
+		-- Change subtitle if all stories are "no news" to indicate that there isn't a new story to view
+		Subtitle = T{9014490, "Review News Archives"}
+		-- Change blurb for TopFPStory if all stories are "no news".
+		MartianTribune.TopFPStory = T{9014491, "While there are yet so many amazing things happening here on Mars, we must still give our reporters time off on occasion. Keep your eyes open for new stories in the future, but for the time being our archives are open!"}
+	end
 	AddCustomOnScreenNotification("MartianTribune",
 		T{9014487, "The Martian Tribune"},
-		T{9014488, "Sol <MTSol> AMC", MTSol=Sol},
+		Subtitle,
 		mod_dir.."UI/MT_Notification_Icon.tga",  --  Here, we concatenate to import the custom notification icon
 		function() Msg("MartianTribuneShowFrontPage") end,  -- this function gets called OnClick of this notification icon
 		{
