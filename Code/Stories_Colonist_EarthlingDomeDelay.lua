@@ -42,8 +42,11 @@ local function CheckStory2()
 		local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
 		local AddSocialStory = MartianTribuneMod.Functions.AddSocialPotentialStory
 		local Sponsor = MartianTribune.Sponsor
-		local Name = (IsValidColonist(DomeDelay1Story.colonist) and DomeDelay1Story.colonist.name)
-			or DomeDelay1Story.colonist_name
+		local FindStoryInListByKey = MartianTribuneMod.Functions.FindStoryInListByKey
+		local index, DomeDelay1Story = FindStoryInListByKey(MartianTribune.SocialArchive, Key1)
+		local Name =
+			(DomeDelay1Story and IsValidColonist(DomeDelay1Story.colonist) and DomeDelay1Story.colonist.name)
+			or (DomeDelay1Story and DomeDelay1Story.colonist_name)
 			or T{9013714, "random earthling"}
 
 		AddSocialStory({
