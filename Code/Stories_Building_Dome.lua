@@ -1,6 +1,7 @@
 local Key1 = "DomeCrack"
+local Key2 = "WhyDomes"
 
-local function CheckStory(dome)
+local function CheckStory1(dome)
 	local Sent = MartianTribune.Sent
 
 	if not Sent[Key1] and IsValid(dome) then
@@ -23,5 +24,25 @@ function Dome:RemoveFixedFracture(...)
 	else
 		ModLog("Original Dome:RemovedFixedFracture() function not found!")
 	end
-	CheckStory(self)
+	CheckStory1(self)
+end
+
+local function CheckStory2()
+	local MartianTribune = MartianTribune
+	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
+	local Sent = MartianTribune.Sent
+
+	if not Sent[Key2] and ColonistsHaveArrived then
+		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
+
+		AddTopStory({
+			key = Key2,
+			title = T{9013890, "Why We Live In Domes"},
+			story = T{9013891, "     Have you ever wondered why it is we live in domes today? The primary concerns for housing on Mars are appropriate atmospheric pressurization, temperatures, and radiation protection. While closing off and pressurizing caves was considered, the greenhouse effect of domes was deemed too valuable to ignore."}
+		})
+	end
+end
+
+function OnMsg.MartianTribuneCheckStories()
+	CheckStory2()
 end

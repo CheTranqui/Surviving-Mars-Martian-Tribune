@@ -1,8 +1,9 @@
 local TechId = "SoilAdaptation"
 local Key1 = "SoilAdaptationTech1"
 local Key2 = "SoilAdaptationTech2"
+local Key3 = "MartianSoil"
 
-local function CheckStory()
+local function CheckStory1()
 	local Sent = MartianTribune.Sent
 	
 	if UICity.tech_status[TechId].researched ~= nil
@@ -27,12 +28,29 @@ local function CheckStory()
 	end
 end
 
+local function CheckStory2()
+	local MartianTribune = MartianTribune
+	local Published = MartianTribune.Published
+	local Sent = MartianTribune.Sent
+
+	if (Published[Key1] or Published[Key2]) and not Sent[Key3] then
+		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
+
+		AddTopStory({
+			key = Key3,
+			title = T{9013896, "Martian Soil Good For Farming"},
+			story = T{9013897, "     A study at Villanova University in 2017 utilized simulated Martian Soil to test a variety of crops for potential in Martian agriculture and the results were promising. Lettuce grew particularly well, along with numerous other crops, though potatoes may not be as common in the future as they are with our imported Earthling soil now. ...just be sure to wash the food before eating as that percolate does mankind no good to ingest."}
+		})
+	end
+end
+
 function OnMsg.TechResearched(tech_id, city, first_time)
 	if tech_id == TechId then
-		CheckStory()
+		CheckStory1()
 	end
 end
 
 function OnMsg.MartianTribuneCheckStories()
-	CheckStory()
+	CheckStory1()
+	CheckStory2()
 end

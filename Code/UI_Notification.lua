@@ -71,7 +71,7 @@ local function ShowNotification()
 		MartianTribune.TopFPStory = {
 			key = MartianTribuneMod.News.NoNews.key,
 			title = MartianTribuneMod.News.NoNews.title,
-			story = T{9014491, "While there are yet so many amazing things happening here on Mars, we must still give our reporters time off on occasion. Keep your eyes open for new stories in the future, but for the time being our archives are open!"},
+			story = T{9014491, "     While there are yet so many amazing things happening here on Mars, we must still give our reporters time off on occasion. Keep your eyes open for new stories in the future, but for the time being our archives are open!"},
 		}
 	end
 	AddCustomOnScreenNotification("MartianTribune",
