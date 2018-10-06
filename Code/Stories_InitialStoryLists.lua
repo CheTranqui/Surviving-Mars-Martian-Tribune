@@ -57,6 +57,30 @@ local function AddTopFreeStories()
 		title = T{9013806, "Were We Really The First?"},
 		story = T{9013807, "     Reports are coming in that <MTSponsor> may not, in fact, be the first to have arrived on Mars. It is stated that an ancient Viking ship was found near one of our scout's landing sites that contained manuscripts stating that \"the Blue Land has been conquered in the name of Ulfric the Great.\" While no other evidence of this former civilzation has been found, it is a clear reminder: we are not alone.", MTSponsor = Sponsor}
 	})
+
+	AddTopStory({
+		key = "OlympusMons",
+		title = T{9013853, "In The Shadow Of Olympus Mons"},
+		story = T{9013854, "     With a height of nearly 25km, Olympus Mons is approximately 2.5 times as tall as its less impressive Earthen counterpart, Mount Everest. At this time of the year, as the sun drops below the peak of Olympus Mons, its shadow covers much of the surface and night comes early. Olympus Mons is located at 18N, 133W."}
+	})
+
+	AddTopStory({
+		key = "MarsMariana",
+		title = T{9013886, "Mars' Own Mariana Trench"},
+		story = T{9013887, "     Formed long ago by a crack in the crust of the Red Planet, Valles Marineris is the deepest known canyon in the Milky Way. Found at 13S, 65W, this enormous canyon measures nearly 4000km long and reaches a depth of 7km at one point. This is yet another long standing record that now officially belongs to Mars."}
+	})
+
+	AddTopStory({
+		key = "ExplorationContinues",
+		title = T{9013888, "Earthling Martian Exploration Continues"},
+		story = T{9013889, "     Despite the success of our budding colonization of Mars, NASA continues its diligent work towards the Mars 2020 mission. Launching from Cape Canaveral in the late summer of 2020 the new rover incorporates a 300 watt Moxie, a spectrometer, radar equipment, drilling and storage, along with several other advanced imaging devices."}
+	})
+
+	AddTopStory({
+		key = "SoundOfMars",
+		title = T{9013900, "The Sound Of Mars"},
+		story = T{9013901, "     The 1999 Mars Polar Lander was the only rover that was sent with a microphone equipped. Due to the crash landing that December, we've been unable to gather data from it. Despite this, simulations have been made with the requisite 1% of Earth's pressurization. The recordings are surprisingly easy to pick up by the human ear, if sounding a bit quieter than expected."}
+	})
 end
 
 local function AddEngFreeStories()

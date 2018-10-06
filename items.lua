@@ -220,12 +220,20 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories_Drone_DroneShortage.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_General_Aurorae",
+	'FileName', "Code/Stories_General_Aurorae.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_General_CookingFire",
 	'FileName', "Code/Stories_General_CookingFire.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_General_DomeBirthControl",
 	'FileName', "Code/Stories_General_DomeBirthControl.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_General_DustStorms",
+	'FileName', "Code/Stories_General_DustStorms.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_General_ElonMusk",
