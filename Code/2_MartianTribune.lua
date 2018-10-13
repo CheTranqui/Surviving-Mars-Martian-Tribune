@@ -34,9 +34,12 @@ local function SetupSaveGameData()
 			SponsorName = false,
 			ColonistsHaveArrived = false
 		}
-		if UICity.day > 1
-			and UICity.labels.Colonist ~= nil
-			and #UICity.labels.Colonist > 0
+
+		if oldData
+			and oldData.UICity
+			and oldData.UICity.day > 1
+			and oldData.UICity.labels.Colonist ~= nil
+			and #oldData.UICity.labels.Colonist > 0
 			and oldData and not oldData.g_MTTopArchive
 		then
 			MartianTribune.ColonistsHaveArrived = true
@@ -52,10 +55,10 @@ local function SetupSaveGameData()
 				or MissionSponsor.name == "CNSA" and 22 -- China has an extra 10 passengers by default
 				or 12 -- normal
 			if founders == 0 then
-				MartianTribune.Count.FoundersDeadSol = UICity.day
+				MartianTribune.Count.FoundersDeadSol = oldData.UICity.day
 			end
 			-- Make sure a "new leader" message gets sent for the first leader
-			MartianTribune.Count.LeaderDeadSol = UICity.day - 4
+			MartianTribune.Count.LeaderDeadSol = oldData.UICity.day - 4
 		end
 	else
 		MartianTribune = oldData.MartianTribune
@@ -364,4 +367,10 @@ function OnMsg.NewDay()
 		-- MartianTribune.Count.LastPublished = UICity.hour
 		MartianTribune.Count.LastPublished = UICity.day
 	end
+end
+
+-- Fire a message that other mods can listen for to identify that the Martian Tribune
+-- Mod has been loaded and thus its functions are available.
+function OnMsg.ModsLoaded()
+	Msg("MartianTribuneModLoaded")
 end
