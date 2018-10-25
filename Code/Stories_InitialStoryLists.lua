@@ -72,8 +72,8 @@ local function AddTopFreeStories()
 
 	AddTopStory({
 		key = "ExplorationContinues",
-		title = T{9013888, "Earthling Martian Exploration Continues"},
-		story = T{9013889, "     Despite the success of our budding colonization of Mars, NASA continues its diligent work towards the Mars 2020 mission. Launching from Cape Canaveral in the late summer of 2020 the new rover incorporates a 300 watt Moxie, a spectrometer, radar equipment, drilling and storage, along with several other advanced imaging devices."}
+		title = T{9013888, "Earthling Martian Exploration: The Mars 2020 Mission"},
+		story = T{9013889, "     Despite the success of our budding colonization of Mars, NASA continued its diligent work towards the Mars 2020 mission. Launching from Cape Canaveral in the late summer of 2020 the new rover incorporated, a spectrometer, radar equipment, drilling and storage, and several other advanced imaging devices, along with a new test unit, the \"MOXIE\", a 300 watt device that they were testing to generate on the Red Planet for the very first time.."}
 	})
 
 	AddTopStory({
