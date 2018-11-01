@@ -1,6 +1,8 @@
 local Key1 = "NoHumans"
 local VikingsKey1 = "VikingsFirst"
 local VikingsKey2 = "AtlantisFound"
+local AgingKey1 = "AgingGracefully"
+local AgingKey2 = "WarmerWeather"
 
 local function AddTopPotentialStories()
 	local MartianTribune = MartianTribune
@@ -81,6 +83,18 @@ local function AddTopFreeStories()
 		title = T{9013900, "The Sound Of Mars"},
 		story = T{9013901, "     The 1999 Mars Polar Lander was the only rover that was sent with a microphone equipped. Due to the crash landing that December, we've been unable to gather data from it. Despite this, simulations have been made with the requisite 1% of Earth's pressurization. The recordings are surprisingly easy to pick up by the human ear, if sounding a bit quieter than expected."}
 	})
+
+	AddTopStory({
+		key = AgingKey1,
+		title = T{9013902, "Aging Gracefully Is A Thing"},
+		story = T{9013903, "     I’m sure you’ve noticed the longer workdays and wondered how long until winter was finally over… that’s all due to the greater distance Mars is from the Sun than what you might be used to on Earth. A Sol (short for ‘solar day’) is nearly 44 minutes longer here than on Earth, and it takes a wild 687 Earth days for it to orbit the sun (668 Sol). Thankfully, since the axial tilt of Mars is also similar to that of Earth (24.5 degrees vs Earth’s 23.5), we still get each of the distinct seasons. On the upside, while your birthday might only happen half as often here, you’re also only half the age!"}
+	})
+
+	AddTopStory({
+		key = "MarsName",
+		title = T{9013906, "How Mars Got Its Name"},
+		story = T{9013907, "     The Romans left an indelible impact upon Earthen history, such a great impact that they even determined the name of various elements of our solar system. Even without telescopes they identified each of the brightest five planets, alongside the Moon and the Sun, of course. Each of these planets was then named after gods, the most important of which was the god of war, Mars, who rode into battle on a chariot pulled by the horses Phobos and Deimos (meaning ‘fear’ and ‘panic’). May the foreboding names of our new planet and moons not be indicative of our imminent future."}
+	})
 end
 
 local function AddEngFreeStories()
@@ -159,13 +173,25 @@ local function CheckChainStories()
 	local MartianTribune = MartianTribune
 	local Published = MartianTribune.Published
 	local Sent = MartianTribune.Sent
+	local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 
 	if Published[VikingsKey1] and not Sent[VikingsKey2] then
-		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 		AddTopStory({
 			key = VikingsKey2,
 			title = T{9013851, "Atlantis has been found!"},
 			story = T{9013852, "     The long lost city of Atlantis, thought to be nothing but rumor and legend, has been found, and it is where no-one expected to find it - around 15KM below the surface of Mars. The legend of the Lost City that sunk beneath the blue sea may well have been mistranslated from ancient Viking manuscripts, who meant to say it sunk beneath the dust of the red planet. In retrospect, that was an easy mistake to make."}
+		})
+	end
+
+	if Published[AgingKey1]
+		and not Sent[AgingKey2]
+		and UICity
+		and UICity.day >= (Published[AgingKey1] + 10)
+	then
+		AddTopStory({
+			key = AgingKey2,
+			title = T{9013904, "Midday Highs and Overnight Lows"},
+			story = T{9013905, "     This week may very well be the best yet temperature-wise. Expect to see midday highs right around 20 degrees Celsius for most of the week, but don’t count on it staying there as the moment that the Sun recedes lows will plummet, with the overnight low expected to be approximately -70C. Let’s just hope that the dust storms and meteor showers give us a chance to enjoy this warmer, more predictable weather!"}
 		})
 	end
 end
