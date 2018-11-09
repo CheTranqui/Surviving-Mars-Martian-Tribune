@@ -15,7 +15,7 @@ local function CheckStory1()
 end
 
 function OnMsg.RocketLaunchFromEarth(rocket)
-	if rocket.cargo > 0 then
+	if #rocket.cargo > 0 then
 		for i,cargo in ipairs(rocket.cargo) do
 			if cargo.class == "Passengers" then
 				CheckStory1()
