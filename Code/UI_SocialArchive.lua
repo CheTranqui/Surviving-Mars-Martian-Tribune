@@ -27,7 +27,14 @@ function OnMsg.MartianTribuneShowSocialArchive(index)
 			choice4 = T{9013514, "Close"},
 			image = mod_dir.."UI/Newspaper_Message_Image.tga",
 			start_minimized = false,
+			disabled = { false, false, false, false }
 		} -- params
+		if (index <= 1) then
+			params.disabled[1] = true
+		end
+		if (index >= #SocialArchive) then
+			params.disabled[2] = true
+		end
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
 			Msg("MartianTribuneShowSocialArchive", Max(index - 2, 1))  -- reopens Social Story Archives popup

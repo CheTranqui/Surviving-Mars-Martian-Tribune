@@ -27,7 +27,14 @@ function OnMsg.MartianTribuneShowTopArchive(index)
 			choice4 = T{9013514, "Close"},
 			image = mod_dir.."UI/Newspaper_Message_Image.tga",
 			start_minimized = false,
+			disabled = { false, false, false, false }
 		} -- params
+		if (index <= 1) then
+			params.disabled[1] = true
+		end
+		if (index >= #TopArchive) then
+			params.disabled[2] = true
+		end
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
 			Msg("MartianTribuneShowTopArchive", Max(index - 2, 1))  -- reopens Top Story Archive popup
