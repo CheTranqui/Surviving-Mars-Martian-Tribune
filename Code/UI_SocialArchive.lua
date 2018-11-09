@@ -30,7 +30,7 @@ function OnMsg.MartianTribuneShowSocialArchive(index)
 		} -- params
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
-			Msg("MartianTribuneShowSocialArchive", index - 2)  -- reopens Social Story Archives popup
+			Msg("MartianTribuneShowSocialArchive", Max(index - 2, 1))  -- reopens Social Story Archives popup
 		elseif choice == 2 then
 			Msg("MartianTribuneShowSocialArchive", Min(index + 2, #SocialArchive))
 		elseif choice == 3 then
