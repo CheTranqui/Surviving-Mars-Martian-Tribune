@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'id', "lf1iELO",
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
-	'version', 785,
+	'version', 786,
 	'lua_revision', 237920,
 	'code', {
 		"Code/1_Initialization.lua",
@@ -18,6 +18,7 @@ return PlaceObj('ModDef', {
 		"Code/SaveGameFixes_775_UpdateGlobals.lua",
 		"Code/SaveGameFixes_775_Upgrade.lua",
 		"Code/SaveGameFixes_776_Upgrade.lua",
+		"Code/SaveGameFixes_787_Upgrade.lua",
 		"Code/Stories_Building_Arcology.lua",
 		"Code/Stories_Building_ConcreteLove.lua",
 		"Code/Stories_Building_Diner.lua",

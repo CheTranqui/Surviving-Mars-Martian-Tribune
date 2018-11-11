@@ -1,11 +1,14 @@
 
 --  Engineering popup screen, accessed only via the FrontPagePopup
 function OnMsg.MartianTribuneShowEngPage()
-	local MartianTribuneMod = MartianTribuneMod
+	local MartianTribune = MartianTribune
 	local EngArchive = MartianTribune.EngArchive or empty_table
 	local TopFPStory = MartianTribune.TopFPStory
 	local EngStory = MartianTribune.EngStory
 	local SocialStory = MartianTribune.SocialStory
+
+	local MartianTribuneMod = MartianTribuneMod
+	local StoryImages = MartianTribuneMod.StoryImages
 	local mod_dir = MartianTribuneMod.mod_dir
 
 	CreateRealTimeThread(function()
@@ -16,7 +19,7 @@ function OnMsg.MartianTribuneShowEngPage()
 			choice2 = T{9013522, "View Current Social Story"},
 			choice3 = T{9013518, "Return to Front Page"},
 			choice4 = T{9013514, "Close"},
-			image = mod_dir.."UI/Newspaper_Message_Image.png",
+			image = StoryImages[EngStory.key] or mod_dir.."UI/Newspaper_Message_Image.png",
 			start_minimized = false,
 			no_ccc_button = true,
 		} -- params

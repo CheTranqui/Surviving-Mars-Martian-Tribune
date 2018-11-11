@@ -11,9 +11,12 @@ local function CheckStory()
 		local consumed = ResourceOverviewObj:GetFoodConsumedByConsumptionYesterday()
 		local data = next(ResourceOverviewObj.data) and ResourceOverviewObj.data
 
-		if data.Food > 0
-			and consumed > 0
-			and (data.Food / consumed) <= 1
+		if data.Food == 0
+			or (
+				data.Food > 0
+				and consumed > 0
+				and (data.Food / consumed) <= 1
+			)
 		then
 			local AddTopStory = MartianTribuneMod.Functions.AddTopPotentialStory
 
