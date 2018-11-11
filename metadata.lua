@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'id', "lf1iELO",
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
-	'version', 783,
+	'version', 784,
 	'lua_revision', 233467,
 	'code', {
 		"Code/1_Initialization.lua",
