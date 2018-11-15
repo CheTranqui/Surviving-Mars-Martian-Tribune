@@ -27,10 +27,17 @@ function OnMsg.MartianTribuneShowEngArchive(index)
 			choice4 = T{9013514, "Close"},
 			image = mod_dir.."UI/Newspaper_Message_Image.tga",
 			start_minimized = false,
+			disabled = { false, false, false, false }
 		} -- params
+		if (index <= 1) then
+			params.disabled[1] = true
+		end
+		if (index >= #EngArchive) then
+			params.disabled[2] = true
+		end
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
-			Msg("MartianTribuneShowEngArchive", index - 2)  -- reopens Engineering Story Archive popup
+			Msg("MartianTribuneShowEngArchive", Max(index - 2, 1))  -- reopens Engineering Story Archive popup
 		elseif choice == 2 then
 			Msg("MartianTribuneShowEngArchive", Min(index + 2, #EngArchive))
 		elseif choice == 3 then
