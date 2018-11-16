@@ -16,6 +16,7 @@ function OnMsg.MartianTribuneShowSocialPage()
 			choice4 = T{9013514, "Close"},
 			image = mod_dir.."UI/Newspaper_Message_Image.tga",
 			start_minimized = false,
+			no_ccc_button = true,
 		} -- params
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
