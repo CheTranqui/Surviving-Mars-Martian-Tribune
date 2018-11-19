@@ -1,3 +1,11 @@
+-- This function is used to check whether a particular story can be published right now.
+-- In some cases, a potential/free story may be eligible for release, but unsuitable to publish at the time when it gets chosen for publishing, for example a story about "warm weather" really shouldn't get published during a cold wave.
+local function CanPublishStory(story)
+	if story and story.canPublish then
+		return story.canPublish()
+	end
+	return true
+end
 
 -- This function is used to collect together the additional changes to be made to a story when it actually gets published. For example, setting the day that the story was shown, or pinning a colonist that the story relates to. It's used for all 3 of top stories, social stories, and engineering stories.
 local function SetStoryPublished(story, archive)
@@ -12,24 +20,45 @@ local function SetStoryPublished(story, archive)
 	return story
 end
 
+local function SelectNextAvailableStory(list, archive, initial_index)
+	local index = initial_index
+	local story = nil
+	while story == nil do
+		if CanPublishStory(list[index]) then
+			-- publish this story
+			story = SetStoryPublished(list[index], archive)
+			table.remove(list, index)
+			return story
+		elseif index < #list then
+			-- check the next story in the list
+			index = index + 1
+		else
+			-- wrap around to the start of the list
+			index = 1
+		end
+		-- Looped through all stories in the list without finding one we can publish
+		if index == initial_index then
+			return nil
+		end
+	end
+end
+
 -- Select a story from potential or free lists if one is available
 local function ChooseStory(archive, urgentList, potentialList, freeList)
-	local random_num, story
+	local story
 	if urgentList and #urgentList > 0 then
-		-- publish urgent stories in order of generation
-		story = SetStoryPublished(urgentList[1], archive)
-		table.remove(urgentList, 1)
+		-- publish urgent stories in order of generation provided that the story isn't blocked
+		story = SelectNextAvailableStory(urgentList, archive, 1)
 	elseif potentialList and #potentialList > 0 then
-		random_num = Random(1, #potentialList)
-		story = SetStoryPublished(potentialList[random_num], archive)
-		table.remove(potentialList, random_num)
+		story = SelectNextAvailableStory(potentialList, archive, Random(1, #potentialList))
 	elseif freeList and #freeList > 0 then
-		random_num = Random(1, #freeList)
-		story = SetStoryPublished(freeList[random_num], archive)
-		table.remove(freeList, random_num)
-	else
+		story = SelectNextAvailableStory(freeList, archive, Random(1, #freeList))
+	end
+
+	if story == nil then
 		story = MartianTribuneMod.News.NoNews
 	end
+
 	return story
 end
 
@@ -77,7 +106,7 @@ local function ShowNotification()
 	AddCustomOnScreenNotification("MartianTribune",
 		T{9014487, "The Martian Tribune"},
 		Subtitle,
-		mod_dir.."UI/MT_Notification_Icon.tga",  --  Here, we concatenate to import the custom notification icon
+		mod_dir.."UI/MT_Notification_Icon.png",  --  Here, we concatenate to import the custom notification icon
 		function() Msg("MartianTribuneShowFrontPage") end,  -- this function gets called OnClick of this notification icon
 		{
 			MTSol = Sol,

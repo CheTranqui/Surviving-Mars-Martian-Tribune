@@ -4,7 +4,7 @@ local Key2 = "HackThePlanet"
 
 local function CheckStory1()
 	local MartianTribune = MartianTribune
-	local ColonistsHaveArrived = MartianTribune
+	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Removed = MartianTribune.Removed
 	local Sent = MartianTribune.Sent
 	local UICity = UICity
@@ -25,7 +25,7 @@ end
 
 local function CheckStory2()
 	local MartianTribune = MartianTribune
-	local ColonistsHaveArrived = MartianTribune
+	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 	local Removed = MartianTribune.Removed
 	local Sent = MartianTribune.Sent
 

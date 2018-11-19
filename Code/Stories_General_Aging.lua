@@ -28,11 +28,17 @@ local function CheckStory2()
 		and UICity.day >= (Published[Key1] + 10)
 	then
 		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
+		local MartianTribuneMod = MartianTribuneMod
+		local IsColdWaveActive = MartianTribuneMod.Functions.IsColdWaveActive
+		local IsColdWavePredicted = MartianTribuneMod.Functions.IsColdWavePredicted
 
 		AddTopStory({
 			key = Key2,
 			title = T{9013904, "Midday Highs and Overnight Lows"},
-			story = T{9013905, "     This week may very well be the best yet temperature-wise. Expect to see midday highs right around 20 degrees Celsius for most of the week, but don’t count on it staying there as the moment that the Sun recedes lows will plummet, with the overnight low expected to be approximately -70C. Let’s just hope that the dust storms and meteor showers give us a chance to enjoy this warmer, more predictable weather!"}
+			story = T{9013905, "     This week may very well be the best yet temperature-wise. Expect to see midday highs right around 20 degrees Celsius for most of the week, but don’t count on it staying there as the moment that the Sun recedes lows will plummet, with the overnight low expected to be approximately -70C. Let’s just hope that the dust storms and meteor showers give us a chance to enjoy this warmer, more predictable weather!"},
+			canPublish = function()
+				return not IsColdWaveActive() and not IsColdWavePredicted()
+			end
 		})
 	end
 end

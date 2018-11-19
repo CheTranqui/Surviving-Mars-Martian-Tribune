@@ -25,8 +25,9 @@ function OnMsg.MartianTribuneShowSocialArchive(index)
 			choice2 = T{9013814, "View Previous Page of Social Archives"},
 			choice3 = T{9013518, "Return to Front Page"},
 			choice4 = T{9013514, "Close"},
-			image = mod_dir.."UI/Newspaper_Message_Image.tga",
+			image = mod_dir.."UI/Newspaper_Message_Image.png",
 			start_minimized = false,
+			no_ccc_button = true,
 			disabled = { false, false, false, false }
 		} -- params
 		if (index <= 1) then
