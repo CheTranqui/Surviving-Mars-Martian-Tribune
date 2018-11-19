@@ -372,5 +372,5 @@ end
 -- Fire a message that other mods can listen for to identify that the Martian Tribune
 -- Mod has been loaded and thus its functions are available.
 function OnMsg.ModsLoaded()
-	Msg("MartianTribuneModLoaded")
+	Msg("MartianTribuneModLoaded", current_version)
 end
