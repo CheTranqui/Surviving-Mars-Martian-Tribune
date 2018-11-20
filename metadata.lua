@@ -1,11 +1,11 @@
 return PlaceObj('ModDef', {
 	'title', "The Martian Tribune",
 	'image', "Martian Tribune Preview Picture.png",
-	'last_changes', "More stories added.",
+	'last_changes', "Stories now have relevant in-game images associated and shown when applicable!",
 	'id', "lf1iELO",
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
-	'version', 786,
+	'version', 787,
 	'lua_revision', 237920,
 	'code', {
 		"Code/1_Initialization.lua",
@@ -125,7 +125,7 @@ return PlaceObj('ModDef', {
 			language = "English",
 		},
 	},
-	'saved', 1542305931,
+	'saved', 1542655406,
 	'TagMissionSponsors', true,
 	'TagGameplay', true,
 	'TagResearch', true,
