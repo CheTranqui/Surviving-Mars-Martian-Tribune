@@ -30,7 +30,7 @@ local function CheckStory2()
 	if Published[Key1]
 		and not Sent[Key2]
 		and CountColonistsWithTrait(IncludedTraits[1]) > 0
-		and CountColonistsWithTrait(IncludedTraits[2])
+		and CountColonistsWithTrait(IncludedTraits[2]) > 0
 	then
 		local MartianTribuneMod = MartianTribuneMod
 		local GetColonistMatchingTraits = MartianTribuneMod.Functions.GetColonistMatchingTraits

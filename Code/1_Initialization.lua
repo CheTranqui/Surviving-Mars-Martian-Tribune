@@ -34,17 +34,60 @@ local TutorialsPath = MessagesPath.."Tutorials/Tutorial"
 local EventsPath = MessagesPath.."Events/"
 local ModPath = CurrentModPath.."UI/"
 
+local function SelectIdiotImage(story)
+	local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
+	if story and IsValidColonist(story.colonist) then
+		local colonist = story.colonist
+		local race = colonist.race
+		if race >= 1 and race <= 5 then
+			if colonist.gender == "Female" then
+				return ModPath.."FemIdiot_"..race..".png"
+			end
+			-- Male or OtherGender
+			return ModPath.."Idiot_"..race..".png"
+		end
+	end
+	return EventsPath.."11_idiot.tga"
+end
+
+local IngameSponsorImages = {
+	BlueSun = true,
+	Brazil = true,
+	CNSA = true,
+	ESA = true,
+	IMM = true,
+	ISRO = true,
+	Japan = true,
+	NASA = true,
+	NewArk = true,
+	paradox = true,
+	SpaceY = true
+}
+
+local function SelectSponsorImage(story)
+	local MartianTribune = MartianTribune
+	local SponsorName = MartianTribune.SponsorName
+
+	return IngameSponsorImages[SponsorName] and MessagesPath.."sponsor_"..SponsorName..".tga"
+		or EventsPath.."01_video_call.tga"
+end
+
 -- Note: these are currently in filename order for the file containing each story.
 MartianTribuneMod.StoryImages = {
 	["ArcologyInuendo"] = ModPath.."Arcology.png",
-	["ConcreteLove"] = TutorialsPath.."1/Tutorial1_ConcreteExtractor.tga",
+	["ConcreteLove"] = ModPath.."ConcreteLove.png",
+	["RefuseHitsTheFan"] = ModPath.."Diner_2.png",
+	["VeganDiner"] = ModPath.."Diner.png",
 	["DomeCrack"] = ModPath.."CrackedDome.png",
+	["OvalDome"] = ModPath.."OvalDome.png",
 	["WhyDomes"] = MessagesPath.."dome.tga",
 	["Domelenol"] = EventsPath.."25_medical_check.tga",
 	["University"] = MessagesPath.."martian_university.tga",
-	["PewPew"] = MessagesPath.."meteors.tga",
-	["PewPewPew"] = MessagesPath.."meteors.tga",
+	["PewPew"] = ModPath.."MDSLaser.png",
+	["PewPewPew"] = ModPath.."MDSLaser.png",
 	["MoxieMagic"] = EventsPath.."18_moxie.tga",
+	["OlympicsBid1"] = ModPath.."OpenAirGym.png",
+	["OlympicsBid2"] = ModPath.."OpenAirGym.png",
 	["SoundComplaint"] = TutorialsPath.."5/Tutorial5_Popup3_Mining.tga",
 	["MartianMetals"] = MessagesPath.."deposits_2.tga",
 	["ShuttleHub"] = TutorialsPath.."5/Tutorial5_Popup2_Shuttles.tga",
@@ -52,24 +95,26 @@ MartianTribuneMod.StoryImages = {
 	["Spy"] = TutorialsPath.."4/Tutorial4_ManagingJobs.tga",
 	["WatchWhatYouEat"] = MessagesPath.."universal_depot.tga",
 	["TunnelGuangzhou"] = MessagesPath.."tunnel.tga",
-	["AdultFilm"] = MessagesPath.."colonists.tga",
+	["AdultFilm"] = ModPath.."AdultFilm.png",
 	["ConcretePaving"] = TutorialsPath.."1/Tutorial1_ConcreteExtractor.tga",
 	["DroneHack1"] = MessagesPath.."recharge_station.tga",
 	["DroneHack2"] = MessagesPath.."dome.tga",
 	["DroneHack3"] = MessagesPath.."drone.tga",
 	["DroneHack4"] = MessagesPath.."security_station.tga",
-	["DroneRights"] = EventsPath.."11_idiot.tga",
-	["DomeDelay1"] = EventsPath.."11_idiot.tga",
-	["DomeDelay2"] = EventsPath.."11_idiot.tga",
+	["DroneRights"] = SelectIdiotImage,
+	["DomeDelay1"] = SelectIdiotImage,
+	["DomeDelay2"] = SelectIdiotImage,
+	["Earthsick1"] = ModPath.."Earthsick.png",
 	["EarthTourism"] = MessagesPath.."beyond_earth_mystery_01.tga",
 	["FightClub1"] = EventsPath.."13_renegades.tga",
 	["FirstFounderDied"] = TutorialsPath.."4/Tutorial4_Founders.tga",
 	["FirstMartianbornDied"] = MessagesPath.."death.tga",
 	["FoundersFirstWords"] = TutorialsPath.."4/Tutorial4_Founders.tga",
-	["FoundersLegacy"] = MessagesPath.."colonists.tga",
+	["FoundersLegacy"] = TutorialsPath.."4/Tutorial4_Founders.tga",
 	["GuruGarden"] = MessagesPath.."stone_garden.tga",
 	["HappyBirthday"] = EventsPath.."09_fireworks.tga",
-	["IdiotFML"] = EventsPath.."11_idiot.tga",
+	["Hippie"] = ModPath.."Hippie.png",
+	["IdiotFML"] = SelectIdiotImage,
 	["LeaderDied1"] = MessagesPath.."death.tga",
 	["LeaderDied2"] = MessagesPath.."death.tga",
 	["MartianCelebrity"] = MessagesPath.."birth.tga",
@@ -79,35 +124,58 @@ MartianTribuneMod.StoryImages = {
 	["NewLeader2"] = EventsPath.."09_fireworks.tga",
 	["NewLeader3"] = EventsPath.."01_video_call.tga",
 	["FounderNewLeader"] = MessagesPath.."colonists.tga",
-	["OopsIBrokeItAgain"] = EventsPath.."11_idiot.tga",
-	["StarvingColonist"] = TutorialsPath.."4/Tutorial4_Food.tga",
-	["Whiner"] = EventsPath.."11_idiot.tga",
+	["OopsIBrokeItAgain"] = SelectIdiotImage,
+	["PetRock"] = ModPath.."PetRock.png",
+	["MarsIPanRock"] = ModPath.."PetRock2.png",
+	["ReligiousArtifact"] = MessagesPath.."deposits_2.tga",
+	["StarvingColonist"] = ModPath.."Grocer.png",
+	["Vegan1"] = SelectIdiotImage,
+	["Vegan2"] = SelectIdiotImage,
+	["Vegan3"] = EventsPath.."09_fireworks.tga",
+	["Vegan4"] = EventsPath.."01_video_call.tga",
+	["VirtueOverVices"] = ModPath.."Vices.png",
+	["Whiner"] = SelectIdiotImage,
 	["DroneBreakdown"] = MessagesPath.."drone.tga",
 	["DroneGoesViral"] = TutorialsPath.."1/Tutorial1_DronesAndResources.tga",
 	["DroneShortage"] = TutorialsPath.."1/Tutorial1_DronesAndDroneHubs.tga",
 	["AgingGracefully"] = EventsPath.."19_frozen_landscape.tga",
+	["WarmerWeather"] = MessagesPath.."alleys.tga",
 	["Aurorae"] = MessagesPath.."space.tga",
 	["CookingFire"] = EventsPath.."23_red_alert.tga",
-	["DomeForbidBirth1"] = MessagesPath.."birth.tga",
-	["DomeForbidBirth2"] = MessagesPath.."birth.tga",
+	["DomeForbidBirth1"] = ModPath.."NoBirth.png",
+	["DomeForbidBirth2"] = ModPath.."NoBirth.png",
 	["DustStormWarning"] = MessagesPath.."dust_storm.tga",
+	["ElPresidente"] = EventsPath.."02_video_call_2.tga",
+	["Equality"] = MessagesPath.."colonists.tga",
+	["Finances1"] = SelectSponsorImage,
+	["Finances2"] = SelectSponsorImage,
+	["WaitForIt"] = EventsPath.."21_meteors.tga",
 	["FutureExpansion"] = EventsPath.."29_shuttle.tga",
 	["MarathonExplorer"] = MessagesPath.."exploration.tga",
 	["MarsDay"] = EventsPath.."09_fireworks.tga",
+	["MartianFaith"] = ModPath.."Temple.png",
+	["MartianMusic"] = MessagesPath.."space.tga",
 	["DeflectingMeteors"] = MessagesPath.."dredgers_mystery_01.tga",
+	["NewLanguage"] = MessagesPath.."martian_university.tga",
 	["Passport"] = EventsPath.."05_mysterious_stranger.tga",
 	["Rockets3"] = EventsPath.."27_rocket_launch.tga",
 	["Rockets0"] = TutorialsPath.."1/Tutorial1_UnloadRocket.tga",
 	["RocketObservation"] = TutorialsPath.."1/Tutorial1_LandRocket.tga",
 	["GiantWhaleRocket"] = MessagesPath.."beyond_earth_mystery_01.tga",
 	["Vigilante"] = EventsPath.."05_mysterious_stranger.tga",
+	["Weekends"] = EventsPath.."30_playing_children.tga",
 	["NoHumans"] = MessagesPath.."deposits.tga",
 	["WeAreMartian"] = EventsPath.."07_explorer_flag.tga",
+	["OlympusMons"] = ModPath.."OlympusMons.png",
+	["MarsMariana"] = ModPath.."Mariana.png",
 	["ExplorationContinues"] = MessagesPath.."exploration_3.tga",
 	["SoundOfMars"] = MessagesPath.."debris.tga",
 	["MarsName"] = MessagesPath.."outsource.tga",
 	["DroneReverse"] = MessagesPath.."drone.tga",
+	["PoliticalAmbitions"] = EventsPath.."11_idiot.tga",
+	["MarsCheese"] = EventsPath.."11_idiot.tga",
 	["DroneToys"] = MessagesPath.."drone.tga",
+	["MysteriousRadio"] = ModPath.."NetworkNode.png",
 	["NuclearThreat"] = MessagesPath.."the_last_war_mystery_03.tga",
 	["AtlantisFound"] = MessagesPath.."crater.tga",
 	["AirSupply1"] = EventsPath.."28_building_construction.tga",
@@ -118,6 +186,10 @@ MartianTribuneMod.StoryImages = {
 	["NoPowerRave"] = EventsPath.."09_fireworks.tga",
 	["PowerSupply1"] = TutorialsPath.."3/Tutorial3_Priority.tga",
 	["PowerSupply2"] = TutorialsPath.."3/Tutorial3_Priority.tga",
+	["O2Shortage1"] = MessagesPath.."emergency.tga",
+	["O2Shortage2"] = MessagesPath.."emergency.tga",
+	["WaterShortage1"] = MessagesPath.."emergency.tga",
+	["WaterShortage2"] = MessagesPath.."emergency.tga",
 	["WaterSupply1"] = TutorialsPath.."3/Tutorial3_WaterTower.tga",
 	["WaterSupply2"] = TutorialsPath.."3/Tutorial3_WaterTower.tga",
 	["DecommissionTech1"] = TutorialsPath.."3/Tutorial3_ClearingBuildings.tga",
@@ -127,6 +199,9 @@ MartianTribuneMod.StoryImages = {
 	["EarthMarsInitiativeTech1"] = EventsPath.."03_discussion.tga",
 	["EarthMarsInitiativeTech2"] = EventsPath.."03_discussion.tga",
 	["HygroscopicVaporatorsTech1"] = EventsPath.."18_moxie.tga",
+	["LiveFromMarsTech1"] = ModPath.."NetworkNode.png",
+	["LiveFromMarsTech2"] = ModPath.."NetworkNode.png",
+	["MarsRealityTV"] = ModPath.."NetworkNode.png",
 	["LowGFungiTech1"] = EventsPath.."14_fungal_farm.tga",
 	["LowGFungiTech2"] = EventsPath.."14_fungal_farm.tga",
 	["LowGHydroTech1"] = EventsPath.."16_polymer_factory.tga",
@@ -139,6 +214,9 @@ MartianTribuneMod.StoryImages = {
 	["ProductivityTrainingTech2"] = MessagesPath.."deposits_2.tga",
 	["SoilAdaptationTech1"] = MessagesPath.."farm.tga",
 	["SoilAdaptationTech2"] = MessagesPath.."farm.tga",
+	["SoylentGreen"] = ModPath.."Grocer.png",
+	["SubsurfaceHeatingTech1"] = ModPath.."SubsurfaceHeater.png",
+	["SubsurfaceHeatingTech2"] = ModPath.."SubsurfaceHeater.png",
 	["MartianSoil"] = MessagesPath.."farm.tga",
 	["WaterReclamationTech1"] = ModPath.."WaterReclamationSystem.png",
 	["WaterReclamationTech2"] = ModPath.."WaterReclamationSystem.png",
@@ -379,6 +457,19 @@ MartianTribuneMod.Functions.RegisterStoryImage = function(storyKey, image)
 	if storyKey and image then
 		MartianTribuneMod.StoryImages[storyKey] = image
 	end
+end
+
+-- Retrieve an image for a particular story
+-- This allows returning a different image depending on story data, for example
+-- using different images if the "colonist" in the story is Male or Female.
+MartianTribuneMod.Functions.GetStoryImage = function(story)
+	local mod_dir = MartianTribuneMod.mod_dir
+	local StoryImage = story and MartianTribuneMod.StoryImages[story.key]
+	local Image = type(StoryImage) == 'function' and StoryImage(story)
+		or StoryImage ~= nil and StoryImage
+
+	-- Make sure that we never return nil - always fallback to the standard image.
+	return Image ~= nil and Image ~= "" and Image or mod_dir.."UI/Newspaper_Message_Image.png"
 end
 
 -- 4. COMMON COLONIST FALLBACK NAME STRINGS

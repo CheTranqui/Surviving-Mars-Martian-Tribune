@@ -82,10 +82,12 @@ local function SetLeaderTitle()
 		local CustomTitles = MartianTribuneMod.Titles
 		local Titles = {
 			NASA = T{9013502, "President"},
+			Brazil = T{9013502, "President"},
 			IMM = T{9013500, "CEO"},
 			BlueSun = T{9013501, "CFO"},
 			CNSA = T{9013502, "President"},
 			ISRO = T{9013503, "Prime Minister"},
+			Japan = T{9013503, "Prime Minister"},
 			ESA = T{9013502, "President"},
 			SpaceY = T{9013504, "Chairman"},
 			NewArk = T{9013505, "Oracle"},
@@ -371,6 +373,6 @@ end
 
 -- Fire a message that other mods can listen for to identify that the Martian Tribune
 -- Mod has been loaded and thus its functions are available.
-function OnMsg.ModsLoaded()
+function OnMsg.ModsReloaded()
 	Msg("MartianTribuneModLoaded", current_version)
 end

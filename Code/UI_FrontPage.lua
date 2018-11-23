@@ -8,8 +8,7 @@ function OnMsg.MartianTribuneShowFrontPage()
 	local SocialStory = MartianTribune.SocialStory
 
 	local MartianTribuneMod = MartianTribuneMod
-	local StoryImages = MartianTribuneMod.StoryImages
-	local mod_dir = MartianTribuneMod.mod_dir
+	local StoryImage = MartianTribuneMod.Functions.GetStoryImage(TopFPStory)
 
 	CreateRealTimeThread(function()
 		local params = {
@@ -19,7 +18,7 @@ function OnMsg.MartianTribuneShowFrontPage()
 			choice2 = T{9013512, "View Engineering Story"},
 			choice3 = T{9013513, "View Social Story"},
 			choice4 = T{9013514, "Close"},
-			image = StoryImages[TopFPStory.key] or mod_dir.."UI/Newspaper_Message_Image.png",
+			image = StoryImage,
 			start_minimized = false,
 			no_ccc_button = true
 		} -- params

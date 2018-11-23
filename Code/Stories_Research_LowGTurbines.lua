@@ -3,9 +3,15 @@ local Key1 = "LowGTurbinesTech1"
 local Key2 = "LowGTurbinesTech2"
 
 local function CheckStory()
+	local MartianTribune = MartianTribune
 	local Sent = MartianTribune.Sent
+	local ColonistsHaveArrived = MartianTribune.ColonistsHaveArrived
 
-	if not Sent[Key1] and not Sent[Key2] and UICity.tech_status[TechId].researched ~= nil then
+	if not Sent[Key1]
+		and not Sent[Key2]
+		and ColonistsHaveArrived
+		and UICity.tech_status[TechId].researched ~= nil
+	then
 		local AddEngStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local random_num = Random(1,2)
 
