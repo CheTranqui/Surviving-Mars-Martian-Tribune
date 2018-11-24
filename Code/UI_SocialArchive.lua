@@ -25,12 +25,20 @@ function OnMsg.MartianTribuneShowSocialArchive(index)
 			choice2 = T{9013814, "View Previous Page of Social Archives"},
 			choice3 = T{9013518, "Return to Front Page"},
 			choice4 = T{9013514, "Close"},
-			image = mod_dir.."UI/Newspaper_Message_Image.tga",
+			image = mod_dir.."UI/Newspaper_Message_Image.png",
 			start_minimized = false,
+			no_ccc_button = true,
+			disabled = { false, false, false, false }
 		} -- params
+		if (index <= 1) then
+			params.disabled[1] = true
+		end
+		if (index >= #SocialArchive) then
+			params.disabled[2] = true
+		end
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
-			Msg("MartianTribuneShowSocialArchive", index - 2)  -- reopens Social Story Archives popup
+			Msg("MartianTribuneShowSocialArchive", Max(index - 2, 1))  -- reopens Social Story Archives popup
 		elseif choice == 2 then
 			Msg("MartianTribuneShowSocialArchive", Min(index + 2, #SocialArchive))
 		elseif choice == 3 then

@@ -40,6 +40,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/SaveGameFixes_776_Upgrade.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "SaveGameFixes_787_Upgrade",
+	'FileName', "Code/SaveGameFixes_787_Upgrade.lua"
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_Building_Arcology",
 	'FileName', "Code/Stories_Building_Arcology.lua",
 }),
@@ -220,6 +224,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories_Drone_DroneShortage.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_General_Aging",
+	'FileName', "Code/Stories_General_Aging.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_General_Aurorae",
 	'FileName', "Code/Stories_General_Aurorae.lua",
 }),
@@ -252,6 +260,10 @@ PlaceObj('ModItemCode', {
 	'FileName', "Code/Stories_General_Finances.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "Stories_General_FirstColonistsLeaveEarth",
+	'FileName', "Code/Stories_General_FirstColonistsLeaveEarth.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Stories_General_FutureExpansion",
 	'FileName', "Code/Stories_General_FutureExpansion.lua",
 }),
@@ -270,6 +282,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Stories_General_MartianMusic",
 	'FileName', "Code/Stories_General_MartianMusic.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Stories_General_MeteorStorm",
+	'FileName', "Code/Stories_General_MeteorStorm.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Stories_General_NewLanguage",

@@ -72,14 +72,20 @@ local function AddTopFreeStories()
 
 	AddTopStory({
 		key = "ExplorationContinues",
-		title = T{9013888, "Earthling Martian Exploration Continues"},
-		story = T{9013889, "     Despite the success of our budding colonization of Mars, NASA continues its diligent work towards the Mars 2020 mission. Launching from Cape Canaveral in the late summer of 2020 the new rover incorporates a 300 watt Moxie, a spectrometer, radar equipment, drilling and storage, along with several other advanced imaging devices."}
+		title = T{9013888, "Earthling Martian Exploration: The Mars 2020 Mission"},
+		story = T{9013889, "     Despite the success of our budding colonization of Mars, NASA continued its diligent work towards the Mars 2020 mission. Launching from Cape Canaveral in the late summer of 2020 the new rover incorporated, a spectrometer, radar equipment, drilling and storage, and several other advanced imaging devices, along with a new test unit, the \"MOXIE\", a 300 watt device that they were testing to generate on the Red Planet for the very first time.."}
 	})
 
 	AddTopStory({
 		key = "SoundOfMars",
 		title = T{9013900, "The Sound Of Mars"},
 		story = T{9013901, "     The 1999 Mars Polar Lander was the only rover that was sent with a microphone equipped. Due to the crash landing that December, we've been unable to gather data from it. Despite this, simulations have been made with the requisite 1% of Earth's pressurization. The recordings are surprisingly easy to pick up by the human ear, if sounding a bit quieter than expected."}
+	})
+
+	AddTopStory({
+		key = "MarsName",
+		title = T{9013906, "How Mars Got Its Name"},
+		story = T{9013907, "     The Romans left an indelible impact upon Earthen history, such a great impact that they even determined the name of various elements of our solar system. Even without telescopes they identified each of the brightest five planets, alongside the Moon and the Sun, of course. Each of these planets was then named after gods, the most important of which was the god of war, Mars, who rode into battle on a chariot pulled by the horses Phobos and Deimos (meaning ‘fear’ and ‘panic’). May the foreboding names of our new planet and moons not be indicative of our imminent future."}
 	})
 end
 
@@ -159,9 +165,9 @@ local function CheckChainStories()
 	local MartianTribune = MartianTribune
 	local Published = MartianTribune.Published
 	local Sent = MartianTribune.Sent
+	local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 
 	if Published[VikingsKey1] and not Sent[VikingsKey2] then
-		local AddTopStory = MartianTribuneMod.Functions.AddTopFreeStory
 		AddTopStory({
 			key = VikingsKey2,
 			title = T{9013851, "Atlantis has been found!"},

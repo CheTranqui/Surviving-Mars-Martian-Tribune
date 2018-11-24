@@ -1,10 +1,12 @@
 function OnMsg.MartianTribuneShowSocialPage()
-	local MartianTribuneMod = MartianTribuneMod
+	local MartianTribune = MartianTribune
 	local SocialArchive = MartianTribune.SocialArchive or empty_table
 	local TopFPStory = MartianTribune.TopFPStory
 	local EngStory = MartianTribune.EngStory
 	local SocialStory = MartianTribune.SocialStory
-	local mod_dir = MartianTribuneMod.mod_dir
+
+	local MartianTribuneMod = MartianTribuneMod
+	local StoryImage = MartianTribuneMod.Functions.GetStoryImage(SocialStory)
 
 	CreateRealTimeThread(function()
 		local params = {
@@ -14,8 +16,9 @@ function OnMsg.MartianTribuneShowSocialPage()
 			choice2 = T{9013529, "View Current Engineering Story"},
 			choice3 = T{9013518, "Return to Front Page"},
 			choice4 = T{9013514, "Close"},
-			image = mod_dir.."UI/Newspaper_Message_Image.tga",
+			image = StoryImage,
 			start_minimized = false,
+			no_ccc_button = true,
 		} -- params
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then

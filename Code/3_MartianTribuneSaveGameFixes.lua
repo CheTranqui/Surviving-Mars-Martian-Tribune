@@ -1,7 +1,7 @@
 -- Save Game updates - these are used to migrate a save game using an older version of this mod
 -- to the current version.
 local current_version = MartianTribuneMod.current_version
-local SaveGameFixVersions = { 775, 776 }
+local SaveGameFixVersions = { 775, 776, 787 }
 for i = 1, #SaveGameFixVersions do
 	local UpdateVersion = SaveGameFixVersions[i]
 	MartianTribuneMod.SaveGameFixes[UpdateVersion] = {}
@@ -26,5 +26,7 @@ MartianTribuneMod.Functions.SaveGameUpdate = function(oldData)
 	end
 
 	-- Game data updated, set the saved version number to the current version.
-	MartianTribune.VersionNumber = current_version
+	if MartianTribune.VersionNumber < current_version then
+		MartianTribune.VersionNumber = current_version
+	end
 end

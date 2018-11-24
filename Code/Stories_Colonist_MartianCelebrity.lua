@@ -20,7 +20,8 @@ local function CheckStory(colonist)
 end
 
 function OnMsg.ColonistBorn(colonist, event)
-	if colonist.traits[TraitId] then
+	-- using event == "born" filters out rebirths, androids & clones
+	if colonist.traits[TraitId] and event == "born" then
 		CheckStory(colonist)
 	end
 end

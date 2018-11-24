@@ -1,11 +1,20 @@
 local TraitId = "Guru"
 local Key1 = "GuruGarden"
 
+local function HasGarden(labels)
+	return labels.GardenAlleys_Small ~= nil and #labels.GardenAlleys_Small > 0
+		or labels.GardenAlleys_Medium ~= nil and #labels.GardenAlleys_Medium > 0
+		or labels.GardenNatural_Small ~= nil and #labels.GardenNatural_Small > 0
+		or labels.GardenNatural_Medium ~= nil and #labels.GardenNatural_Medium > 0
+		or labels.GardenNatural_Large ~= nil and #labels.GardenNatural_Large > 0
+		or labels.GardenStone ~= nil and #labels.GardenStone > 0
+end
+
 local function GetGuruGarden(colonist)
 	local IsValidColonist = MartianTribuneMod.Functions.IsValidColonist
-	return IsValidColonist(colonist) and colonist.dome and (
-		colonist.dome.labels.GardenNatural_Medium ~= nil or colonist.dome.labels.GardenNatural_Small ~= nil
-	)
+	return IsValidColonist(colonist)
+		and colonist.dome
+		and HasGarden(colonist.dome.labels)
 end
 
 local function CheckStory()

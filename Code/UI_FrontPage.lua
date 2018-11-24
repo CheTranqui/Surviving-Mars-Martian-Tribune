@@ -1,12 +1,14 @@
 
 --  main popup screen, accessed by clicking on the notification icon.
 function OnMsg.MartianTribuneShowFrontPage()
-	local MartianTribuneMod = MartianTribuneMod
+	local MartianTribune = MartianTribune
 	local TopArchive = MartianTribune.TopArchive or empty_table
 	local TopFPStory = MartianTribune.TopFPStory
 	local EngStory = MartianTribune.EngStory
 	local SocialStory = MartianTribune.SocialStory
-	local mod_dir = MartianTribuneMod.mod_dir
+
+	local MartianTribuneMod = MartianTribuneMod
+	local StoryImage = MartianTribuneMod.Functions.GetStoryImage(TopFPStory)
 
 	CreateRealTimeThread(function()
 		local params = {
@@ -16,8 +18,9 @@ function OnMsg.MartianTribuneShowFrontPage()
 			choice2 = T{9013512, "View Engineering Story"},
 			choice3 = T{9013513, "View Social Story"},
 			choice4 = T{9013514, "Close"},
-			image = mod_dir.."UI/Newspaper_Message_Image.tga",
+			image = StoryImage,
 			start_minimized = false,
+			no_ccc_button = true
 		} -- params
 		local choice = WaitPopupNotification(false, params)
 		if choice == 1 then
