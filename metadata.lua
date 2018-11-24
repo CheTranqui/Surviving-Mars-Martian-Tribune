@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'id', "lf1iELO",
 	'steam_id', "1376913896",
 	'author', "CheTranqui",
-	'version', 787,
+	'version', 788,
 	'lua_revision', 237920,
 	'code', {
 		"Code/1_Initialization.lua",
@@ -125,7 +125,7 @@ return PlaceObj('ModDef', {
 			language = "English",
 		},
 	},
-	'saved', 1542655406,
+	'saved', 1543002394,
 	'TagMissionSponsors', true,
 	'TagGameplay', true,
 	'TagResearch', true,
