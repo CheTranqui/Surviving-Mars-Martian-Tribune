@@ -106,7 +106,7 @@ local function ShowNotification()
 	AddCustomOnScreenNotification("MartianTribune",
 		T{9014487, "The Martian Tribune"},
 		Subtitle,
-		mod_dir.."UI/MT_Notification_Icon.png",  --  Here, we concatenate to import the custom notification icon
+		mod_dir.."UI/MT_Notification_Icon_Round.png",  --  Here, we concatenate to import the custom notification icon
 		function() Msg("MartianTribuneShowFrontPage") end,  -- this function gets called OnClick of this notification icon
 		{
 			MTSol = Sol,
