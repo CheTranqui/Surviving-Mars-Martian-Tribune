@@ -8,12 +8,12 @@ local function CheckStory()
 
 	-- if after Sol 20 and 14 days+ have passed since last story
 	if UICity.day > 20 and (LastWaterIssue == nil or UICity.day - LastWaterIssue >= 14) then
-		local ResourceOverviewObj = ResourceOverviewObj
-		local WaterBalance = ResourceOverviewObj.data.total_water_demand - ResourceOverviewObj.data.total_water_production
+		local CityResources = g_ResourceOverviewCity[UICity.map_id]
+		local WaterBalance = CityResources.data.total_water_demand - CityResources.data.total_water_production
 
 		-- If production is less than demand
 		if WaterBalance > 0 then
-			local WaterHoursRemaining = ResourceOverviewObj.data.total_water_storage / WaterBalance
+			local WaterHoursRemaining = CityResources.data.total_water_storage / WaterBalance
 			
 			-- If stored resources run out within 12 hours
 			if WaterHoursRemaining < 12 then

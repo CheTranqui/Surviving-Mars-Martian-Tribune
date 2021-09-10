@@ -6,7 +6,7 @@ local function CheckStory()
 	local MartianTribune = MartianTribune
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key1] and not Sent[Key2] and UICity.tech_status[TechId].researched ~= nil then
+	if not Sent[Key1] and not Sent[Key2] and UIColony.tech_status[TechId].researched ~= nil then
 		local AddEngStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local Sponsor = MartianTribune.Sponsor
 		local random_num = Random(1,2)

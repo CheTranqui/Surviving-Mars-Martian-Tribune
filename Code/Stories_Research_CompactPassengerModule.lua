@@ -3,7 +3,7 @@ local Key1 = "CompactPassengerTech1"
 
 local function CheckStory()
 	local Sent = MartianTribune.Sent
-	if not Sent[Key1] and UICity.tech_status[TechId].researched ~= nil then
+	if not Sent[Key1] and UIColony.tech_status[TechId].researched ~= nil then
 		local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
 		AddEngStory({
 			key = Key1,

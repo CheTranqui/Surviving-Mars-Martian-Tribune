@@ -8,11 +8,11 @@ local function CheckStory()
 
 	-- if after Sol 20 and 14 days+ have passed since last story
 	if UICity.day > 20 and (LastAirIssue == nil or UICity.day - LastAirIssue >= 14) then
-		local ResourceOverviewObj = ResourceOverviewObj
-		local AirBalance = ResourceOverviewObj.data.total_air_demand - ResourceOverviewObj.data.total_air_production
+		local CityResources = g_ResourceOverviewCity[UICity.map_id]
+		local AirBalance = CityResources.data.total_air_demand - CityResources.data.total_air_production
 
 		if AirBalance > 0 then
-			local AirHoursRemaining = ResourceOverviewObj.data.total_air_storage / AirBalance
+			local AirHoursRemaining = CityResources.data.total_air_storage / AirBalance
 
 			if AirHoursRemaining < 12 then
 				local Sent = MartianTribune.Sent

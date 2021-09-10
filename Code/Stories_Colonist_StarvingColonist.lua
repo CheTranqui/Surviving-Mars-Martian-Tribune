@@ -13,9 +13,9 @@ local function CheckStory(colonist)
 	then
 		-- Check for adequacy of food supply.
 		-- Assume that if the supply is greater than what would trigger an alert, there is adequate food.
-		local ResourceOverviewObj = ResourceOverviewObj
-		local consumed = ResourceOverviewObj:GetFoodConsumedByConsumptionYesterday()
-		local data = next(ResourceOverviewObj.data) and ResourceOverviewObj.data
+		local CityResources = g_ResourceOverviewCity[UICity.map_id]
+		local consumed = CityResources:GetFoodConsumedByConsumptionYesterday()
+		local data = next(CityResources.data) and CityResources.data
 
 		if data.Food > 0
 			and consumed > 0

@@ -8,7 +8,7 @@ local function CheckStory()
 	local Sent = MartianTribune.Sent
 	
 	if ColonistsHaveArrived
-	and UICity.tech_status[TechId].researched ~= nil
+	and UIColony.tech_status[TechId].researched ~= nil
 	and not Sent[Key1]
 	and not Sent[Key2]
 	then

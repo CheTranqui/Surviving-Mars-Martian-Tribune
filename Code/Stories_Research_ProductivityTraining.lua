@@ -10,7 +10,7 @@ local function CheckStory()
 	if not Sent[Key1]
 		and not Sent[Key2]
 		and ColonistsHaveArrived
-		and UICity.tech_status[TechId].researched ~= nil
+		and UIColony.tech_status[TechId].researched ~= nil
 		and CountColonistsWithTrait("geologist") > 0
 	then
 		local MartianTribuneMod = MartianTribuneMod

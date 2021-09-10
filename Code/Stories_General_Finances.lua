@@ -4,12 +4,12 @@ local Key2 = "Finances2"
 local function CheckStory()
 	local MartianTribune = MartianTribune
 	local Sent = MartianTribune.Sent
-	local ResourceOverviewObj = ResourceOverviewObj
+	local UIColony = UIColony
 
 	-- if less than 300m funding is available
 	if not Sent[Key1]
 		and not Sent[Key2]
-		and ResourceOverviewObj:GetFunding() < 300000000
+		and UIColony.funds:GetFunding() < 300000000
 	then
 		local AddTopStory = MartianTribuneMod.Functions.AddTopPotentialStory
 		local Sponsor = MartianTribune.Sponsor

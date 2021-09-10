@@ -14,7 +14,7 @@ local function CheckStory1()
 		and (Published[Key2] or Published[Key3])
 		and ColonistsHaveArrived
 		and CountColonistsWithTrait(TraitId) > 0
-		and UICity.tech_status[TechId].researched ~= nil
+		and UIColony.tech_status[TechId].researched ~= nil
 	then
 		local MartianTribuneMod = MartianTribuneMod
 		local GetColonistWithTrait = MartianTribuneMod.Functions.GetColonistWithTrait
@@ -66,7 +66,7 @@ function OnMsg.TechResearched(tech_id, city, first_time)
 end
 
 function OnMsg.MartianTribuneCheckStories()
-	if UICity.tech_status[TechId].researched ~= nil then
+	if UIColony.tech_status[TechId].researched ~= nil then
 		CheckStory2()
 		CheckStory1()
 	end

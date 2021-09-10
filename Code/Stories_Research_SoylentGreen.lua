@@ -4,7 +4,7 @@ local Key1 = "SoylentGreen"
 local function CheckStory()
 	local Sent = MartianTribune.Sent
 
-	if not Sent[Key1] and UICity.tech_status[TechId].researched ~= nil then
+	if not Sent[Key1] and UIColony.tech_status[TechId].researched ~= nil then
 		local AddSocialStory = MartianTribuneMod.Functions.AddSocialFreeStory
 		AddSocialStory({
 			key = Key1,

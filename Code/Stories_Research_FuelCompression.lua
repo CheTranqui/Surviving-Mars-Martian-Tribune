@@ -7,7 +7,7 @@ local function CheckStory()
     
     if not Sent[Key1]
 		and not Sent[Key2]
-		and UICity.tech_status[TechId].researched ~= nil
+		and UIColony.tech_status[TechId].researched ~= nil
 	then
         local AddEngStory = MartianTribuneMod.Functions.AddEngFreeStory
 		local random_num = Random(1,2)
