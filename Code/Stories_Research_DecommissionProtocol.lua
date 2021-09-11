@@ -7,7 +7,7 @@ local function CheckStory()
 	local Sent = MartianTribune.Sent
 	local Sponsor = MartianTribune.Sponsor
 	
-	if UICity.tech_status[TechId].researched ~= nil
+	if UIColony.tech_status[TechId].researched ~= nil
 	and not Sent[Key1]
 	and not Sent[Key2]
 	then

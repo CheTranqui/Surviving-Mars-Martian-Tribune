@@ -11,7 +11,7 @@ local function CheckStory1()
 	
 	if not Sent[Key1]
 		and not Removed[Key1]
-		and UICity.tech_status[TechId].researched == nil
+		and UIColony.tech_status[TechId].researched == nil
 		and UICity.day > 75
 	then
 		local AddEngStory = MartianTribuneMod.Functions.AddEngPotentialStory
@@ -32,7 +32,7 @@ local function CheckStory2()
 	if not Sent[Key2]
 		and not Removed[Key2]
 		and ColonistsHaveArrived
-		and UICity.tech_status[TechId].researched ~= nil
+		and UIColony.tech_status[TechId].researched ~= nil
 		and MapCount("map", "SensorTower") <= 2
 	then
 		local LeaderName = MartianTribune.LeaderName
@@ -52,7 +52,7 @@ local function CheckRemoveStory1()
 	local Published = MartianTribune.Published
 	local Removed = MartianTribune.Removed
 	
-	if not Published[Key1] and not Removed[Key1] and UICity.tech_status[TechId].researched ~= nil then
+	if not Published[Key1] and not Removed[Key1] and UIColony.tech_status[TechId].researched ~= nil then
 		MartianTribuneMod.Functions.RemoveEngPotentialStory(Key1)
 	end
 end

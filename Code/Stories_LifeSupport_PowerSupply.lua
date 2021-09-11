@@ -9,12 +9,12 @@ local function CheckStory()
 
 	-- if after Sol 20 and 14 days+ have passed since last story
 	if UICity.day > 20 and (LastPowerIssue == nil or UICity.day - LastPowerIssue >= 14) then
-		local ResourceOverviewObj = ResourceOverviewObj
-		local PowerBalance = ResourceOverviewObj.data.total_power_demand - ResourceOverviewObj.data.total_power_production
+		local CityResources = g_ResourceOverviewCity[UICity.map_id]
+		local PowerBalance = CityResources.data.total_power_demand - CityResources.data.total_power_production
 
 		-- If production is lower than demand
 		if PowerBalance > 0 then
-			local PowerHoursRemaining = ResourceOverviewObj.data.total_power_storage / PowerBalance
+			local PowerHoursRemaining = CityResources.data.total_power_storage / PowerBalance
 
 			-- If stored resources run out within 12 hours
 			if PowerHoursRemaining < 12 then

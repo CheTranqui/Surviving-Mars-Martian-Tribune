@@ -7,9 +7,9 @@ local function CheckStory()
 
 	if not Sent[Key1] and ColonistsHaveArrived then
 		-- defining "no food" as less than 1 day's supply for the colony.
-		local ResourceOverviewObj = ResourceOverviewObj
-		local consumed = ResourceOverviewObj:GetFoodConsumedByConsumptionYesterday()
-		local data = next(ResourceOverviewObj.data) and ResourceOverviewObj.data
+		local CityResources = g_ResourceOverviewCity[UICity.map_id]
+		local consumed = CityResources:GetFoodConsumedByConsumptionYesterday()
+		local data = next(CityResources.data) and CityResources.data
 
 		if data.Food == 0
 			or (

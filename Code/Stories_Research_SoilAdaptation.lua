@@ -6,7 +6,7 @@ local Key3 = "MartianSoil"
 local function CheckStory1()
 	local Sent = MartianTribune.Sent
 	
-	if UICity.tech_status[TechId].researched ~= nil
+	if UIColony.tech_status[TechId].researched ~= nil
 	and not Sent[Key1]
 	and not Sent[Key2]
 	then
