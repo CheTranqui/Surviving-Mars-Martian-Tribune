@@ -89,6 +89,7 @@ local function ShowNotification()
 	local MartianTribuneMod = MartianTribuneMod
 	local mod_dir = MartianTribuneMod.mod_dir
 	local Sol = UICity.day
+	local MainCity = MainCity
 	local Subtitle = T{9014488, "Sol <MTSol> AMC", MTSol=Sol}
 	if MartianTribune.TopFPStory.key == MartianTribuneMod.News.NoNews.key
 		 and MartianTribune.EngStory.key == MartianTribuneMod.News.NoNews.key
@@ -112,7 +113,9 @@ local function ShowNotification()
 			MTSol = Sol,
 			expiration = 150000,
 			priority = "Normal",
-		}
+			close_on_read = true,
+		},
+		MainCity.map_id
 	)
 end
 
